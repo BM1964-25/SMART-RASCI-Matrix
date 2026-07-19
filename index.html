@@ -17,7 +17,7 @@
   header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--navy);padding-bottom:18px;margin-bottom:20px;flex-wrap:wrap;gap:16px;}
   .brand-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;}
   h1{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:30px;margin:0;letter-spacing:.01em;}
-  .subtitle{font-size:13.5px;color:#5b5748;margin-top:6px;max-width:600px;}
+  .subtitle{font-size:13.5px;color:#5b5748;margin-top:6px;white-space:nowrap;}
   .project-field{display:flex;flex-direction:column;gap:4px;min-width:220px;max-width:280px;width:280px;margin-right:8px;flex-shrink:0;}
   .project-field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-light);font-weight:700;}
   .project-field input{font-family:'Cambria','Georgia',serif;font-size:17px;border:none;border-bottom:2px solid var(--gold);background:transparent;padding:4px 2px;color:var(--navy);width:100%;box-sizing:border-box;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
@@ -241,7 +241,7 @@
     .toolbar,.footer-actions,.legend,.scope-note,.editor-topbar,#libraryView,.app-footer{display:none;}
     header{border-bottom:2px solid var(--navy);}
   }
-  @media (max-width:640px){ h1{font-size:22px;} .project-field{min-width:0;width:100%;} }
+  @media (max-width:640px){ h1{font-size:22px;} .project-field{min-width:0;width:100%;} .subtitle{white-space:normal;} }
 
   .app-footer{
     width:calc(100% + 48px);
@@ -263,7 +263,7 @@
     font-family:'Cambria','Georgia',serif;font-weight:700;font-size:12.5px;
   }
   .footer-appname{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:14.5px;font-weight:600;}
-  .footer-slogan{font-size:12px;color:#7a7461;margin-top:3px;max-width:380px;line-height:1.5;}
+  .footer-slogan{font-size:12px;color:#7a7461;margin-top:3px;white-space:nowrap;line-height:1.5;}
   .footer-right{text-align:right;}
   .footer-copyright{font-size:12px;color:#7a7461;margin-bottom:6px;}
   .footer-links{font-size:12px;}
@@ -274,7 +274,7 @@
   @media (max-width:640px){
     .app-footer{flex-direction:column;align-items:center;text-align:center;gap:20px;}
     .footer-brand{flex-direction:column;text-align:center;}
-    .footer-slogan{max-width:100%;}
+    .footer-slogan{max-width:100%;white-space:normal;}
     .footer-right{text-align:center;}
   }
 </style>
