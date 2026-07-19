@@ -53,8 +53,18 @@
   }
   .rasci-term .info-mark:hover{background:var(--navy);color:#fff;}
   .rasci-examples{list-style:none;margin:10px 0 0;padding:0;}
-  .rasci-examples li{font-size:13px;color:#4a4736;background:var(--cream-dark);border-radius:5px;padding:10px 12px;margin-bottom:8px;line-height:1.6;}
+  .rasci-examples li{font-size:13px;color:#4a4736;background:var(--cream-dark);border-radius:5px;padding:12px 14px;margin-bottom:10px;line-height:1.6;}
   .rasci-examples li:last-child{margin-bottom:0;}
+  .ex-title{font-weight:700;color:var(--navy);margin-bottom:8px;}
+  .ex-roles{list-style:none;margin:0 0 8px;padding:0;}
+  .ex-roles li{background:#fff;border:1px solid var(--line);border-radius:5px;padding:5px 9px;margin-bottom:5px;display:flex;align-items:flex-start;gap:8px;font-size:12.5px;}
+  .ex-roles li:last-child{margin-bottom:0;}
+  .ex-role-badge{
+    flex-shrink:0;min-width:22px;padding:1px 5px;border-radius:4px;text-align:center;
+    font-weight:700;font-size:11px;color:#fff;
+  }
+  .ex-why{font-size:12.5px;color:#4a4736;padding-top:6px;border-top:1px dashed var(--line);}
+  .ex-why strong{color:var(--navy);}
 
   .rasci-modal-overlay{
     display:none;position:fixed;inset:0;background:rgba(38,36,31,.55);z-index:1000;
@@ -610,26 +620,51 @@
 
   const RASCI_EXAMPLES = {
     R: [
-      { title: 'Bauablaufplan erstellen', text: 'Der Bauleiter ist operativ dafür zuständig, den Bauablaufplan zu erstellen. Er sammelt die Vorgaben aus Planung und Ausschreibung, legt Bauphasen und Meilensteine fest und stimmt den Zeitplan mit den beteiligten Gewerken ab. Er liefert das fertige Dokument, entscheidet aber nicht, ob es final freigegeben wird: das ist Aufgabe des Accountable.' },
-      { title: 'Ausführungspläne zeichnen', text: 'Der Architekt erstellt die detaillierten Ausführungspläne auf Basis der genehmigten Planung. Er arbeitet technische Details aus, koordiniert sie mit den Fachplanern und liefert die baureifen Unterlagen. Er führt die Arbeit operativ aus, die Freigabe gegenüber dem Bauherrn liegt bei einer anderen Rolle.' }
+      { title: 'Bauablaufplan erstellen',
+        roles: [ { letter:'R', name:'Bauleiter', desc:'erstellt den Plan' }, { letter:'A', name:'Projektsteuerer', desc:'prüft und gibt frei' } ],
+        why: 'Der Bauleiter macht die eigentliche Arbeit. Er entscheidet nicht final, ob der Plan gilt, das übernimmt der Projektsteuerer.' },
+      { title: 'Ausführungspläne zeichnen',
+        roles: [ { letter:'R', name:'Architekt', desc:'zeichnet die Pläne' }, { letter:'S', name:'Fachplaner TGA/Statik', desc:'liefert technische Inhalte zu' }, { letter:'A', name:'Projektsteuerer', desc:'prüft und gibt gegenüber dem Bauherrn frei' } ],
+        why: 'Der Architekt liefert das fertige Ergebnis. Nicht verwechseln mit S: Der Fachplaner steuert nur Teile bei, ohne das Gesamtergebnis zu verantworten.' }
     ],
     A: [
-      { title: 'Bauablaufplan genehmigen', text: 'Der Projektsteuerer prüft den vom Bauleiter erstellten Bauablaufplan auf Realismus, Kostenwirkung und Vertragskonformität. Er gibt den Plan frei oder verlangt Nachbesserung und steht gegenüber dem Bauherrn dafür gerade, wenn der Zeitplan später nicht eingehalten wird. Er hat den Plan nicht selbst geschrieben, trägt aber die Konsequenzen, falls er falsch war.' },
-      { title: 'Grundstückskaufvertrag unterschreiben', text: 'Die Geschäftsführung unterzeichnet den Kaufvertrag für ein Grundstück, nachdem Projektentwicklung und Rechtsberatung die Details vorbereitet haben. Sie trifft die endgültige Entscheidung und haftet gegenüber Gesellschaftern und Banken dafür. Andere Rollen haben zugearbeitet, verantwortet hat am Ende nur die Geschäftsführung.' }
+      { title: 'Bauablaufplan genehmigen',
+        roles: [ { letter:'R', name:'Bauleiter', desc:'hat den Plan erstellt' }, { letter:'A', name:'Projektsteuerer', desc:'genehmigt und haftet' } ],
+        why: 'Der Projektsteuerer hat nichts selbst geschrieben, steht aber gerade, wenn der Zeitplan später nicht hält. Genau ein A, nicht mehr.' },
+      { title: 'Grundstückskaufvertrag unterschreiben',
+        roles: [ { letter:'C', name:'Projektentwicklung', desc:'bereitet inhaltlich vor' }, { letter:'C', name:'Rechtsberatung', desc:'prüft rechtlich' }, { letter:'A', name:'Geschäftsführung', desc:'unterschreibt und haftet' } ],
+        why: 'Mehrere Stellen haben zugearbeitet und wurden befragt. Die letzte Entscheidung und Haftung liegt allein bei der Geschäftsführung.' }
     ],
     S: [
-      { title: 'Technische Daten liefern', text: 'Der Fachplaner TGA stellt Kennwerte zu Heizung, Lüftung und Sanitär bereit, die in die Kostenkalkulation einfließen. Er erstellt die Kalkulation nicht selbst und trägt keine Verantwortung für das Gesamtergebnis, sondern liefert lediglich einen fachlichen Baustein dazu.' },
-      { title: 'Angebote einholen', text: 'Ein Mitarbeiter des Bauleiters sammelt Angebote verschiedener Nachunternehmer für ein Gewerk und bereitet sie tabellarisch auf. Die Bewertung und Vergabeentscheidung trifft der Bauleiter, der die Ausschreibung insgesamt verantwortet.' }
+      { title: 'Kostenkalkulation für die TGA-Gewerke',
+        roles: [ { letter:'S', name:'Fachplaner TGA', desc:'liefert technische Kennwerte zu' }, { letter:'R/A', name:'Kaufmännische Projektsteuerung', desc:'erstellt die Kalkulation und verantwortet sie' } ],
+        why: 'Der Fachplaner liefert einen Baustein, ohne das Endergebnis selbst zu erstellen oder zu verantworten.' },
+      { title: 'Angebote für ein Gewerk einholen',
+        roles: [ { letter:'S', name:'Mitarbeiter des Bauleiters', desc:'sammelt und listet Angebote' }, { letter:'R/A', name:'Bauleiter', desc:'bewertet, entscheidet und verantwortet die Vergabe' } ],
+        why: 'Zuarbeit ohne Entscheidungsbefugnis. Nicht verwechseln mit C: Hier wird nicht nur eine Meinung eingeholt, sondern aktiv mitgearbeitet.' }
     ],
     C: [
-      { title: 'Deckenkonstruktion abstimmen', text: 'Bevor die Entscheidung über die Deckenkonstruktion fällt, wird der Statiker um seine fachliche Einschätzung gebeten. Seine Rückmeldung fließt aktiv in die Entscheidung ein, getroffen wird sie aber von der Projektleitung, nicht vom Statiker selbst.' },
-      { title: 'Steuerliche Auswirkungen prüfen', text: 'Vor Unterzeichnung des Grundstückskaufvertrags wird der Steuerberater zu den steuerlichen Folgen befragt. Seine Einschätzung beeinflusst die Vertragsgestaltung, die endgültige Entscheidung trifft aber die Geschäftsführung.' }
+      { title: 'Entscheidung über die Deckenkonstruktion',
+        roles: [ { letter:'C', name:'Statiker', desc:'gibt fachliche Einschätzung ab' }, { letter:'A', name:'Projektleitung', desc:'entscheidet' } ],
+        why: 'Der Statiker wird gefragt, entscheidet aber nicht selbst. Seine Meinung fließt ein, das letzte Wort hat die Projektleitung.' },
+      { title: 'Grundstückskaufvertrag steuerlich prüfen',
+        roles: [ { letter:'C', name:'Steuerberater', desc:'gibt steuerliche Einschätzung ab' }, { letter:'A', name:'Geschäftsführung', desc:'entscheidet und unterschreibt' } ],
+        why: 'Beratung vor der Entscheidung, keine eigene Entscheidungsgewalt.' }
     ],
     I: [
-      { title: 'Vertrieb informieren', text: 'Sobald die Baugenehmigung erteilt ist, wird der Vertrieb darüber in Kenntnis gesetzt, damit er die Vermarktung starten kann. Der Vertrieb war an der Genehmigungsentscheidung nicht beteiligt, muss aber über den Fortschritt Bescheid wissen.' },
-      { title: 'Nachbarn benachrichtigen', text: 'Vor Baubeginn werden die Anwohner über den geplanten Start und zu erwartende Beeinträchtigungen informiert. Sie haben keinen Einfluss auf die Bauentscheidung, sollen aber nicht überrascht werden.' }
+      { title: 'Vertriebsstart nach Baugenehmigung',
+        roles: [ { letter:'A', name:'Genehmigungsbehörde', desc:'entscheidet über die Genehmigung' }, { letter:'I', name:'Vertrieb', desc:'wird danach informiert' } ],
+        why: 'Der Vertrieb hat keinen Einfluss auf die Genehmigung, muss aber Bescheid wissen, um loszulegen.' },
+      { title: 'Baubeginn ankündigen',
+        roles: [ { letter:'R', name:'Bauleitung', desc:'versendet die Ankündigung' }, { letter:'I', name:'Nachbarn', desc:'werden informiert' } ],
+        why: 'Die Nachbarn entscheiden nichts mit und arbeiten nicht mit, sie sollen nur nicht überrascht werden.' }
     ]
   };
+
+  function roleBadgeStyle(letter){
+    const meta = RASCI_LETTER_META[letter.split('/')[0]];
+    return meta ? `background:${meta.color};color:${meta.textColor};` : '';
+  }
 
   function openRasciModal(letter){
     const meta = RASCI_LETTER_META[letter];
@@ -643,7 +678,13 @@
     list.innerHTML = '';
     examples.forEach((ex, i) => {
       const li = document.createElement('li');
-      li.innerHTML = `<span class="ex-label">Beispiel ${i + 1}: ${escapeAttr(ex.title)}</span><br>${escapeAttr(ex.text)}`;
+      const rolesHtml = ex.roles.map(r =>
+        `<li><span class="ex-role-badge" style="${roleBadgeStyle(r.letter)}">${escapeAttr(r.letter)}</span> <span><strong>${escapeAttr(r.name)}</strong>: ${escapeAttr(r.desc)}</span></li>`
+      ).join('');
+      li.innerHTML = `
+        <div class="ex-title">Beispiel ${i + 1}: ${escapeAttr(ex.title)}</div>
+        <ul class="ex-roles">${rolesHtml}</ul>
+        <div class="ex-why"><strong>Warum ${escapeAttr(letter)}:</strong> ${escapeAttr(ex.why)}</div>`;
       list.appendChild(li);
     });
     document.getElementById('rasciModalOverlay').classList.add('open');
