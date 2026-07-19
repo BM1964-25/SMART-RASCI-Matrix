@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMART RASCI Matrix – BuiltSmart AI</title>
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-light:#2E4270; --gold:#C9A227; --gold-light:#E4C567;
+    --cream:#F7F3E9; --cream-dark:#EDE6D3; --ink:#26241F; --danger:#A6432B; --line:#D8CEB0;
+    --extern-bg:#7A5A12;
+    font-family:'Calibri','Segoe UI',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);padding:32px 24px 80px;}
+  .wrap{max-width:1320px;margin:0 auto;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--navy);padding-bottom:18px;margin-bottom:20px;flex-wrap:wrap;gap:16px;}
+  .brand-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;}
+  h1{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:30px;margin:0;letter-spacing:.01em;}
+  .subtitle{font-size:13.5px;color:#5b5748;margin-top:6px;max-width:600px;}
+  .project-field{display:flex;flex-direction:column;gap:4px;min-width:260px;}
+  .project-field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-light);font-weight:700;}
+  .project-field input{font-family:'Cambria','Georgia',serif;font-size:17px;border:none;border-bottom:2px solid var(--gold);background:transparent;padding:4px 2px;color:var(--navy);}
+  .project-field input:focus{outline:none;border-bottom-color:var(--navy);}
+
+  .msg-bar{font-size:12.5px;padding:8px 14px;border-radius:6px;margin-bottom:14px;display:none;}
+  .msg-bar.show{display:block;}
+  .msg-bar.ok{background:#e7f0e0;color:#3d6b2e;border:1px solid #b9d1a6;}
+  .msg-bar.err{background:#f6e6e1;color:var(--danger);border:1px solid #e0b6a8;}
+
+  /* ---------- Library view ---------- */
+  .lib-section{margin-bottom:26px;}
+  .lib-section-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+  .lib-section h2{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:18px;margin:0 0 10px;}
+  .lib-card{
+    background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;
+    box-shadow:0 1px 3px rgba(27,42,74,.06);
+  }
+  .lib-card .lib-title{display:flex;align-items:center;gap:8px;font-family:'Cambria','Georgia',serif;font-size:15px;color:var(--navy);}
+  .lib-card .lib-title input{
+    font-family:inherit;font-size:15px;color:var(--navy);border:none;border-bottom:1px dashed var(--gold);background:transparent;padding:2px 0;
+  }
+  .lib-card .lib-meta{font-size:11.5px;color:#8a8467;margin-left:4px;}
+  .lib-card .lib-actions{display:flex;gap:8px;flex-shrink:0;}
+  .lib-card .lib-actions button{padding:6px 12px;font-size:12.5px;}
+  .lib-empty{font-size:13px;color:#8a8467;font-style:italic;padding:8px 2px;}
+
+  .recent-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .recent-chip{
+    background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:12.5px;
+    cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--navy);
+  }
+  .recent-chip:hover{border-color:var(--gold);background:var(--cream-dark);}
+  .recent-chip .chip-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#8a8467;}
+
+  .file-label{
+    display:inline-block;padding:8px 16px;font-size:13px;font-weight:600;border:1.5px solid var(--line);
+    color:#7a7461;border-radius:5px;cursor:pointer;
+  }
+  .file-label:hover{background:#7a7461;color:#fff;}
+
+  /* ---------- Editor view ---------- */
+  .editor-topbar{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
+  #backToLibraryBtn{border-color:var(--line);color:#7a7461;}
+  #backToLibraryBtn:hover{background:#7a7461;color:#fff;}
+
+  .scope-note{font-size:12.5px;color:#5b5748;background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:8px 14px;margin-bottom:16px;}
+
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .legend-item{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 12px;font-size:12.5px;}
+  .legend-badge{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;}
+  .legend-item.note{background:none;border:none;color:#7a7461;font-style:italic;}
+  .diff-swatch{width:14px;height:14px;border-radius:3px;border:2px solid var(--danger);background:#fff;display:inline-block;}
+  .col-swatch{width:14px;height:14px;border-radius:3px;display:inline-block;}
+
+  .toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+  button{font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--navy);background:#fff;color:var(--navy);padding:8px 16px;border-radius:5px;cursor:pointer;transition:.15s ease;}
+  button:hover{background:var(--navy);color:#fff;}
+  button.primary{background:var(--navy);color:#fff;}
+  button.primary:hover{background:var(--navy-light);}
+  button.gold{border-color:var(--gold);color:#8a6d10;}
+  button.gold:hover{background:var(--gold);color:#fff;}
+  button.ghost{border-color:var(--line);color:#7a7461;}
+  button.ghost:hover{background:#7a7461;color:#fff;}
+
+  .table-scroll{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:0 8px 8px 8px;box-shadow:0 1px 3px rgba(27,42,74,.08);}
+  table{border-collapse:collapse;width:100%;min-width:720px;}
+  thead th{color:#fff;font-family:'Cambria','Georgia',serif;font-weight:600;font-size:13px;padding:10px 8px;text-align:center;position:relative;white-space:nowrap;}
+  thead th.dept{background:var(--navy);}
+  thead th.extern{background:var(--extern-bg);}
+  thead th.task-col-header{text-align:left;min-width:260px;background:none;color:var(--navy);border-bottom:2px solid var(--navy);}
+  thead th.dept input:disabled{pointer-events:none;}
+
+  .col-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .col-legend-item{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:5px 9px;font-size:12px;}
+  .col-legend-item .abbr-badge{font-weight:700;font-size:11px;min-width:26px;text-align:center;border-radius:4px;padding:2px 5px;color:#fff;flex-shrink:0;}
+  .col-legend-item.dept .abbr-badge{background:var(--navy);}
+  .col-legend-item.extern .abbr-badge{background:var(--extern-bg);}
+  .col-legend-item input.legend-name{border:none;background:transparent;font-size:12px;color:var(--ink);width:140px;padding:2px 0;}
+  .col-legend-item input.legend-name:focus{outline:none;border-bottom:1px dashed var(--gold);}
+  .col-legend-item input.legend-name:disabled{color:#8a8467;}
+
+  thead th input.col-abbr{
+    background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.5);color:#fff;
+    font-family:inherit;font-size:13px;font-weight:700;text-align:center;width:36px;padding:2px;
+    text-transform:uppercase;
+  }
+  thead th input.col-abbr:focus{outline:none;border-bottom-color:#fff;}
+  thead th input.col-abbr:disabled{pointer-events:none;}
+  .remove-col{position:absolute;top:1px;right:3px;background:none;border:none;color:rgba(255,255,255,.55);font-size:12px;padding:0 3px;cursor:pointer;}
+  .remove-col:hover{color:#fff;}
+
+  tr.group-row td{
+    background:var(--navy); color:#fff; padding:8px 12px; font-family:'Cambria','Georgia',serif;
+    font-weight:600; font-size:13.5px; border:1px solid var(--navy-light);
+  }
+  tr.group-row .group-inner{display:flex;align-items:center;gap:8px;}
+  tr.group-row .group-toggle{background:none;border:none;color:#fff;font-size:12px;cursor:pointer;padding:2px 4px;flex-shrink:0;}
+  tr.group-row input.group-name{
+    background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.5);color:#fff;
+    font-family:inherit;font-weight:600;font-size:13.5px;flex:1;min-width:0;padding:2px 0;
+  }
+  tr.group-row input.group-name:focus{outline:none;border-bottom-color:var(--gold);}
+  tr.group-row .group-actions{display:flex;gap:6px;flex-shrink:0;}
+  tr.group-row .group-actions button{
+    background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font-size:11px;
+    padding:2px 8px;border-radius:4px;cursor:pointer;font-family:'Calibri',Arial,sans-serif;font-weight:600;
+  }
+  tr.group-row .group-actions button:hover{background:rgba(255,255,255,.15);}
+  tr.group-row .group-remove{color:rgba(255,255,255,.6);font-size:13px;background:none;border:none;cursor:pointer;padding:0 4px;}
+  tr.group-row .group-remove:hover{color:#fff;}
+
+  tbody td{border:1px solid var(--line);padding:0;text-align:center;vertical-align:middle;}
+  tr.parent-row td.task-name-cell{background:var(--cream-dark);font-weight:600;}
+  tr.sub-row td.task-name-cell{padding-left:30px;font-size:12.6px;color:#4a4736;background:#fff;}
+  td.task-name-cell{text-align:left;padding:9px 12px;font-size:13.3px;position:relative;}
+  td.task-name-cell .name-row{display:flex;align-items:center;gap:6px;}
+  td.task-name-cell input{border:none;background:transparent;flex:1;font-family:inherit;font-size:inherit;color:var(--ink);padding:2px 0;min-width:0;}
+  td.task-name-cell input:focus{outline:none;}
+  .expand-btn{background:none;border:none;color:var(--navy);font-size:12px;cursor:pointer;padding:2px 4px;width:18px;flex-shrink:0;}
+  .expand-btn.leaf{visibility:hidden;}
+  .badge-new{font-size:9px;font-weight:700;background:var(--navy);color:#fff;border-radius:3px;padding:1px 5px;letter-spacing:.05em;flex-shrink:0;}
+  .row-icons{display:flex;gap:4px;flex-shrink:0;}
+  .icon-btn{background:none;border:none;color:#b0a988;font-size:14px;cursor:pointer;padding:0 3px;}
+  .icon-btn:hover{color:var(--danger);}
+  .icon-btn.add:hover{color:var(--navy);}
+
+  .cell-btn{width:100%;height:100%;min-height:40px;min-width:54px;border:none;background:transparent;font-weight:700;font-size:13px;cursor:pointer;color:#c9c2a5;transition:.1s ease;}
+  .cell-btn:hover{background:var(--cream-dark);}
+  .cell-btn.R{background:#E4C567;color:#4a3a05;}
+  .cell-btn.A{background:var(--navy);color:#fff;}
+  .cell-btn.S{background:#8AA0C4;color:#0d1c33;}
+  .cell-btn.C{background:#C7D8B8;color:#33461f;}
+  .cell-btn.I{background:#EDE6D3;color:#6b6547;}
+  .cell-btn.M{background:repeating-linear-gradient(135deg,#EDE6D3,#EDE6D3 4px,#E0D6B8 4px,#E0D6B8 8px);color:#6b6547;font-size:9.5px;}
+  .cell-btn.R:hover,.cell-btn.A:hover,.cell-btn.S:hover,.cell-btn.C:hover,.cell-btn.I:hover{filter:brightness(1.08);}
+  .cell-btn.diff{box-shadow:inset 0 0 0 2px var(--danger);}
+  .cell-btn.locked{cursor:default;}
+
+  .footer-actions{display:flex;justify-content:space-between;align-items:flex-start;margin-top:18px;flex-wrap:wrap;gap:12px;}
+  .validation-block{display:flex;flex-direction:column;gap:4px;}
+  .validation-msg{font-size:12.5px;color:var(--danger);font-weight:600;}
+  .validation-ok{color:#3d6b2e;}
+  .vertical-msg{font-size:12px;color:#8a6d10;font-weight:600;}
+  .vertical-ok{color:#3d6b2e;font-weight:400;}
+  .save-status{font-size:11px;color:#8a8467;font-style:italic;}
+
+  @media print{
+    body{padding:0;background:#fff;}
+    .toolbar,.footer-actions,.legend,.scope-note,.editor-topbar,#libraryView{display:none;}
+    header{border-bottom:2px solid var(--navy);}
+  }
+  @media (max-width:640px){ h1{font-size:22px;} .project-field{min-width:0;width:100%;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="brand-eyebrow">BuiltSmart AI</div>
+      <h1>SMART RASCI Matrix</h1>
+      <div class="subtitle" id="headerSubtitle">Firmenmatrix regelt interne Abteilungszuständigkeiten. Jede Projektmatrix erweitert dies um die jeweiligen externen Beteiligten.</div>
+    </div>
+    <div class="project-field" id="entityNameField" style="display:none;">
+      <label id="nameLabel" for="entityName">Projekt</label>
+      <input id="entityName" type="text" value="">
+    </div>
+  </header>
+
+  <div class="msg-bar" id="msgBar"></div>
+
+  <!-- ============ LIBRARY VIEW ============ -->
+  <div id="libraryView">
+
+    <div class="lib-section">
+      <h2>Firmenmatrix</h2>
+      <div class="lib-card" id="firmCard">
+        <div class="lib-title" id="firmCardTitle"></div>
+        <div class="lib-actions"><button class="primary" id="openFirmBtn">Öffnen</button></div>
+      </div>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-head">
+        <h2>Projekte</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="primary" id="newProjectBtn">+ Neues Projekt aus Firmenmatrix</button>
+          <label class="file-label">JSON-Projekt laden<input type="file" id="libImportInput" accept="application/json" hidden></label>
+        </div>
+      </div>
+      <div id="projectList"></div>
+    </div>
+
+    <div class="lib-section">
+      <h2>Zuletzt bearbeitet</h2>
+      <div class="recent-list" id="recentList"></div>
+    </div>
+
+  </div>
+
+  <!-- ============ EDITOR VIEW ============ -->
+  <div id="editorView" style="display:none;">
+
+    <div class="editor-topbar">
+      <button id="backToLibraryBtn">← Zur Übersicht</button>
+      <div class="save-status" id="saveStatus"></div>
+    </div>
+
+    <div class="scope-note" id="scopeNote"></div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="legend-badge" style="background:#E4C567;color:#4a3a05;">R</span> Responsible</div>
+      <div class="legend-item"><span class="legend-badge" style="background:var(--navy);">A</span> Accountable (genau 1×/Leistung)</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#8AA0C4;color:#0d1c33;">S</span> Support</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#C7D8B8;color:#33461f;">C</span> Consulted</div>
+      <div class="legend-item"><span class="legend-badge" style="background:#EDE6D3;color:#6b6547;">I</span> Informed</div>
+      <div class="legend-item"><span class="col-swatch" style="background:var(--navy);"></span> Abteilung</div>
+      <div class="legend-item" id="externLegend"><span class="col-swatch" style="background:var(--extern-bg);"></span> externer Beteiligter</div>
+      <div class="legend-item note" id="diffLegend" style="display:none;"><span class="diff-swatch"></span>&nbsp;weicht von der Firmenmatrix ab &nbsp;·&nbsp; <span class="badge-new" style="position:static;">NEU</span>&nbsp;projektspezifisch</div>
+    </div>
+
+    <div class="toolbar">
+      <button class="primary" id="addTask">+ Oberbegriff</button>
+      <button class="primary" id="addGroupBtn">+ Verantwortungsbereich</button>
+      <button class="gold" id="addColBtn"></button>
+      <button class="ghost" id="toggleDeptBtn" style="display:none;"></button>
+      <button class="ghost" id="exportCsv">CSV exportieren</button>
+      <button class="ghost" id="exportJsonBtn">Als JSON speichern</button>
+      <label class="file-label">JSON laden<input type="file" id="editorImportInput" accept="application/json" hidden></label>
+      <button class="ghost" id="printBtn">Drucken / PDF</button>
+      <button class="ghost" id="applyTemplateBtn">Abteilungs-Zuständigkeiten aktualisieren</button>
+      <button class="ghost" id="resetBtn">Zurücksetzen</button>
+    </div>
+
+    <div class="col-legend" id="colLegend"></div>
+
+    <div class="table-scroll">
+      <table id="matrixTable">
+        <thead><tr id="headerRow"><th class="task-col-header">Oberbegriff / Leistung</th></tr></thead>
+        <tbody id="matrixBody"></tbody>
+      </table>
+    </div>
+
+    <div class="footer-actions">
+      <div class="validation-block">
+        <div id="validationMsg" class="validation-msg"></div>
+        <div id="verticalMsg" class="vertical-msg"></div>
+      </div>
+      <div style="font-size:11.5px;color:#8a8467;">Zelle klicken: leer → R → A → S → C → I &nbsp;·&nbsp; Pfeil klappt Unterleistungen auf</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const CYCLE = ['', 'R', 'A', 'S', 'C', 'I'];
+  let uidCounter = 300;
+  const uid = p => p + (uidCounter++);
+  function deepClone(x){ return JSON.parse(JSON.stringify(x)); }
+  function escapeAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+  // ---------------- Storage helpers ----------------
+  // Uses localStorage because this file is deployed standalone (e.g. GitHub Pages) —
+  // window.storage is a Claude-artifact-only API and would not exist there.
+  const STORAGE_PREFIX = 'smart-rasci:';
+  function sGet(key){
+    try { const v = localStorage.getItem(STORAGE_PREFIX + key); return v ? JSON.parse(v) : null; }
+    catch(e){ return null; }
+  }
+  function sSet(key, val){
+    try { localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(val)); return true; }
+    catch(e){ console.error('storage set failed', key, e); return false; }
+  }
+  function sDelete(key){
+    try { localStorage.removeItem(STORAGE_PREFIX + key); } catch(e){}
+  }
+
+  function showMsg(text, kind){
+    const bar = document.getElementById('msgBar');
+    bar.textContent = text;
+    bar.className = 'msg-bar show ' + (kind === 'err' ? 'err' : 'ok');
+    clearTimeout(showMsg._t);
+    showMsg._t = setTimeout(() => { bar.classList.remove('show'); }, 4000);
+  }
+
+  // ---------------- Seed / default data ----------------
+  function seedDepartments(){
+    return [
+      { id:'d1', name:'Grundstücksakquise', abbr:'GA' },
+      { id:'d2', name:'Finanzierungen', abbr:'FI' },
+      { id:'d3', name:'Rechnungswesen', abbr:'RW' },
+      { id:'d4', name:'Planung', abbr:'PL' },
+      { id:'d5', name:'Bauausführung', abbr:'BA' },
+      { id:'d6', name:'Marketing', abbr:'MK' },
+      { id:'d7', name:'Vertrieb', abbr:'VT' },
+      { id:'d8', name:'Geschäftsführung', abbr:'GF' },
+    ];
+  }
+  function seedFirmTasks(){
+    return [
+      { id:'f1', name:'Grundstücksprüfung & Ankaufsentscheidung', group:'g1', cells:{d1:'R', d8:'A', d2:'C', d3:'I'}, subtasks:[], expanded:false },
+      { id:'f2', name:'Finanzierungskonzept & Mittelfreigabe', group:'g1', cells:{}, expanded:true, subtasks:[
+        { id:'f2-1', name:'Finanzierungsantrag stellen', cells:{d2:'R', d3:'C', d8:'I'} },
+        { id:'f2-2', name:'Kreditvertrag prüfen & unterzeichnen', cells:{d8:'A', d2:'R', d3:'C'} },
+        { id:'f2-3', name:'Mittelabruf freigeben', cells:{d2:'A', d3:'R', d5:'I'} },
+      ]},
+      { id:'f3', name:'Rechnungsprüfung & Zahlungsfreigabe', group:'g2', cells:{d3:'R', d5:'C', d8:'A'}, subtasks:[], expanded:false },
+      { id:'f4', name:'Planungsfreigabe', group:'g3', cells:{d4:'A', d5:'C', d8:'I'}, subtasks:[], expanded:false },
+      { id:'f5', name:'Bauausführungscontrolling', group:'g3', cells:{d5:'A', d4:'C', d3:'I'}, subtasks:[], expanded:false },
+      { id:'f6', name:'Vertriebsstart & Preisgestaltung', group:'g4', cells:{d7:'A', d6:'R', d2:'C', d8:'I'}, subtasks:[], expanded:false },
+      { id:'f7', name:'Marketingkonzept', group:'g4', cells:{d6:'A', d7:'C'}, subtasks:[], expanded:false },
+      { id:'f8', name:'Projektfreigabe durch Geschäftsführung', group:'g2', cells:{d8:'A', d1:'I', d2:'I', d4:'I', d5:'I'}, subtasks:[], expanded:false },
+    ];
+  }
+  function seedFirmGroups(){
+    return [
+      { id:'g1', name:'Akquise & Finanzierung', expanded:true },
+      { id:'g2', name:'Steuerung & Freigabe', expanded:true },
+      { id:'g3', name:'Planung & Ausführung', expanded:true },
+      { id:'g4', name:'Vertrieb & Marketing', expanded:true },
+    ];
+  }
+  function seedExternalRoles(){
+    return [
+      { id: uid('e'), name:'Architekt', abbr:'AR' },
+      { id: uid('e'), name:'Fachplaner TGA/Statik', abbr:'FP' },
+      { id: uid('e'), name:'Bauunternehmer/GU', abbr:'GU' },
+      { id: uid('e'), name:'Finanzierende Bank', abbr:'BK' },
+      { id: uid('e'), name:'Genehmigungsbehörde', abbr:'BH' },
+      { id: uid('e'), name:'Notar', abbr:'NO' },
+    ];
+  }
+  function newProjectFromFirm(tabLabel, name){
+    const inherited = deepClone(firm.tasks).map(t => ({ ...t, group:'firmref' }));
+    return {
+      id: uid('proj'),
+      tabLabel: tabLabel,
+      name: name,
+      externalRoles: seedExternalRoles(),
+      tasks: inherited,
+      groups: [{ id:'firmref', name:'Aus Firmenmatrix übernommen', expanded:true }],
+      hideDepartments: false
+    };
+  }
+  function seedSampleProject(){
+    const p = newProjectFromFirm('Musterprojekt', 'Neubau Wohnquartier – Musterprojekt');
+    p.tasks[0].cells[p.externalRoles[5].id] = 'C';
+    p.tasks[0].cells[p.externalRoles[3].id] = 'I';
+    p.tasks[1].subtasks[1].cells[p.externalRoles[3].id] = 'C';
+    p.tasks[3].cells[p.externalRoles[0].id] = 'C';
+    p.tasks[4].cells[p.externalRoles[0].id] = 'C';
+    p.tasks[4].cells[p.externalRoles[2].id] = 'S';
+    p.groups.push({ id:'genehmigung', name:'Genehmigung & Vergabe', expanded:true });
+    p.groups.push({ id:'ausfuehrung', name:'Ausführung & Abnahme', expanded:true });
+    const [eArch, eFach, eGu, eBank, eBehoerde, eNotar] = p.externalRoles.map(r => r.id);
+    p.tasks.push({ id:'p1', name:'Baugenehmigung einholen', group:'genehmigung', cells:{}, expanded:true, subtasks:[
+      { id:'p1-1', name:'Bauantrag erstellen', cells:{d4:'R', [eArch]:'A'} },
+      { id:'p1-2', name:'Abstimmung mit Behörde', cells:{d4:'C', [eArch]:'R', [eBehoerde]:'A'} },
+      { id:'p1-3', name:'Standsicherheitsnachweis', cells:{[eArch]:'I', [eFach]:'A'} },
+    ]});
+    p.tasks.push({ id:'p2', name:'Ausschreibung & Vergabe', group:'genehmigung', cells:{}, expanded:false, subtasks:[
+      { id:'p2-1', name:'Leistungsverzeichnis erstellen', cells:{d5:'C', [eArch]:'A', [eFach]:'R'} },
+      { id:'p2-2', name:'Angebote prüfen', cells:{d5:'A', [eArch]:'C'} },
+      { id:'p2-3', name:'Vergabeempfehlung', cells:{d5:'R', d8:'A', [eArch]:'C'} },
+    ]});
+    p.tasks.push({ id:'p3', name:'Bauüberwachung', group:'ausfuehrung', cells:{d5:'A', [eArch]:'S', [eFach]:'C', [eGu]:'R'}, subtasks:[], expanded:false });
+    p.tasks.push({ id:'p4', name:'Abnahme & Übergabe', group:'ausfuehrung', cells:{d5:'R', d8:'A', [eArch]:'C', [eGu]:'R'}, subtasks:[], expanded:false });
+    return p;
+  }
+
+  function makeAbbr(name, existing){
+    let base = (name || '').replace(/[^\p{L}0-9]/gu, '').toUpperCase().slice(0, 2);
+    if (base.length < 2) base = (base + 'XX').slice(0, 2);
+    let candidate = base, n = 1;
+    while (existing.includes(candidate)){ candidate = base[0] + String(n); n++; }
+    return candidate;
+  }
+
+  // ---------------- App state ----------------
+  let departments = [];
+  let firm = null;
+  let projectsIndex = [];   // [{id, tabLabel, name, updatedAt}]
+  let recent = [];          // last 3 opened matrices [{type,id,label,updatedAt}]
+  let view = 'library';     // 'library' | 'editor'
+  let editorType = null;    // 'firm' | 'project'
+  let openProject = null;   // full project object when editing a project
+
+  let pendingRemoveGroupId = null;
+  let libEditingId = null;      // 'firm' | project id being renamed inline in the library
+  let libPendingDeleteId = null;
+
+  // ---------------- Boot ----------------
+  async function boot(){
+    departments = await sGet('departments');
+    firm = await sGet('firm');
+    projectsIndex = await sGet('projects_index');
+    recent = (await sGet('recent')) || [];
+
+    if (!departments || !firm || !projectsIndex){
+      departments = seedDepartments();
+      firm = { tabLabel:'Firmenmatrix', name:'BuiltSmart Standard-Modell', tasks: seedFirmTasks(), groups: seedFirmGroups() };
+      const sample = seedSampleProject();
+      projectsIndex = [{ id: sample.id, tabLabel: sample.tabLabel, name: sample.name, updatedAt: Date.now() }];
+      await sSet('departments', departments);
+      await sSet('firm', firm);
+      await sSet('project_' + sample.id, sample);
+      await sSet('projects_index', projectsIndex);
+      await sSet('recent', recent);
+    }
+    showLibrary();
+  }
+
+  // ---------------- Recent history ----------------
+  async function touchRecent(type, id, label){
+    recent = [{ type, id, label, updatedAt: Date.now() }, ...recent.filter(r => !(r.type === type && r.id === id))].slice(0, 3);
+    await sSet('recent', recent);
+  }
+
+  // ---------------- Library rendering ----------------
+  function showLibrary(){
+    view = 'library';
+    document.getElementById('editorView').style.display = 'none';
+    document.getElementById('libraryView').style.display = 'block';
+    document.getElementById('entityNameField').style.display = 'none';
+    document.getElementById('headerSubtitle').textContent = 'Firmenmatrix regelt interne Abteilungszuständigkeiten. Jede Projektmatrix erweitert dies um die jeweiligen externen Beteiligten.';
+    renderLibrary();
+  }
+
+  function libLabelEditor(id, label, onCommit, container){
+    if (libEditingId === id){
+      const input = document.createElement('input');
+      input.value = label;
+      input.style.cssText = 'font-family:inherit;font-size:15px;color:var(--navy);border:none;border-bottom:1px dashed var(--gold);background:transparent;padding:2px 0;';
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter'){ onCommit(input.value || label); libEditingId = null; renderLibrary(); }
+        if (e.key === 'Escape'){ libEditingId = null; renderLibrary(); }
+      };
+      input.onblur = () => { onCommit(input.value || label); libEditingId = null; renderLibrary(); };
+      container.appendChild(input);
+      setTimeout(() => { input.focus(); input.select(); }, 0);
+    } else {
+      const span = document.createElement('span');
+      span.textContent = label;
+      span.ondblclick = () => { libEditingId = id; renderLibrary(); };
+      span.title = 'Doppelklick zum Umbenennen';
+      container.appendChild(span);
+    }
+  }
+
+  function renderLibrary(){
+    const firmTitle = document.getElementById('firmCardTitle');
+    firmTitle.innerHTML = '';
+    libLabelEditor('firm', firm.tabLabel, async (v) => { firm.tabLabel = v; await sSet('firm', firm); }, firmTitle);
+
+    const list = document.getElementById('projectList');
+    list.innerHTML = '';
+    if (projectsIndex.length === 0){
+      list.innerHTML = '<div class="lib-empty">Noch keine Projekte angelegt.</div>';
+    }
+    projectsIndex.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'lib-card';
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'lib-title';
+      libLabelEditor(p.id, p.tabLabel, async (v) => {
+        p.tabLabel = v; p.name = v;
+        await sSet('projects_index', projectsIndex);
+        const full = await sGet('project_' + p.id);
+        if (full){ full.tabLabel = v; full.name = v; await sSet('project_' + p.id, full); }
+      }, titleDiv);
+      const meta = document.createElement('span');
+      meta.className = 'lib-meta';
+      meta.textContent = p.updatedAt ? new Date(p.updatedAt).toLocaleDateString('de-DE') : '';
+      titleDiv.appendChild(meta);
+      card.appendChild(titleDiv);
+
+      const actions = document.createElement('div');
+      actions.className = 'lib-actions';
+      const openBtn = document.createElement('button');
+      openBtn.className = 'primary';
+      openBtn.textContent = 'Öffnen';
+      openBtn.onclick = () => openProjectEditor(p.id);
+      actions.appendChild(openBtn);
+
+      if (libPendingDeleteId === p.id){
+        const yes = document.createElement('button');
+        yes.className = 'ghost'; yes.textContent = '✓ Wirklich löschen';
+        yes.onclick = async () => { await deleteProject(p.id); };
+        const no = document.createElement('button');
+        no.className = 'ghost'; no.textContent = '✕ Abbrechen';
+        no.onclick = () => { libPendingDeleteId = null; renderLibrary(); };
+        actions.appendChild(yes); actions.appendChild(no);
+      } else {
+        const delBtn = document.createElement('button');
+        delBtn.className = 'ghost'; delBtn.textContent = 'Löschen';
+        delBtn.onclick = () => { libPendingDeleteId = p.id; renderLibrary(); };
+        actions.appendChild(delBtn);
+      }
+      card.appendChild(actions);
+      list.appendChild(card);
+    });
+
+    const recentList = document.getElementById('recentList');
+    recentList.innerHTML = '';
+    if (recent.length === 0){
+      recentList.innerHTML = '<div class="lib-empty">Noch keine Historie.</div>';
+    }
+    recent.forEach(r => {
+      const chip = document.createElement('div');
+      chip.className = 'recent-chip';
+      chip.innerHTML = `<span class="chip-tag">${r.type === 'firm' ? 'Firma' : 'Projekt'}</span> ${escapeAttr(r.label)}`;
+      chip.onclick = () => { r.type === 'firm' ? openFirmEditor() : openProjectEditor(r.id); };
+      recentList.appendChild(chip);
+    });
+  }
+
+  document.getElementById('openFirmBtn').onclick = () => openFirmEditor();
+
+  document.getElementById('newProjectBtn').onclick = async () => {
+    const p = newProjectFromFirm('Neues Projekt', 'Neues Projekt');
+    projectsIndex.push({ id: p.id, tabLabel: p.tabLabel, name: p.name, updatedAt: Date.now() });
+    await sSet('project_' + p.id, p);
+    await sSet('projects_index', projectsIndex);
+    openProjectEditor(p.id);
+  };
+
+  async function deleteProject(id){
+    projectsIndex = projectsIndex.filter(x => x.id !== id);
+    await sSet('projects_index', projectsIndex);
+    await sDelete('project_' + id);
+    recent = recent.filter(r => !(r.type === 'project' && r.id === id));
+    await sSet('recent', recent);
+    libPendingDeleteId = null;
+    if (openProject && openProject.id === id){ openProject = null; showLibrary(); }
+    else renderLibrary();
+  }
+
+  document.getElementById('libImportInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (data.kind !== 'project'){ showMsg('Diese Datei enthält keine Projektmatrix.', 'err'); e.target.value = ''; return; }
+      const p = {
+        id: uid('proj'), tabLabel: data.tabLabel || 'Importiertes Projekt', name: data.name || data.tabLabel || 'Importiertes Projekt',
+        externalRoles: data.externalRoles || [], tasks: data.tasks || [], groups: data.groups || [{ id:'ungrouped', name:'Ohne Bereich', expanded:true }],
+        hideDepartments: !!data.hideDepartments
+      };
+      if (Array.isArray(data.departments)){
+        data.departments.forEach(d => { if (!departments.find(x => x.id === d.id)) departments.push(d); });
+        await sSet('departments', departments);
+      }
+      projectsIndex.push({ id: p.id, tabLabel: p.tabLabel, name: p.name, updatedAt: Date.now() });
+      await sSet('project_' + p.id, p);
+      await sSet('projects_index', projectsIndex);
+      showMsg('Projekt "' + p.tabLabel + '" importiert.', 'ok');
+      renderLibrary();
+    } catch(err){
+      showMsg('Datei konnte nicht gelesen werden — ist es eine gültige JSON-Exportdatei?', 'err');
+    }
+    e.target.value = '';
+  });
+
+  // ---------------- Editor: shared helpers ----------------
+  function isProjectMode(){ return editorType === 'project'; }
+  function currentSet(){ return isProjectMode() ? openProject : firm; }
+  function columns(){
+    const deptCols = departments.map(d => ({...d, type:'dept'}));
+    if (!isProjectMode()) return deptCols;
+    return deptCols.concat(openProject.externalRoles.map(r => ({...r, type:'extern'})));
+  }
+  function firmFlatMap(){
+    const map = {};
+    firm.tasks.forEach(t => {
+      map[t.id] = t.cells;
+      (t.subtasks||[]).forEach(s => { map[s.id] = s.cells; });
+    });
+    return map;
+  }
+  function aggregateCell(subtasks, colId){
+    const vals = subtasks.map(s => s.cells[colId] || '').filter(v => v !== '');
+    if (vals.length === 0) return '';
+    const uniq = [...new Set(vals)];
+    return uniq.length === 1 ? uniq[0] : 'M';
+  }
+  function ensureGroups(set){
+    if (!set.groups) set.groups = [];
+    const ids = new Set(set.groups.map(g => g.id));
+    const needsFallback = set.tasks.some(t => !t.group || !ids.has(t.group));
+    if (needsFallback){
+      let fallback = set.groups.find(g => g.id === 'ungrouped');
+      if (!fallback){ fallback = { id:'ungrouped', name:'Ohne Bereich', expanded:true }; set.groups.push(fallback); }
+      set.tasks.forEach(t => { if (!t.group || !ids.has(t.group)) t.group = 'ungrouped'; });
+    }
+  }
+  function leafRows(tasks){
+    const leaves = [];
+    tasks.forEach(t => {
+      if (t.subtasks && t.subtasks.length > 0){
+        t.subtasks.forEach(s => leaves.push({ label: `${t.name} — ${s.name}`, cells: s.cells }));
+      } else {
+        leaves.push({ label: t.name, cells: t.cells });
+      }
+    });
+    return leaves;
+  }
+
+  // ---------------- Open editor ----------------
+  async function openFirmEditor(){
+    editorType = 'firm'; openProject = null;
+    view = 'editor';
+    document.getElementById('libraryView').style.display = 'none';
+    document.getElementById('editorView').style.display = 'block';
+    document.getElementById('entityNameField').style.display = 'flex';
+    document.getElementById('headerSubtitle').textContent = firm.tabLabel;
+    await touchRecent('firm', 'firm', firm.tabLabel);
+    render();
+  }
+
+  async function openProjectEditor(id){
+    let p = (openProject && openProject.id === id) ? openProject : await sGet('project_' + id);
+    if (!p){ showMsg('Projekt konnte nicht geladen werden.', 'err'); return; }
+    openProject = p; editorType = 'project';
+    view = 'editor';
+    document.getElementById('libraryView').style.display = 'none';
+    document.getElementById('editorView').style.display = 'block';
+    document.getElementById('entityNameField').style.display = 'flex';
+    document.getElementById('headerSubtitle').textContent = p.tabLabel;
+    await touchRecent('project', id, p.tabLabel);
+    render();
+  }
+
+  document.getElementById('backToLibraryBtn').onclick = () => { doSave(true); showLibrary(); };
+
+  // ---------------- Debounced autosave ----------------
+  let saveTimer = null;
+  const saveStatus = document.getElementById('saveStatus');
+  function scheduleSave(){
+    saveStatus.textContent = 'Änderungen werden gespeichert …';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => doSave(false), 700);
+  }
+  async function doSave(){
+    if (editorType === 'firm'){
+      firm.updatedAt = Date.now();
+      await sSet('firm', firm);
+      await sSet('departments', departments);
+    } else if (editorType === 'project' && openProject){
+      openProject.updatedAt = Date.now();
+      await sSet('project_' + openProject.id, openProject);
+      const idx = projectsIndex.find(x => x.id === openProject.id);
+      if (idx){ idx.tabLabel = openProject.tabLabel; idx.name = openProject.name; idx.updatedAt = openProject.updatedAt; await sSet('projects_index', projectsIndex); }
+    }
+    saveStatus.textContent = 'Gespeichert.';
+  }
+
+  // ---------------- DOM refs (editor) ----------------
+  const headerRow = document.getElementById('headerRow');
+  const body = document.getElementById('matrixBody');
+  const validationMsg = document.getElementById('validationMsg');
+  const verticalMsg = document.getElementById('verticalMsg');
+  const entityName = document.getElementById('entityName');
+  const nameLabel = document.getElementById('nameLabel');
+  const diffLegend = document.getElementById('diffLegend');
+  const externLegend = document.getElementById('externLegend');
+  const applyTemplateBtn = document.getElementById('applyTemplateBtn');
+  const addColBtn = document.getElementById('addColBtn');
+  const addGroupBtn = document.getElementById('addGroupBtn');
+  const toggleDeptBtn = document.getElementById('toggleDeptBtn');
+  const colLegend = document.getElementById('colLegend');
+  const scopeNote = document.getElementById('scopeNote');
+
+  entityName.onchange = () => { currentSet().name = entityName.value; currentSet().tabLabel = entityName.value; document.getElementById('headerSubtitle').textContent = entityName.value; scheduleSave(); };
+
+  // ---------------- Main render ----------------
+  function render(){
+    const set = currentSet();
+    const allCols = columns();
+    ensureGroups(set);
+    const tasks = set.tasks;
+    const onProject = isProjectMode();
+    const firmMap = onProject ? firmFlatMap() : null;
+    const deptsHidden = onProject && !!set.hideDepartments;
+    const cols = deptsHidden ? allCols.filter(c => c.type !== 'dept') : allCols;
+
+    entityName.value = set.name;
+    nameLabel.textContent = onProject ? 'Projekt' : 'Vorlagenname';
+    diffLegend.style.display = onProject ? 'flex' : 'none';
+    externLegend.style.display = onProject ? 'flex' : 'none';
+    applyTemplateBtn.style.display = onProject ? 'inline-block' : 'none';
+    addColBtn.textContent = onProject ? '+ Externer Beteiligter' : '+ Abteilung';
+    toggleDeptBtn.style.display = onProject ? 'inline-block' : 'none';
+    toggleDeptBtn.textContent = deptsHidden ? 'Abteilungen einblenden' : 'Abteilungen ausblenden';
+    scopeNote.textContent = onProject
+      ? (deptsHidden
+          ? 'Abteilungsspalten sind ausgeblendet — es werden nur die externen Beteiligten dieses Projekts angezeigt.'
+          : 'Diese Ansicht zeigt alle Abteilungen aus der Firmenmatrix plus die externen Beteiligten dieses Projekts.')
+      : 'Diese Ansicht regelt ausschließlich die interne Zuständigkeit zwischen den Abteilungen.';
+
+    colLegend.innerHTML = '';
+    allCols.forEach(col => {
+      const item = document.createElement('div');
+      item.className = 'col-legend-item ' + (col.type === 'extern' ? 'extern' : 'dept');
+      item.innerHTML = `<span class="abbr-badge">${escapeAttr(col.abbr || '??')}</span>
+                         <input type="text" class="legend-name" value="${escapeAttr(col.name)}" data-col-id="${col.id}" data-col-type="${col.type}" ${col.type==='dept' && onProject ? 'disabled' : ''}>`;
+      colLegend.appendChild(item);
+    });
+
+    headerRow.innerHTML = '<th class="task-col-header">Oberbegriff / Leistung</th>';
+    cols.forEach((col) => {
+      const th = document.createElement('th');
+      th.className = col.type === 'extern' ? 'extern' : 'dept';
+      const canRemove = col.type === 'extern' || !onProject;
+      th.innerHTML = `<input type="text" class="col-abbr" maxlength="3" value="${escapeAttr(col.abbr || '')}" title="${escapeAttr(col.name)}" data-col-abbr="${col.id}" data-col-abbr-type="${col.type}" ${col.type==='dept' && onProject ? 'disabled' : ''}>
+                      ${canRemove ? `<button class="remove-col" title="Entfernen" data-remove-col="${col.id}">×</button>` : ''}`;
+      headerRow.appendChild(th);
+    });
+
+    body.innerHTML = '';
+    const colspan = cols.length + 1;
+    set.groups.forEach((grp) => {
+      const groupTr = document.createElement('tr');
+      groupTr.className = 'group-row';
+      const groupTd = document.createElement('td');
+      groupTd.colSpan = colspan;
+      const removeControl = set.groups.length <= 1
+        ? ''
+        : (pendingRemoveGroupId === grp.id
+            ? `<button class="group-remove" title="Wirklich entfernen" data-group-remove-confirm="${grp.id}">✓</button>
+               <button class="group-remove" title="Abbrechen" data-group-remove-cancel="${grp.id}">✕</button>`
+            : `<button class="group-remove" title="Bereich entfernen" data-group-remove="${grp.id}">×</button>`);
+      groupTd.innerHTML = `
+        <div class="group-inner">
+          <button class="group-toggle" data-group-toggle="${grp.id}">${grp.expanded ? '▾' : '▸'}</button>
+          <input type="text" class="group-name" value="${escapeAttr(grp.name)}" data-group-name="${grp.id}">
+          <span class="group-actions"><button data-group-add-task="${grp.id}">+ Oberbegriff</button></span>
+          ${removeControl}
+        </div>`;
+      groupTr.appendChild(groupTd);
+      body.appendChild(groupTr);
+      if (!grp.expanded) return;
+
+      tasks.forEach((task) => {
+        if ((task.group || 'ungrouped') !== grp.id) return;
+        const ti = tasks.indexOf(task);
+        const hasSub = task.subtasks && task.subtasks.length > 0;
+        const tr = document.createElement('tr');
+        tr.className = 'parent-row';
+
+        const nameTd = document.createElement('td');
+        nameTd.className = 'task-name-cell';
+        const isNew = onProject && !(task.id in firmMap) && !hasSub;
+        nameTd.innerHTML = `
+          <div class="name-row">
+            <button class="expand-btn ${hasSub ? '' : 'leaf'}" data-toggle="${ti}">${hasSub ? (task.expanded ? '▾' : '▸') : ''}</button>
+            <input type="text" value="${escapeAttr(task.name)}" data-task-idx="${ti}">
+            ${isNew ? '<span class="badge-new">NEU</span>' : ''}
+            <span class="row-icons">
+              <button class="icon-btn add" title="Unterleistung hinzufügen" data-add-sub="${ti}">＋</button>
+              <button class="icon-btn" title="Zeile entfernen" data-remove-task="${ti}">×</button>
+            </span>
+          </div>`;
+        tr.appendChild(nameTd);
+
+        cols.forEach((col) => {
+          const td = document.createElement('td');
+          const btn = document.createElement('button');
+          if (hasSub){
+            const agg = aggregateCell(task.subtasks, col.id);
+            btn.className = 'cell-btn locked' + (agg ? ' ' + agg : '');
+            btn.textContent = agg === 'M' ? 'MIX' : agg;
+            btn.title = 'Aggregiert aus Unterleistungen — Pfeil zum Aufklappen';
+            btn.onclick = () => { task.expanded = !task.expanded; render(); };
+          } else {
+            const val = task.cells[col.id] || '';
+            btn.className = 'cell-btn' + (val ? ' ' + val : '');
+            btn.textContent = val;
+            if (onProject && col.type === 'dept' && firmMap[task.id] && (firmMap[task.id][col.id] || '') !== val){
+              btn.classList.add('diff');
+              btn.title = `Firmenmatrix: ${firmMap[task.id][col.id] || '(leer)'}`;
+            }
+            btn.onclick = () => {
+              const cur = task.cells[col.id] || '';
+              task.cells[col.id] = CYCLE[(CYCLE.indexOf(cur) + 1) % CYCLE.length];
+              render(); scheduleSave();
+            };
+          }
+          td.appendChild(btn);
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+
+        if (hasSub && task.expanded){
+          task.subtasks.forEach((sub, si) => {
+            const subTr = document.createElement('tr');
+            subTr.className = 'sub-row';
+            const subNameTd = document.createElement('td');
+            subNameTd.className = 'task-name-cell';
+            const subIsNew = onProject && !(sub.id in firmMap);
+            subNameTd.innerHTML = `
+              <div class="name-row">
+                <button class="expand-btn leaf"></button>
+                <input type="text" value="${escapeAttr(sub.name)}" data-sub-idx="${ti}:${si}">
+                ${subIsNew ? '<span class="badge-new">NEU</span>' : ''}
+                <span class="row-icons"><button class="icon-btn" title="Unterleistung entfernen" data-remove-sub="${ti}:${si}">×</button></span>
+              </div>`;
+            subTr.appendChild(subNameTd);
+
+            cols.forEach((col) => {
+              const td = document.createElement('td');
+              const val = sub.cells[col.id] || '';
+              const btn = document.createElement('button');
+              btn.className = 'cell-btn' + (val ? ' ' + val : '');
+              btn.textContent = val;
+              if (onProject && col.type === 'dept' && firmMap[sub.id] && (firmMap[sub.id][col.id] || '') !== val){
+                btn.classList.add('diff');
+                btn.title = `Firmenmatrix: ${firmMap[sub.id][col.id] || '(leer)'}`;
+              }
+              btn.onclick = () => {
+                const cur = sub.cells[col.id] || '';
+                sub.cells[col.id] = CYCLE[(CYCLE.indexOf(cur) + 1) % CYCLE.length];
+                render(); scheduleSave();
+              };
+              td.appendChild(btn);
+              subTr.appendChild(td);
+            });
+            body.appendChild(subTr);
+          });
+        }
+      });
+    });
+
+    attachRowEvents(set, onProject);
+    validate(set, allCols);
+    if (view === 'editor') scheduleSave();
+  }
+
+  function attachRowEvents(set, onProject){
+    document.querySelectorAll('[data-group-toggle]').forEach(b => {
+      b.onclick = () => { const g = set.groups.find(x => x.id === b.dataset.groupToggle); if (g){ g.expanded = !g.expanded; render(); } };
+    });
+    document.querySelectorAll('[data-group-name]').forEach(inp => {
+      inp.onchange = () => { const g = set.groups.find(x => x.id === inp.dataset.groupName); if (g){ g.name = inp.value; scheduleSave(); } };
+    });
+    document.querySelectorAll('[data-group-add-task]').forEach(b => {
+      b.onclick = () => { set.tasks.push({ id: uid('n'), name: 'Neuer Oberbegriff', group: b.dataset.groupAddTask, cells: {}, subtasks: [], expanded:false }); render(); };
+    });
+    document.querySelectorAll('[data-group-remove]').forEach(b => { b.onclick = () => { pendingRemoveGroupId = b.dataset.groupRemove; render(); }; });
+    document.querySelectorAll('[data-group-remove-cancel]').forEach(b => { b.onclick = () => { pendingRemoveGroupId = null; render(); }; });
+    document.querySelectorAll('[data-group-remove-confirm]').forEach(b => {
+      b.onclick = () => {
+        const gid = b.dataset.groupRemoveConfirm;
+        set.groups = set.groups.filter(g => g.id !== gid);
+        const fallbackId = set.groups[0].id;
+        set.tasks.forEach(t => { if ((t.group || 'ungrouped') === gid) t.group = fallbackId; });
+        pendingRemoveGroupId = null;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-col-id]').forEach(inp => {
+      if (inp.disabled) return;
+      inp.onchange = () => {
+        const id = inp.dataset.colId, type = inp.dataset.colType;
+        if (type === 'dept'){ const d = departments.find(x => x.id === id); if (d) d.name = inp.value; }
+        else { const r = openProject.externalRoles.find(x => x.id === id); if (r) r.name = inp.value; }
+        render();
+      };
+    });
+    document.querySelectorAll('[data-col-abbr]').forEach(inp => {
+      if (inp.disabled) return;
+      inp.onchange = () => {
+        const id = inp.dataset.colAbbr, type = inp.dataset.colAbbrType;
+        const value = (inp.value || '').toUpperCase().slice(0, 3) || '??';
+        if (type === 'dept'){ const d = departments.find(x => x.id === id); if (d) d.abbr = value; }
+        else { const r = openProject.externalRoles.find(x => x.id === id); if (r) r.abbr = value; }
+        render();
+      };
+    });
+    document.querySelectorAll('[data-task-idx]').forEach(inp => {
+      inp.onchange = () => { set.tasks[+inp.dataset.taskIdx].name = inp.value; scheduleSave(); };
+    });
+    document.querySelectorAll('[data-sub-idx]').forEach(inp => {
+      inp.onchange = () => { const [ti, si] = inp.dataset.subIdx.split(':').map(Number); set.tasks[ti].subtasks[si].name = inp.value; scheduleSave(); };
+    });
+    document.querySelectorAll('[data-toggle]').forEach(b => {
+      b.onclick = () => { const ti = +b.dataset.toggle; set.tasks[ti].expanded = !set.tasks[ti].expanded; render(); };
+    });
+    document.querySelectorAll('[data-remove-col]').forEach(b => {
+      b.onclick = () => {
+        const id = b.dataset.removeCol;
+        if (onProject){ openProject.externalRoles = openProject.externalRoles.filter(r => r.id !== id); }
+        else { departments = departments.filter(d => d.id !== id); firm.tasks.forEach(t => { delete t.cells[id]; (t.subtasks||[]).forEach(s => delete s.cells[id]); }); }
+        render();
+      };
+    });
+    document.querySelectorAll('[data-remove-task]').forEach(b => { b.onclick = () => { set.tasks.splice(+b.dataset.removeTask, 1); render(); }; });
+    document.querySelectorAll('[data-remove-sub]').forEach(b => {
+      b.onclick = () => { const [ti, si] = b.dataset.removeSub.split(':').map(Number); set.tasks[ti].subtasks.splice(si, 1); render(); };
+    });
+    document.querySelectorAll('[data-add-sub]').forEach(b => {
+      b.onclick = () => {
+        const ti = +b.dataset.addSub;
+        const t = set.tasks[ti];
+        if (!t.subtasks) t.subtasks = [];
+        t.subtasks.push({ id: uid('s'), name: 'Neue Leistung', cells: {} });
+        t.expanded = true;
+        render();
+      };
+    });
+  }
+
+  function validate(set, cols){
+    let problems = [];
+    leafRows(set.tasks).forEach(row => {
+      const aCount = cols.filter(c => row.cells[c.id] === 'A').length;
+      if (aCount === 0) problems.push(`"${row.label}": kein Accountable`);
+      if (aCount > 1) problems.push(`"${row.label}": mehrere Accountable (${aCount})`);
+    });
+    if (problems.length === 0){
+      validationMsg.textContent = 'Matrix vollständig — jede Leistung hat genau eine verantwortliche Stelle (A).';
+      validationMsg.classList.add('validation-ok');
+    } else {
+      validationMsg.classList.remove('validation-ok');
+      validationMsg.textContent = '⚠ ' + problems.join('  ·  ');
+    }
+    renderVerticalAnalysis(set, cols);
+  }
+
+  function renderVerticalAnalysis(set, cols){
+    const rows = leafRows(set.tasks);
+    const n = rows.length;
+    if (n === 0){ verticalMsg.textContent = ''; return; }
+    const findings = [];
+    cols.forEach(col => {
+      let rCount = 0, aCount = 0, filled = 0;
+      rows.forEach(row => {
+        const v = row.cells[col.id] || '';
+        if (v) filled++;
+        if (v === 'R') rCount++;
+        if (v === 'A') aCount++;
+      });
+      if (filled === 0){ findings.push(`${col.name}: ohne jede Beteiligung`); return; }
+      if (rCount === 0) findings.push(`${col.name}: kein R — keine operative Aufgabe`);
+      if (n >= 3 && rCount > n * 0.6) findings.push(`${col.name}: sehr viele R (${rCount}/${n}) — mögliche Überlastung`);
+      if (n >= 3 && aCount > n * 0.4) findings.push(`${col.name}: viele A (${aCount}/${n}) — möglicher Engpass/Mikromanagement`);
+    });
+    if (findings.length === 0){
+      verticalMsg.textContent = 'Spaltenprüfung unauffällig — keine Rolle über- oder unterlastet.';
+      verticalMsg.classList.add('vertical-ok');
+    } else {
+      verticalMsg.classList.remove('vertical-ok');
+      verticalMsg.textContent = '↕ ' + findings.join('  ·  ');
+    }
+  }
+
+  // ---------------- Toolbar actions ----------------
+  document.getElementById('addTask').onclick = () => {
+    const set = currentSet();
+    ensureGroups(set);
+    const lastGroup = set.groups[set.groups.length - 1].id;
+    set.tasks.push({ id: uid('n'), name: 'Neuer Oberbegriff', group: lastGroup, cells: {}, subtasks: [], expanded:false });
+    render();
+  };
+
+  addGroupBtn.onclick = () => {
+    const set = currentSet();
+    ensureGroups(set);
+    set.groups.push({ id: uid('grp'), name: 'Neuer Bereich', expanded:true });
+    render();
+  };
+
+  toggleDeptBtn.onclick = () => { if (openProject){ openProject.hideDepartments = !openProject.hideDepartments; render(); } };
+
+  addColBtn.onclick = () => {
+    if (isProjectMode()){
+      const roles = openProject.externalRoles;
+      const abbr = makeAbbr('Neuer Beteiligter', roles.map(r => r.abbr));
+      roles.push({ id: uid('e'), name: 'Neuer Beteiligter', abbr });
+    } else {
+      const abbr = makeAbbr('Neue Abteilung', departments.map(d => d.abbr));
+      departments.push({ id: uid('d'), name: 'Neue Abteilung', abbr });
+    }
+    render();
+  };
+
+  function armConfirmButton(button, originalLabel, confirmLabel, action){
+    let armed = false, timer = null;
+    button.textContent = originalLabel;
+    button.onclick = () => {
+      if (!armed){
+        armed = true; button.textContent = confirmLabel;
+        clearTimeout(timer);
+        timer = setTimeout(() => { armed = false; button.textContent = originalLabel; }, 4000);
+      } else {
+        armed = false; clearTimeout(timer); button.textContent = originalLabel;
+        action();
+      }
+    };
+  }
+
+  armConfirmButton(applyTemplateBtn, 'Abteilungs-Zuständigkeiten aktualisieren', 'Wirklich abgleichen? Nochmal klicken', () => {
+    const firmMap = firmFlatMap();
+    openProject.tasks.forEach(t => {
+      if (firmMap[t.id]) departments.forEach(d => { if (firmMap[t.id][d.id] !== undefined) t.cells[d.id] = firmMap[t.id][d.id]; });
+      (t.subtasks||[]).forEach(s => {
+        if (firmMap[s.id]) departments.forEach(d => { if (firmMap[s.id][d.id] !== undefined) s.cells[d.id] = firmMap[s.id][d.id]; });
+      });
+    });
+    render();
+  });
+
+  armConfirmButton(document.getElementById('resetBtn'), 'Zurücksetzen', 'Wirklich zurücksetzen? Nochmal klicken', () => {
+    if (!isProjectMode()){
+      departments = seedDepartments();
+      firm.tasks = seedFirmTasks();
+      firm.groups = seedFirmGroups();
+    } else {
+      const fresh = newProjectFromFirm(openProject.tabLabel, openProject.name);
+      fresh.id = openProject.id;
+      openProject = fresh;
+    }
+    render();
+  });
+
+  document.getElementById('printBtn').onclick = () => window.print();
+
+  document.getElementById('exportCsv').onclick = () => {
+    const set = currentSet();
+    const cols = columns();
+    const rows = [['Leistung', ...cols.map(c => c.name)]];
+    leafRows(set.tasks).forEach(r => rows.push([r.label, ...cols.map(c => r.cells[c.id] || '')]));
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (set.tabLabel || set.name || 'RASCI').replace(/[^a-z0-9äöüß\-_ ]/gi,'').trim().replace(/\s+/g,'_') + '_RASCI.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  document.getElementById('exportJsonBtn').onclick = () => {
+    const set = currentSet();
+    let payload;
+    if (!isProjectMode()){
+      payload = { kind:'firm', tabLabel:set.tabLabel, name:set.name, tasks:set.tasks, groups:set.groups, departments };
+    } else {
+      payload = { kind:'project', id:set.id, tabLabel:set.tabLabel, name:set.name, tasks:set.tasks, groups:set.groups, externalRoles:set.externalRoles, hideDepartments:set.hideDepartments, departments };
+    }
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (set.tabLabel || 'matrix').replace(/[^a-z0-9äöüß\-_ ]/gi,'').trim().replace(/\s+/g,'_') + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  document.getElementById('editorImportInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (isProjectMode()){
+        if (data.kind !== 'project'){ showMsg('Diese Datei ist keine Projektmatrix — sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
+        openProject.tasks = data.tasks || [];
+        openProject.groups = data.groups || [{ id:'ungrouped', name:'Ohne Bereich', expanded:true }];
+        openProject.externalRoles = data.externalRoles || [];
+        openProject.hideDepartments = !!data.hideDepartments;
+        if (data.name) { openProject.name = data.name; }
+        if (Array.isArray(data.departments)){
+          data.departments.forEach(d => { if (!departments.find(x => x.id === d.id)) departments.push(d); });
+        }
+        showMsg('Projektmatrix aus Datei geladen.', 'ok');
+      } else {
+        if (data.kind !== 'firm'){ showMsg('Diese Datei ist keine Firmenmatrix — sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
+        firm.tasks = data.tasks || [];
+        firm.groups = data.groups || seedFirmGroups();
+        if (data.name) firm.name = data.name;
+        if (Array.isArray(data.departments)) departments = data.departments;
+        showMsg('Firmenmatrix aus Datei geladen.', 'ok');
+      }
+      render();
+    } catch(err){
+      showMsg('Datei konnte nicht gelesen werden — ist es eine gültige JSON-Exportdatei?', 'err');
+    }
+    e.target.value = '';
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>
