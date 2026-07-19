@@ -423,6 +423,12 @@
 
     <div class="col-legend" id="colLegend"></div>
 
+    <details class="validation-details" id="trashDetails">
+      <summary id="trashSummary">Papierkorb (0)</summary>
+      <ul id="trashList"></ul>
+      <div style="margin-top:8px;"><button class="ghost" id="emptyTrashBtn" style="font-size:11.5px;padding:4px 10px;">Papierkorb leeren</button></div>
+    </details>
+
     <div class="table-scroll">
       <table id="matrixTable">
         <thead><tr id="headerRow"><th class="task-col-header">Leistung</th></tr></thead>
@@ -550,6 +556,7 @@
         { id:'f15-1', name:'Leistungsverzeichnisse erstellen', cells:{d4:'A', d5:'C'} },
         { id:'f15-2', name:'Angebote einholen und prüfen', cells:{d5:'R', d4:'C', d8:'A'} },
         { id:'f15-3', name:'Vergabeempfehlung', cells:{d5:'R', d8:'A'} },
+        { id:'f15-4', name:'Bauvertrag abschließen (GU oder Einzelvergabe)', cells:{d5:'R', d3:'C', d8:'A'} },
       ]},
 
       // Bauausführung & Steuerung
@@ -560,9 +567,11 @@
         { id:'f17-3', name:'Nachtragsmanagement', cells:{d5:'R', d3:'C', d8:'A'} },
       ]},
       { id:'f18', name:'Termin- und Kostencontrolling Bau', group:'g4', cells:{d5:'R', d2:'C', d3:'C', d8:'A'}, subtasks:[], expanded:false },
-      { id:'f19', name:'Abnahme & Mängelmanagement', group:'g4', cells:{}, expanded:false, subtasks:[
+      { id:'f19', name:'Abnahme & Gewährleistungsmanagement', group:'g4', cells:{}, expanded:false, subtasks:[
         { id:'f19-1', name:'Bauabnahme durchführen', cells:{d5:'R', d4:'C', d8:'A'} },
-        { id:'f19-2', name:'Mängelbeseitigung nachverfolgen', cells:{d5:'A'} },
+        { id:'f19-2', name:'Mängelrügen erfassen und dokumentieren', cells:{d5:'A'} },
+        { id:'f19-3', name:'Nachbesserung mit Baubeteiligten koordinieren', cells:{d5:'A', d3:'C'} },
+        { id:'f19-4', name:'Verjährungsfristen überwachen und fristwahrende Maßnahmen einleiten', cells:{d3:'A', d5:'C', d8:'I'} },
       ]},
 
       // Vertrieb & Marketing
@@ -593,6 +602,14 @@
       { id:'f27', name:'Projektfreigaben zu Meilensteinen (Gate-Entscheidungen)', group:'g7', cells:{d8:'A', d1:'C', d2:'C', d4:'C', d5:'C'}, subtasks:[], expanded:false },
       { id:'f28', name:'Risikomanagement', group:'g7', cells:{d8:'A', d2:'C', d4:'C', d5:'C'}, subtasks:[], expanded:false },
       { id:'f29', name:'Reporting an Gesellschafter/Banken', group:'g7', cells:{d8:'A', d2:'C', d3:'C'}, subtasks:[], expanded:false },
+      { id:'f30', name:'Vertrags- und Rechtsrisikocontrolling', group:'g7', cells:{d8:'A', d3:'C'}, subtasks:[], expanded:false },
+
+      // Ergänzungen: zusätzliche Leistungen aus der Optimierungsanalyse
+      { id:'f31', name:'Baugrund- und Vermessungsuntersuchung', group:'g1', cells:{d1:'A', d4:'C'}, subtasks:[], expanded:false },
+      { id:'f32', name:'Planerverträge abschließen (Architekt/Ingenieure nach HOAI)', group:'g3', cells:{d4:'R', d3:'C', d8:'A'}, subtasks:[], expanded:false },
+      { id:'f33', name:'Erschließungsplanung (Ver-/Entsorgung, Straßenbau, Wege)', group:'g3', cells:{d4:'A', d5:'C'}, subtasks:[], expanded:false },
+      { id:'f34', name:'Versicherungen abschließen (Bauwesen-, Bauherrenhaftpflichtversicherung)', group:'g4', cells:{d3:'R', d5:'C', d8:'A'}, subtasks:[], expanded:false },
+      { id:'f35', name:'WEG-Gründung & Teilungserklärung', group:'g6', cells:{d3:'R', d8:'A'}, subtasks:[], expanded:false },
     ];
   }
   function seedFirmGroups(){
@@ -1005,6 +1022,9 @@
       set.tasks.forEach(t => { if (!t.group || !ids.has(t.group)) t.group = 'ungrouped'; });
     }
   }
+  function ensureTrash(set){
+    if (!set.trash) set.trash = [];
+  }
   function leafRows(tasks){
     const leaves = [];
     tasks.forEach(t => {
@@ -1076,6 +1096,9 @@
   const verticalDetails = document.getElementById('verticalDetails');
   const verticalSummary = document.getElementById('verticalSummary');
   const verticalList = document.getElementById('verticalList');
+  const trashDetails = document.getElementById('trashDetails');
+  const trashSummary = document.getElementById('trashSummary');
+  const trashList = document.getElementById('trashList');
   const entityName = document.getElementById('entityName');
   const nameLabel = document.getElementById('nameLabel');
   const addColBtn = document.getElementById('addColBtn');
@@ -1090,6 +1113,7 @@
     const set = currentSet();
     const cols = columns();
     ensureGroups(set);
+    ensureTrash(set);
     const tasks = set.tasks;
     const onProject = isProjectMode();
 
@@ -1223,6 +1247,7 @@
 
     attachRowEvents(set, onProject);
     validate(set, cols);
+    renderTrashPanel(set);
     if (view === 'editor') scheduleSave();
   }
 
@@ -1241,9 +1266,13 @@
     document.querySelectorAll('[data-group-remove-confirm]').forEach(b => {
       b.onclick = () => {
         const gid = b.dataset.groupRemoveConfirm;
+        const removedGroup = set.groups.find(g => g.id === gid);
         set.groups = set.groups.filter(g => g.id !== gid);
         const fallbackId = set.groups[0].id;
-        set.tasks.forEach(t => { if ((t.group || 'ungrouped') === gid) t.group = fallbackId; });
+        const reassignedTaskIds = [];
+        set.tasks.forEach(t => { if ((t.group || 'ungrouped') === gid){ t.group = fallbackId; reassignedTaskIds.push(t.id); } });
+        ensureTrash(set);
+        set.trash.unshift({ type:'group', data: removedGroup, reassignedTaskIds, fallbackId, deletedAt: Date.now() });
         pendingRemoveGroupId = null;
         render();
       };
@@ -1284,9 +1313,23 @@
         render();
       };
     });
-    document.querySelectorAll('[data-remove-task]').forEach(b => { b.onclick = () => { set.tasks.splice(+b.dataset.removeTask, 1); render(); }; });
+    document.querySelectorAll('[data-remove-task]').forEach(b => {
+      b.onclick = () => {
+        const removed = set.tasks.splice(+b.dataset.removeTask, 1)[0];
+        ensureTrash(set);
+        set.trash.unshift({ type:'task', data: removed, deletedAt: Date.now() });
+        render();
+      };
+    });
     document.querySelectorAll('[data-remove-sub]').forEach(b => {
-      b.onclick = () => { const [ti, si] = b.dataset.removeSub.split(':').map(Number); set.tasks[ti].subtasks.splice(si, 1); render(); };
+      b.onclick = () => {
+        const [ti, si] = b.dataset.removeSub.split(':').map(Number);
+        const parentTask = set.tasks[ti];
+        const removed = parentTask.subtasks.splice(si, 1)[0];
+        ensureTrash(set);
+        set.trash.unshift({ type:'subtask', parentTaskId: parentTask.id, data: removed, deletedAt: Date.now() });
+        render();
+      };
     });
     document.querySelectorAll('[data-add-sub]').forEach(b => {
       b.onclick = () => {
@@ -1360,6 +1403,85 @@
     }
   }
 
+  function trashEntryLabel(entry){
+    if (entry.type === 'task') return `Leistung "${entry.data.name}"`;
+    if (entry.type === 'subtask') return `Unterleistung "${entry.data.name}"`;
+    if (entry.type === 'group') return `Verantwortungsbereich "${entry.data.name}"`;
+    return 'Element';
+  }
+
+  function renderTrashPanel(set){
+    trashList.innerHTML = '';
+    const count = set.trash.length;
+    trashSummary.textContent = `Papierkorb (${count})`;
+    trashDetails.className = 'validation-details' + (count === 0 ? ' ok' : '');
+    if (count === 0){
+      trashSummary.textContent = 'Papierkorb (leer)';
+      return;
+    }
+    set.trash.forEach((entry, idx) => {
+      const li = document.createElement('li');
+      li.style.display = 'flex';
+      li.style.justifyContent = 'space-between';
+      li.style.alignItems = 'center';
+      li.style.gap = '8px';
+      const label = document.createElement('span');
+      label.textContent = trashEntryLabel(entry);
+      const actions = document.createElement('span');
+      actions.style.display = 'flex';
+      actions.style.gap = '6px';
+      actions.style.flexShrink = '0';
+      const restoreBtn = document.createElement('button');
+      restoreBtn.className = 'ghost';
+      restoreBtn.style.cssText = 'font-size:11px;padding:3px 8px;';
+      restoreBtn.textContent = 'Wiederherstellen';
+      restoreBtn.onclick = () => { restoreTrashEntry(set, idx); };
+      const purgeBtn = document.createElement('button');
+      purgeBtn.className = 'ghost';
+      purgeBtn.style.cssText = 'font-size:11px;padding:3px 8px;';
+      purgeBtn.textContent = 'Endgültig entfernen';
+      purgeBtn.onclick = () => { set.trash.splice(idx, 1); render(); };
+      actions.appendChild(restoreBtn);
+      actions.appendChild(purgeBtn);
+      li.appendChild(label);
+      li.appendChild(actions);
+      trashList.appendChild(li);
+    });
+  }
+
+  function restoreTrashEntry(set, idx){
+    const entry = set.trash[idx];
+    if (entry.type === 'task'){
+      set.tasks.push(entry.data);
+    } else if (entry.type === 'subtask'){
+      const parent = set.tasks.find(t => t.id === entry.parentTaskId);
+      if (parent){
+        if (!parent.subtasks) parent.subtasks = [];
+        parent.subtasks.push(entry.data);
+        parent.expanded = true;
+      } else {
+        // Übergeordnete Leistung existiert nicht mehr: als eigenständige Leistung wiederherstellen
+        set.tasks.push({ id: entry.data.id, name: entry.data.name, group: 'ungrouped', cells: entry.data.cells, subtasks: [], expanded:false });
+      }
+    } else if (entry.type === 'group'){
+      set.groups.push(entry.data);
+      (entry.reassignedTaskIds || []).forEach(tid => {
+        const t = set.tasks.find(x => x.id === tid);
+        if (t && t.group === entry.fallbackId) t.group = entry.data.id;
+      });
+    }
+    set.trash.splice(idx, 1);
+    render();
+  }
+
+  document.getElementById('emptyTrashBtn').onclick = (e) => {
+    e.preventDefault();
+    const set = currentSet();
+    ensureTrash(set);
+    set.trash = [];
+    render();
+  };
+
   // ---------------- Toolbar actions ----------------
   document.getElementById('addTask').onclick = () => {
     const set = currentSet();
@@ -1408,6 +1530,7 @@
       departments = seedDepartments();
       firm.tasks = seedFirmTasks();
       firm.groups = seedFirmGroups();
+      firm.trash = [];
     } else {
       const fresh = newBlankProject(openProject.tabLabel, openProject.name);
       fresh.id = openProject.id;
