@@ -193,6 +193,10 @@
   tr.group-row .group-actions{display:flex;gap:6px;flex-shrink:0;}
   tr.group-row .group-actions button{background:none;border:none;color:rgba(255,255,255,.7);font-size:16px;font-weight:700;padding:0 6px;cursor:pointer;line-height:1;}
   tr.group-row .group-actions button:hover{color:#fff;background:none;}
+  tr.group-row .group-actions button:disabled{opacity:.3;cursor:default;}
+  tr.group-row .group-actions button:disabled:hover{color:rgba(255,255,255,.7);}
+  .icon-btn:disabled{opacity:.25;cursor:default;}
+  .icon-btn:disabled:hover{color:#b0a988;}
   tr.group-row .group-remove{color:rgba(255,255,255,.6);font-size:13px;background:none;border:none;cursor:pointer;padding:0 4px;}
   tr.group-row .group-remove:hover{color:#fff;}
 
@@ -1025,6 +1029,31 @@
   function ensureTrash(set){
     if (!set.trash) set.trash = [];
   }
+  function moveGroup(set, groupId, dir){
+    const idx = set.groups.findIndex(g => g.id === groupId);
+    const newIdx = idx + dir;
+    if (idx === -1 || newIdx < 0 || newIdx >= set.groups.length) return;
+    [set.groups[idx], set.groups[newIdx]] = [set.groups[newIdx], set.groups[idx]];
+  }
+  function moveTaskInGroup(set, taskId, dir){
+    const task = set.tasks.find(t => t.id === taskId);
+    if (!task) return;
+    const groupId = task.group || 'ungrouped';
+    const indices = [];
+    set.tasks.forEach((t, i) => { if ((t.group || 'ungrouped') === groupId) indices.push(i); });
+    const curRealIdx = set.tasks.indexOf(task);
+    const pos = indices.indexOf(curRealIdx);
+    const newPos = pos + dir;
+    if (newPos < 0 || newPos >= indices.length) return;
+    const i1 = indices[pos], i2 = indices[newPos];
+    [set.tasks[i1], set.tasks[i2]] = [set.tasks[i2], set.tasks[i1]];
+  }
+  function moveSubtask(task, idx, dir){
+    if (!task || !task.subtasks) return;
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= task.subtasks.length) return;
+    [task.subtasks[idx], task.subtasks[newIdx]] = [task.subtasks[newIdx], task.subtasks[idx]];
+  }
   function leafRows(tasks){
     const leaves = [];
     tasks.forEach(t => {
@@ -1156,20 +1185,29 @@
             ? `<button class="group-remove" title="Wirklich entfernen" data-group-remove-confirm="${grp.id}">✓</button>
                <button class="group-remove" title="Abbrechen" data-group-remove-cancel="${grp.id}">✕</button>`
             : `<button class="group-remove" title="Bereich entfernen" data-group-remove="${grp.id}">×</button>`);
+      const groupIdx = set.groups.indexOf(grp);
+      const groupMoveUp = groupIdx === 0 ? 'disabled' : '';
+      const groupMoveDown = groupIdx === set.groups.length - 1 ? 'disabled' : '';
       groupTd.innerHTML = `
         <div class="group-inner">
           <button class="group-toggle" data-group-toggle="${grp.id}">${grp.expanded ? '▾' : '▸'}</button>
           <input type="text" class="group-name" value="${escapeAttr(grp.name)}" data-group-name="${grp.id}">
-          <span class="group-actions"><button data-group-add-task="${grp.id}" title="Neue Leistung in diesem Bereich hinzufügen">+</button></span>
+          <span class="group-actions">
+            <button ${groupMoveUp} data-move-group-up="${grp.id}" title="Bereich nach oben verschieben">▲</button>
+            <button ${groupMoveDown} data-move-group-down="${grp.id}" title="Bereich nach unten verschieben">▼</button>
+            <button data-group-add-task="${grp.id}" title="Neue Leistung in diesem Bereich hinzufügen">+</button>
+          </span>
           ${removeControl}
         </div>`;
       groupTr.appendChild(groupTd);
       body.appendChild(groupTr);
       if (!grp.expanded) return;
 
-      tasks.forEach((task) => {
-        if ((task.group || 'ungrouped') !== grp.id) return;
+      const groupTasks = tasks.filter(t => (t.group || 'ungrouped') === grp.id);
+      groupTasks.forEach((task, idxInGroup) => {
         const ti = tasks.indexOf(task);
+        const isFirstInGroup = idxInGroup === 0;
+        const isLastInGroup = idxInGroup === groupTasks.length - 1;
         const hasSub = task.subtasks && task.subtasks.length > 0;
         const tr = document.createElement('tr');
         tr.className = 'parent-row';
@@ -1181,6 +1219,8 @@
             <button class="expand-btn ${hasSub ? '' : 'leaf'}" data-toggle="${ti}">${hasSub ? (task.expanded ? '▾' : '▸') : ''}</button>
             <input type="text" value="${escapeAttr(task.name)}" data-task-idx="${ti}">
             <span class="row-icons">
+              <button class="icon-btn" ${isFirstInGroup ? 'disabled' : ''} title="Nach oben verschieben" data-move-task-up="${task.id}">▲</button>
+              <button class="icon-btn" ${isLastInGroup ? 'disabled' : ''} title="Nach unten verschieben" data-move-task-down="${task.id}">▼</button>
               <button class="icon-btn add" title="Unterleistung hinzufügen" data-add-sub="${ti}">＋</button>
               <button class="icon-btn" title="Zeile entfernen" data-remove-task="${ti}">×</button>
             </span>
@@ -1217,11 +1257,17 @@
             subTr.className = 'sub-row';
             const subNameTd = document.createElement('td');
             subNameTd.className = 'task-name-cell';
+            const subIsFirst = si === 0;
+            const subIsLast = si === task.subtasks.length - 1;
             subNameTd.innerHTML = `
               <div class="name-row">
                 <button class="expand-btn leaf"></button>
                 <input type="text" value="${escapeAttr(sub.name)}" data-sub-idx="${ti}:${si}">
-                <span class="row-icons"><button class="icon-btn" title="Unterleistung entfernen" data-remove-sub="${ti}:${si}">×</button></span>
+                <span class="row-icons">
+                  <button class="icon-btn" ${subIsFirst ? 'disabled' : ''} title="Nach oben verschieben" data-move-sub-up="${ti}:${si}">▲</button>
+                  <button class="icon-btn" ${subIsLast ? 'disabled' : ''} title="Nach unten verschieben" data-move-sub-down="${ti}:${si}">▼</button>
+                  <button class="icon-btn" title="Unterleistung entfernen" data-remove-sub="${ti}:${si}">×</button>
+                </span>
               </div>`;
             subTr.appendChild(subNameTd);
 
@@ -1254,6 +1300,12 @@
   function attachRowEvents(set, onProject){
     document.querySelectorAll('[data-group-toggle]').forEach(b => {
       b.onclick = () => { const g = set.groups.find(x => x.id === b.dataset.groupToggle); if (g){ g.expanded = !g.expanded; render(); } };
+    });
+    document.querySelectorAll('[data-move-group-up]').forEach(b => {
+      b.onclick = () => { moveGroup(set, b.dataset.moveGroupUp, -1); render(); };
+    });
+    document.querySelectorAll('[data-move-group-down]').forEach(b => {
+      b.onclick = () => { moveGroup(set, b.dataset.moveGroupDown, 1); render(); };
     });
     document.querySelectorAll('[data-group-name]').forEach(inp => {
       inp.onchange = () => { const g = set.groups.find(x => x.id === inp.dataset.groupName); if (g){ g.name = inp.value; render(); scheduleSave(); } };
@@ -1304,6 +1356,18 @@
     });
     document.querySelectorAll('[data-toggle]').forEach(b => {
       b.onclick = () => { const ti = +b.dataset.toggle; set.tasks[ti].expanded = !set.tasks[ti].expanded; render(); };
+    });
+    document.querySelectorAll('[data-move-task-up]').forEach(b => {
+      b.onclick = () => { moveTaskInGroup(set, b.dataset.moveTaskUp, -1); render(); };
+    });
+    document.querySelectorAll('[data-move-task-down]').forEach(b => {
+      b.onclick = () => { moveTaskInGroup(set, b.dataset.moveTaskDown, 1); render(); };
+    });
+    document.querySelectorAll('[data-move-sub-up]').forEach(b => {
+      b.onclick = () => { const [ti, si] = b.dataset.moveSubUp.split(':').map(Number); moveSubtask(set.tasks[ti], si, -1); render(); };
+    });
+    document.querySelectorAll('[data-move-sub-down]').forEach(b => {
+      b.onclick = () => { const [ti, si] = b.dataset.moveSubDown.split(':').map(Number); moveSubtask(set.tasks[ti], si, 1); render(); };
     });
     document.querySelectorAll('[data-remove-col]').forEach(b => {
       b.onclick = () => {
