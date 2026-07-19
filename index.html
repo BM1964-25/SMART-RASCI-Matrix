@@ -510,26 +510,100 @@
   }
   function seedFirmTasks(){
     return [
-      { id:'f1', name:'Grundstücksprüfung & Ankaufsentscheidung', group:'g1', cells:{d1:'R', d8:'A', d2:'C', d3:'I'}, subtasks:[], expanded:false },
-      { id:'f2', name:'Finanzierungskonzept & Mittelfreigabe', group:'g1', cells:{}, expanded:true, subtasks:[
-        { id:'f2-1', name:'Finanzierungsantrag stellen', cells:{d2:'R', d3:'C', d8:'I'} },
-        { id:'f2-2', name:'Kreditvertrag prüfen & unterzeichnen', cells:{d8:'A', d2:'R', d3:'C'} },
-        { id:'f2-3', name:'Mittelabruf freigeben', cells:{d2:'A', d3:'R', d5:'I'} },
+      // Akquise & Prüfung
+      { id:'f1', name:'Standort- und Marktanalyse', group:'g1', cells:{d1:'A', d7:'C', d6:'C', d8:'I'}, subtasks:[], expanded:false },
+      { id:'f2', name:'Grundstücks-Scouting & Erstansprache', group:'g1', cells:{d1:'A', d8:'I'}, subtasks:[], expanded:false },
+      { id:'f3', name:'Rechtliche & baurechtliche Due Diligence', group:'g1', cells:{}, expanded:false, subtasks:[
+        { id:'f3-1', name:'Grundbuch- und Altlastenprüfung', cells:{d1:'A', d3:'C'} },
+        { id:'f3-2', name:'Baurechtliche Prüfung (B-Plan, Bebaubarkeit)', cells:{d4:'A', d1:'C'} },
       ]},
-      { id:'f3', name:'Rechnungsprüfung & Zahlungsfreigabe', group:'g2', cells:{d3:'R', d5:'C', d8:'A'}, subtasks:[], expanded:false },
-      { id:'f4', name:'Planungsfreigabe', group:'g3', cells:{d4:'A', d5:'C', d8:'I'}, subtasks:[], expanded:false },
-      { id:'f5', name:'Bauausführungscontrolling', group:'g3', cells:{d5:'A', d4:'C', d3:'I'}, subtasks:[], expanded:false },
-      { id:'f6', name:'Vertriebsstart & Preisgestaltung', group:'g4', cells:{d7:'A', d6:'R', d2:'C', d8:'I'}, subtasks:[], expanded:false },
-      { id:'f7', name:'Marketingkonzept', group:'g4', cells:{d6:'A', d7:'C'}, subtasks:[], expanded:false },
-      { id:'f8', name:'Projektfreigabe durch Geschäftsführung', group:'g2', cells:{d8:'A', d1:'I', d2:'I', d4:'I', d5:'I'}, subtasks:[], expanded:false },
+      { id:'f4', name:'Machbarkeitsstudie & Wirtschaftlichkeitsrechnung', group:'g1', cells:{d2:'R', d8:'A', d1:'C', d4:'C'}, subtasks:[], expanded:false },
+      { id:'f5', name:'Ankaufsentscheidung', group:'g1', cells:{}, expanded:false, subtasks:[
+        { id:'f5-1', name:'Entscheidungsvorlage erstellen', cells:{d1:'A', d2:'C', d4:'C'} },
+        { id:'f5-2', name:'Ankaufsbeschluss fassen', cells:{d8:'A', d1:'C', d2:'C'} },
+        { id:'f5-3', name:'Notartermin & Grundstückskauf abwickeln', cells:{d1:'R', d8:'A', d3:'C'} },
+      ]},
+
+      // Finanzierung & Wirtschaftlichkeit
+      { id:'f6', name:'Finanzierungskonzept erstellen', group:'g2', cells:{d2:'R', d8:'A', d3:'C'}, subtasks:[], expanded:false },
+      { id:'f7', name:'Bankengespräche & Finanzierungszusage', group:'g2', cells:{}, expanded:false, subtasks:[
+        { id:'f7-1', name:'Angebote bei Banken einholen', cells:{d2:'A', d8:'I'} },
+        { id:'f7-2', name:'Finanzierungsvertrag abschließen', cells:{d2:'R', d8:'A'} },
+      ]},
+      { id:'f8', name:'Fördermittel und Zuschüsse prüfen', group:'g2', cells:{d2:'A', d4:'C'}, subtasks:[], expanded:false },
+      { id:'f9', name:'Kosten-Controlling', group:'g2', cells:{}, expanded:false, subtasks:[
+        { id:'f9-1', name:'Budgetüberwachung', cells:{d3:'R', d2:'A', d5:'C'} },
+        { id:'f9-2', name:'Mittelabruf gegenüber Bank', cells:{d2:'A', d3:'C'} },
+      ]},
+      { id:'f10', name:'Projektkalkulation laufend aktualisieren', group:'g2', cells:{d2:'R', d8:'A', d5:'C', d7:'C'}, subtasks:[], expanded:false },
+
+      // Planung & Genehmigung
+      { id:'f11', name:'Bedarfsplanung / Raumprogramm', group:'g3', cells:{d4:'A', d7:'C', d6:'C'}, subtasks:[], expanded:false },
+      { id:'f12', name:'Vorplanung & Machbarkeit Architektur', group:'g3', cells:{d4:'A', d1:'C'}, subtasks:[], expanded:false },
+      { id:'f13', name:'Genehmigungsplanung', group:'g3', cells:{}, expanded:false, subtasks:[
+        { id:'f13-1', name:'Bauantrag erstellen', cells:{d4:'A'} },
+        { id:'f13-2', name:'Abstimmung mit Behörden', cells:{d4:'A', d8:'I'} },
+        { id:'f13-3', name:'Baugenehmigung einholen', cells:{d4:'A', d5:'C'} },
+      ]},
+      { id:'f14', name:'Ausführungsplanung & Fachplanerkoordination', group:'g3', cells:{d4:'A', d5:'S'}, subtasks:[], expanded:false },
+      { id:'f15', name:'Ausschreibung & Vergabe', group:'g3', cells:{}, expanded:false, subtasks:[
+        { id:'f15-1', name:'Leistungsverzeichnisse erstellen', cells:{d4:'A', d5:'C'} },
+        { id:'f15-2', name:'Angebote einholen und prüfen', cells:{d5:'R', d4:'C', d8:'A'} },
+        { id:'f15-3', name:'Vergabeempfehlung', cells:{d5:'R', d8:'A'} },
+      ]},
+
+      // Bauausführung & Steuerung
+      { id:'f16', name:'Baustelleneinrichtung', group:'g4', cells:{d5:'A'}, subtasks:[], expanded:false },
+      { id:'f17', name:'Bauüberwachung', group:'g4', cells:{}, expanded:false, subtasks:[
+        { id:'f17-1', name:'Bautenstandskontrolle', cells:{d5:'A', d4:'C'} },
+        { id:'f17-2', name:'Qualitätskontrolle', cells:{d5:'A', d4:'C'} },
+        { id:'f17-3', name:'Nachtragsmanagement', cells:{d5:'R', d3:'C', d8:'A'} },
+      ]},
+      { id:'f18', name:'Termin- und Kostencontrolling Bau', group:'g4', cells:{d5:'R', d2:'C', d3:'C', d8:'A'}, subtasks:[], expanded:false },
+      { id:'f19', name:'Abnahme & Mängelmanagement', group:'g4', cells:{}, expanded:false, subtasks:[
+        { id:'f19-1', name:'Bauabnahme durchführen', cells:{d5:'R', d4:'C', d8:'A'} },
+        { id:'f19-2', name:'Mängelbeseitigung nachverfolgen', cells:{d5:'A'} },
+      ]},
+
+      // Vertrieb & Marketing
+      { id:'f20', name:'Vertriebskonzept & Preisgestaltung', group:'g5', cells:{d7:'R', d2:'C', d6:'C', d8:'A'}, subtasks:[], expanded:false },
+      { id:'f21', name:'Marketingkonzept & Vermarktungsstart', group:'g5', cells:{}, expanded:false, subtasks:[
+        { id:'f21-1', name:'Exposé und Website erstellen', cells:{d6:'A', d7:'C'} },
+        { id:'f21-2', name:'Vermarktungskampagne starten', cells:{d6:'A', d7:'C'} },
+      ]},
+      { id:'f22', name:'Vertriebsdurchführung', group:'g5', cells:{}, expanded:false, subtasks:[
+        { id:'f22-1', name:'Interessentenmanagement', cells:{d7:'A'} },
+        { id:'f22-2', name:'Reservierungs- und Kaufverträge vorbereiten', cells:{d7:'R', d3:'C', d8:'A'} },
+        { id:'f22-3', name:'Notartermine begleiten', cells:{d7:'A', d8:'I'} },
+      ]},
+      { id:'f23', name:'Vertriebscontrolling / Absatzreporting', group:'g5', cells:{d7:'A', d2:'C', d8:'I'}, subtasks:[], expanded:false },
+
+      // Kaufmännische Abwicklung & Übergabe
+      { id:'f24', name:'Rechnungsprüfung & Zahlungsfreigabe', group:'g6', cells:{}, expanded:false, subtasks:[
+        { id:'f24-1', name:'Eingangsrechnungen prüfen', cells:{d3:'A'} },
+        { id:'f24-2', name:'Zahlungsfreigabe erteilen', cells:{d8:'A', d3:'C'} },
+      ]},
+      { id:'f25', name:'Objektübergabe an Käufer', group:'g6', cells:{}, expanded:false, subtasks:[
+        { id:'f25-1', name:'Übergabeprotokolle erstellen', cells:{d5:'A', d7:'C'} },
+        { id:'f25-2', name:'Schlussrechnung erstellen', cells:{d3:'R', d5:'C', d8:'A'} },
+      ]},
+      { id:'f26', name:'Projektabschluss & Nachkalkulation', group:'g6', cells:{d2:'R', d3:'C', d5:'C', d7:'C', d8:'A'}, subtasks:[], expanded:false },
+
+      // Unternehmenssteuerung & Freigaben
+      { id:'f27', name:'Projektfreigaben zu Meilensteinen (Gate-Entscheidungen)', group:'g7', cells:{d8:'A', d1:'C', d2:'C', d4:'C', d5:'C'}, subtasks:[], expanded:false },
+      { id:'f28', name:'Risikomanagement', group:'g7', cells:{d8:'A', d2:'C', d4:'C', d5:'C'}, subtasks:[], expanded:false },
+      { id:'f29', name:'Reporting an Gesellschafter/Banken', group:'g7', cells:{d8:'A', d2:'C', d3:'C'}, subtasks:[], expanded:false },
     ];
   }
   function seedFirmGroups(){
     return [
-      { id:'g1', name:'Akquise & Finanzierung', expanded:true },
-      { id:'g2', name:'Steuerung & Freigabe', expanded:true },
-      { id:'g3', name:'Planung & Ausführung', expanded:true },
-      { id:'g4', name:'Vertrieb & Marketing', expanded:true },
+      { id:'g1', name:'Grundstücksakquise & Prüfung', expanded:true },
+      { id:'g2', name:'Finanzierung & Wirtschaftlichkeit', expanded:true },
+      { id:'g3', name:'Planung & Genehmigung', expanded:true },
+      { id:'g4', name:'Bauausführung & Steuerung', expanded:true },
+      { id:'g5', name:'Vertrieb & Marketing', expanded:true },
+      { id:'g6', name:'Kaufmännische Abwicklung & Übergabe', expanded:true },
+      { id:'g7', name:'Unternehmenssteuerung & Freigaben', expanded:true },
     ];
   }
   function newBlankProject(tabLabel, name){
