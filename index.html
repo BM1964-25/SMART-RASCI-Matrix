@@ -12,17 +12,17 @@
     font-family:'Calibri','Segoe UI',Arial,sans-serif;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--cream);color:var(--ink);padding:32px 24px 80px;}
+  body{margin:0;background:var(--cream);color:var(--ink);padding:32px 24px 0;}
   .wrap{max-width:1320px;margin:0 auto;}
 
   header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--navy);padding-bottom:18px;margin-bottom:20px;flex-wrap:wrap;gap:16px;}
   .brand-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;}
   h1{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:30px;margin:0;letter-spacing:.01em;}
   .subtitle{font-size:13.5px;color:#5b5748;margin-top:6px;max-width:600px;}
-  .project-field{display:flex;flex-direction:column;gap:4px;min-width:260px;}
+  .project-field{display:flex;flex-direction:column;gap:4px;min-width:220px;max-width:280px;width:280px;margin-right:8px;flex-shrink:0;}
   .project-field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--navy-light);font-weight:700;}
-  .project-field input{font-family:'Cambria','Georgia',serif;font-size:17px;border:none;border-bottom:2px solid var(--gold);background:transparent;padding:4px 2px;color:var(--navy);}
-  .project-field input:focus{outline:none;border-bottom-color:var(--navy);}
+  .project-field input{font-family:'Cambria','Georgia',serif;font-size:17px;border:none;border-bottom:2px solid var(--gold);background:transparent;padding:4px 2px;color:var(--navy);width:100%;box-sizing:border-box;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
+  .project-field input:focus{outline:none;border-bottom-color:var(--navy);text-overflow:clip;}
 
   .msg-bar{font-size:12.5px;padding:8px 14px;border-radius:6px;margin-bottom:14px;display:none;}
   .msg-bar.show{display:block;}
@@ -30,6 +30,23 @@
   .msg-bar.err{background:#f6e6e1;color:var(--danger);border:1px solid #e0b6a8;}
 
   /* ---------- Library view ---------- */
+  .rasci-explainer{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px 22px;margin-bottom:8px;}
+  .rasci-explainer p.intro{font-size:13.5px;color:#4a4736;margin:0 0 16px;line-height:1.55;}
+  .rasci-term{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start;}
+  .rasci-term:last-child{margin-bottom:0;}
+  .rasci-term .letter{
+    flex-shrink:0;width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    font-family:'Cambria','Georgia',serif;font-weight:700;font-size:17px;color:#fff;
+  }
+  .rasci-term .letter.R{background:#E4C567;color:#4a3a05;}
+  .rasci-term .letter.A{background:var(--navy);}
+  .rasci-term .letter.S{background:#8AA0C4;color:#0d1c33;}
+  .rasci-term .letter.C{background:#C7D8B8;color:#33461f;}
+  .rasci-term .letter.I{background:#EDE6D3;color:#6b6547;}
+  .rasci-term .term-body h3{font-family:'Cambria','Georgia',serif;font-size:14.5px;color:var(--navy);margin:2px 0 4px;}
+  .rasci-term .term-body p{font-size:13px;color:#4a4736;margin:0;line-height:1.55;}
+  .rasci-rule{font-size:12.5px;color:#5b5748;background:var(--cream-dark);border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:10px 14px;margin-top:16px;line-height:1.55;}
+
   .lib-section{margin-bottom:26px;}
   .lib-section-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
   .lib-section h2{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:18px;margin:0 0 10px;}
@@ -54,6 +71,16 @@
   }
   .recent-chip:hover{border-color:var(--gold);background:var(--cream-dark);}
   .recent-chip .chip-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#8a8467;}
+
+  .example-pill{
+    background:#fff;border:1.5px dashed var(--gold);border-radius:20px;padding:6px 14px;font-size:12.5px;
+    cursor:pointer;display:flex;align-items:center;gap:8px;color:#8a6d10;font-weight:600;
+  }
+  .example-pill:hover{background:var(--cream-dark);}
+  .example-pill.loaded{border-style:solid;border-color:var(--line);color:var(--navy);font-weight:400;cursor:default;}
+  .example-pill .pill-x{cursor:pointer;color:#b0a988;font-weight:700;}
+  .example-pill .pill-x:hover{color:var(--danger);}
+  .example-pill .pill-open{cursor:pointer;text-decoration:underline;}
 
   .file-label{
     display:inline-block;padding:8px 16px;font-size:13px;font-weight:600;border:1.5px solid var(--line);
@@ -84,6 +111,8 @@
   button.gold:hover{background:var(--gold);color:#fff;}
   button.ghost{border-color:var(--line);color:#7a7461;}
   button.ghost:hover{background:#7a7461;color:#fff;}
+  .plus-btn{background:none;border:none;color:var(--navy);font-size:20px;font-weight:700;cursor:pointer;padding:2px 8px;line-height:1;}
+  .plus-btn:hover{color:var(--gold);background:none;}
 
   .table-scroll{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:0 8px 8px 8px;box-shadow:0 1px 3px rgba(27,42,74,.08);}
   table{border-collapse:collapse;width:100%;min-width:720px;}
@@ -124,11 +153,8 @@
   }
   tr.group-row input.group-name:focus{outline:none;border-bottom-color:var(--gold);}
   tr.group-row .group-actions{display:flex;gap:6px;flex-shrink:0;}
-  tr.group-row .group-actions button{
-    background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font-size:11px;
-    padding:2px 8px;border-radius:4px;cursor:pointer;font-family:'Calibri',Arial,sans-serif;font-weight:600;
-  }
-  tr.group-row .group-actions button:hover{background:rgba(255,255,255,.15);}
+  tr.group-row .group-actions button{background:none;border:none;color:rgba(255,255,255,.7);font-size:16px;font-weight:700;padding:0 6px;cursor:pointer;line-height:1;}
+  tr.group-row .group-actions button:hover{color:#fff;background:none;}
   tr.group-row .group-remove{color:rgba(255,255,255,.6);font-size:13px;background:none;border:none;cursor:pointer;padding:0 4px;}
   tr.group-row .group-remove:hover{color:#fff;}
 
@@ -169,10 +195,45 @@
 
   @media print{
     body{padding:0;background:#fff;}
-    .toolbar,.footer-actions,.legend,.scope-note,.editor-topbar,#libraryView{display:none;}
+    .toolbar,.footer-actions,.legend,.scope-note,.editor-topbar,#libraryView,.app-footer{display:none;}
     header{border-bottom:2px solid var(--navy);}
   }
   @media (max-width:640px){ h1{font-size:22px;} .project-field{min-width:0;width:100%;} }
+
+  .app-footer{
+    width:calc(100% + 48px);
+    margin:40px -24px 0;
+    padding:22px 24px 28px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+    flex-wrap:wrap;
+    background:transparent;
+    box-shadow:none;
+  }
+  .footer-brand{display:flex;align-items:center;gap:12px;}
+  .footer-icon{
+    width:34px;height:34px;border-radius:6px;background:var(--navy);color:var(--gold);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    font-family:'Cambria','Georgia',serif;font-weight:700;font-size:12.5px;
+  }
+  .footer-appname{font-family:'Cambria','Georgia',serif;color:var(--navy);font-size:14.5px;font-weight:600;}
+  .footer-slogan{font-size:12px;color:#7a7461;margin-top:3px;max-width:380px;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-copyright{font-size:12px;color:#7a7461;margin-bottom:6px;}
+  .footer-links{font-size:12px;}
+  .footer-links a{color:var(--navy);text-decoration:none;}
+  .footer-links a:hover{text-decoration:underline;}
+  .footer-sep{color:#c9c2a5;margin:0 6px;}
+
+  @media (max-width:640px){
+    .app-footer{flex-direction:column;align-items:center;text-align:center;gap:20px;}
+    .footer-brand{flex-direction:column;text-align:center;}
+    .footer-slogan{max-width:100%;}
+    .footer-right{text-align:center;}
+  }
 </style>
 </head>
 <body>
@@ -196,6 +257,57 @@
   <div id="libraryView">
 
     <div class="lib-section">
+      <h2>Was bedeutet RASCI?</h2>
+      <div class="rasci-explainer">
+        <p class="intro">RASCI ist eine Methode zur eindeutigen Klärung von Verantwortlichkeiten in Projekten und Organisationen. Für jede Aufgabe oder Leistung wird festgelegt, welche Rolle welche Art von Zuständigkeit trägt — dargestellt durch fünf Buchstaben, die jeweils eine klar definierte Art der Beteiligung beschreiben. Ziel ist es, Missverständnisse, doppelte Zuständigkeiten und unklare Entscheidungswege von vornherein auszuschließen.</p>
+
+        <div class="rasci-term">
+          <div class="letter R">R</div>
+          <div class="term-body">
+            <h3>Responsible — verantwortlich für die Durchführung</h3>
+            <p>Die Rolle, die die Aufgabe tatsächlich operativ ausführt oder die Arbeit erledigt. Es kann mehrere "R" pro Aufgabe geben, wenn mehrere Personen oder Abteilungen gemeinsam an der Umsetzung arbeiten. Diese Rolle liefert das Ergebnis, trägt aber nicht zwingend die Rechenschaftspflicht dafür gegenüber Dritten.</p>
+          </div>
+        </div>
+
+        <div class="rasci-term">
+          <div class="letter A">A</div>
+          <div class="term-body">
+            <h3>Accountable — rechenschaftspflichtig / genehmigend</h3>
+            <p>Die Rolle, die die Gesamtverantwortung für das Ergebnis trägt und das letzte Wort hat. Sie muss gegenüber Vorgesetzten, Kunden oder anderen Stellen Rechenschaft ablegen, wenn etwas schiefläuft — und sie entscheidet, wann eine Aufgabe als erledigt gilt. Ganz entscheidend: Pro Aufgabe darf es <strong>genau eine</strong> Accountable-Rolle geben. Mehrere "A" führen zu Verwässerung der Verantwortung, kein "A" bedeutet, dass niemand wirklich geradesteht, wenn es Probleme gibt.</p>
+          </div>
+        </div>
+
+        <div class="rasci-term">
+          <div class="letter S">S</div>
+          <div class="term-body">
+            <h3>Support — unterstützend</h3>
+            <p>Die Rolle, die bei der Umsetzung mitarbeitet oder Ressourcen, Zuarbeit oder praktische Hilfe beisteuert, ohne selbst die operative Hauptverantwortung zu tragen. Support-Rollen sind wichtig für die Durchführung, stehen aber nicht im Zentrum der Aufgabe.</p>
+          </div>
+        </div>
+
+        <div class="rasci-term">
+          <div class="letter C">C</div>
+          <div class="term-body">
+            <h3>Consulted — konsultiert</h3>
+            <p>Die Rolle, die vor einer Entscheidung oder während der Bearbeitung um fachlichen Rat gefragt wird. Es handelt sich um eine zweiseitige Kommunikation: Es wird ein aktiver Dialog geführt, Rückmeldungen werden eingeholt und fließen in die Entscheidung ein, bevor diese final getroffen wird.</p>
+          </div>
+        </div>
+
+        <div class="rasci-term">
+          <div class="letter I">I</div>
+          <div class="term-body">
+            <h3>Informed — informiert</h3>
+            <p>Die Rolle, die über den Fortschritt oder das Ergebnis in Kenntnis gesetzt wird, aber nicht aktiv in die Entscheidung oder Ausführung eingebunden ist. Es handelt sich um eine einseitige Kommunikation nach getroffener Entscheidung oder Abschluss der Aufgabe — informieren, nicht mitentscheiden lassen.</p>
+          </div>
+        </div>
+
+        <div class="rasci-rule">
+          <strong>Kernregel:</strong> Jede Leistung braucht genau eine verantwortliche Stelle (A). R, S, C und I können je Aufgabe mehrfach oder gar nicht vorkommen — A jedoch nie mehr als einmal und nie gar nicht. Genau diese Regel prüft die App bei jeder Änderung automatisch.
+        </div>
+      </div>
+    </div>
+
+    <div class="lib-section">
       <h2>Firmenmatrix</h2>
       <div class="lib-card" id="firmCard">
         <div class="lib-title" id="firmCardTitle"></div>
@@ -204,10 +316,15 @@
     </div>
 
     <div class="lib-section">
+      <h2>Beispieldaten</h2>
+      <div class="recent-list" id="examplePillRow"></div>
+    </div>
+
+    <div class="lib-section">
       <div class="lib-section-head">
         <h2>Projekte</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="primary" id="newProjectBtn">+ Neues Projekt aus Firmenmatrix</button>
+          <button class="primary" id="newProjectBtn">+ Neues Projekt</button>
           <label class="file-label">JSON-Projekt laden<input type="file" id="libImportInput" accept="application/json" hidden></label>
         </div>
       </div>
@@ -237,21 +354,16 @@
       <div class="legend-item"><span class="legend-badge" style="background:#8AA0C4;color:#0d1c33;">S</span> Support</div>
       <div class="legend-item"><span class="legend-badge" style="background:#C7D8B8;color:#33461f;">C</span> Consulted</div>
       <div class="legend-item"><span class="legend-badge" style="background:#EDE6D3;color:#6b6547;">I</span> Informed</div>
-      <div class="legend-item"><span class="col-swatch" style="background:var(--navy);"></span> Abteilung</div>
-      <div class="legend-item" id="externLegend"><span class="col-swatch" style="background:var(--extern-bg);"></span> externer Beteiligter</div>
-      <div class="legend-item note" id="diffLegend" style="display:none;"><span class="diff-swatch"></span>&nbsp;weicht von der Firmenmatrix ab &nbsp;·&nbsp; <span class="badge-new" style="position:static;">NEU</span>&nbsp;projektspezifisch</div>
     </div>
 
     <div class="toolbar">
-      <button class="primary" id="addTask">+ Oberbegriff</button>
+      <button class="plus-btn" id="addTask" title="Neue Leistung hinzufügen">+</button>
       <button class="primary" id="addGroupBtn">+ Verantwortungsbereich</button>
       <button class="gold" id="addColBtn"></button>
-      <button class="ghost" id="toggleDeptBtn" style="display:none;"></button>
       <button class="ghost" id="exportCsv">CSV exportieren</button>
       <button class="ghost" id="exportJsonBtn">Als JSON speichern</button>
       <label class="file-label">JSON laden<input type="file" id="editorImportInput" accept="application/json" hidden></label>
       <button class="ghost" id="printBtn">Drucken / PDF</button>
-      <button class="ghost" id="applyTemplateBtn">Abteilungs-Zuständigkeiten aktualisieren</button>
       <button class="ghost" id="resetBtn">Zurücksetzen</button>
     </div>
 
@@ -259,7 +371,7 @@
 
     <div class="table-scroll">
       <table id="matrixTable">
-        <thead><tr id="headerRow"><th class="task-col-header">Oberbegriff / Leistung</th></tr></thead>
+        <thead><tr id="headerRow"><th class="task-col-header">Leistung</th></tr></thead>
         <tbody id="matrixBody"></tbody>
       </table>
     </div>
@@ -275,6 +387,22 @@
   </div>
 
 </div>
+
+<footer class="app-footer">
+  <div class="footer-brand">
+    <div class="footer-icon">SR</div>
+    <div>
+      <div class="footer-appname">SMART RASCI Matrix</div>
+      <div class="footer-slogan">Klare Verantwortlichkeiten für Bau- und Immobilienprojekte — intern über Abteilungen hinweg und projektweit inklusive externer Beteiligter.</div>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div class="footer-copyright">© 2026 SmartBuilt-AI · Powered by BuiltSmart Hub - Bernhard Metzger</div>
+    <div class="footer-links">
+      <a href="https://www.built-smart-hub.com/impressum">Impressum</a><span class="footer-sep">|</span><a href="https://www.built-smart-hub.com/datenschutz">Datenschutz</a><span class="footer-sep">|</span><a href="https://www.built-smart-hub.com/agb">AGB</a><span class="footer-sep">|</span><a href="https://www.built-smart-hub.com/widerrufbelehrung">Widerrufbelehrung</a>
+    </div>
+  </div>
+</footer>
 
 <script>
 (function(){
@@ -345,53 +473,59 @@
       { id:'g4', name:'Vertrieb & Marketing', expanded:true },
     ];
   }
-  function seedExternalRoles(){
-    return [
-      { id: uid('e'), name:'Architekt', abbr:'AR' },
-      { id: uid('e'), name:'Fachplaner TGA/Statik', abbr:'FP' },
-      { id: uid('e'), name:'Bauunternehmer/GU', abbr:'GU' },
-      { id: uid('e'), name:'Finanzierende Bank', abbr:'BK' },
-      { id: uid('e'), name:'Genehmigungsbehörde', abbr:'BH' },
-      { id: uid('e'), name:'Notar', abbr:'NO' },
-    ];
-  }
-  function newProjectFromFirm(tabLabel, name){
-    const inherited = deepClone(firm.tasks).map(t => ({ ...t, group:'firmref' }));
+  function newBlankProject(tabLabel, name){
     return {
       id: uid('proj'),
       tabLabel: tabLabel,
       name: name,
-      externalRoles: seedExternalRoles(),
-      tasks: inherited,
-      groups: [{ id:'firmref', name:'Aus Firmenmatrix übernommen', expanded:true }],
-      hideDepartments: false
+      externalRoles: [],
+      tasks: [],
+      groups: [{ id:'default', name:'Aufgaben', expanded:true }]
     };
   }
   function seedSampleProject(){
-    const p = newProjectFromFirm('Musterprojekt', 'Neubau Wohnquartier – Musterprojekt');
-    p.tasks[0].cells[p.externalRoles[5].id] = 'C';
-    p.tasks[0].cells[p.externalRoles[3].id] = 'I';
-    p.tasks[1].subtasks[1].cells[p.externalRoles[3].id] = 'C';
-    p.tasks[3].cells[p.externalRoles[0].id] = 'C';
-    p.tasks[4].cells[p.externalRoles[0].id] = 'C';
-    p.tasks[4].cells[p.externalRoles[2].id] = 'S';
-    p.groups.push({ id:'genehmigung', name:'Genehmigung & Vergabe', expanded:true });
-    p.groups.push({ id:'ausfuehrung', name:'Ausführung & Abnahme', expanded:true });
-    const [eArch, eFach, eGu, eBank, eBehoerde, eNotar] = p.externalRoles.map(r => r.id);
-    p.tasks.push({ id:'p1', name:'Baugenehmigung einholen', group:'genehmigung', cells:{}, expanded:true, subtasks:[
-      { id:'p1-1', name:'Bauantrag erstellen', cells:{d4:'R', [eArch]:'A'} },
-      { id:'p1-2', name:'Abstimmung mit Behörde', cells:{d4:'C', [eArch]:'R', [eBehoerde]:'A'} },
-      { id:'p1-3', name:'Standsicherheitsnachweis', cells:{[eArch]:'I', [eFach]:'A'} },
-    ]});
-    p.tasks.push({ id:'p2', name:'Ausschreibung & Vergabe', group:'genehmigung', cells:{}, expanded:false, subtasks:[
-      { id:'p2-1', name:'Leistungsverzeichnis erstellen', cells:{d5:'C', [eArch]:'A', [eFach]:'R'} },
-      { id:'p2-2', name:'Angebote prüfen', cells:{d5:'A', [eArch]:'C'} },
-      { id:'p2-3', name:'Vergabeempfehlung', cells:{d5:'R', d8:'A', [eArch]:'C'} },
-    ]});
-    p.tasks.push({ id:'p3', name:'Bauüberwachung', group:'ausfuehrung', cells:{d5:'A', [eArch]:'S', [eFach]:'C', [eGu]:'R'}, subtasks:[], expanded:false });
-    p.tasks.push({ id:'p4', name:'Abnahme & Übergabe', group:'ausfuehrung', cells:{d5:'R', d8:'A', [eArch]:'C', [eGu]:'R'}, subtasks:[], expanded:false });
+    const p = newBlankProject('Musterprojekt', 'Neubau Wohnquartier – Musterprojekt');
+    p.externalRoles = [
+      { id: uid('r'), name:'Bauherr', abbr:'BH' },
+      { id: uid('r'), name:'Projektsteuerer', abbr:'PS' },
+      { id: uid('r'), name:'Architekt', abbr:'AR' },
+      { id: uid('r'), name:'Fachplaner TGA/Statik', abbr:'FP' },
+      { id: uid('r'), name:'Bauunternehmer/GU', abbr:'GU' },
+      { id: uid('r'), name:'Finanzierende Bank', abbr:'BK' },
+      { id: uid('r'), name:'Genehmigungsbehörde', abbr:'BE' },
+      { id: uid('r'), name:'Notar', abbr:'NO' },
+    ];
+    const [bh, ps, ar, fp, gu, bk, be, no] = p.externalRoles.map(r => r.id);
+    p.groups = [
+      { id:'akq', name:'Akquise & Finanzierung', expanded:true },
+      { id:'genehmigung', name:'Genehmigung & Vergabe', expanded:true },
+      { id:'ausfuehrung', name:'Ausführung & Abnahme', expanded:true },
+    ];
+    p.tasks = [
+      { id:'t1', name:'Grundstücksprüfung & Ankaufsentscheidung', group:'akq', cells:{[bh]:'A', [ps]:'R', [no]:'C', [bk]:'I'}, subtasks:[], expanded:false },
+      { id:'t2', name:'Finanzierungskonzept & Mittelfreigabe', group:'akq', cells:{}, expanded:true, subtasks:[
+        { id:'t2-1', name:'Finanzierungsantrag stellen', cells:{[ps]:'R', [bk]:'C', [bh]:'I'} },
+        { id:'t2-2', name:'Kreditvertrag prüfen & unterzeichnen', cells:{[bh]:'A', [bk]:'R', [no]:'C'} },
+        { id:'t2-3', name:'Mittelabruf freigeben', cells:{[ps]:'A', [bk]:'R'} },
+      ]},
+      { id:'t3', name:'Baugenehmigung einholen', group:'genehmigung', cells:{}, expanded:true, subtasks:[
+        { id:'t3-1', name:'Bauantrag erstellen', cells:{[ps]:'R', [ar]:'A'} },
+        { id:'t3-2', name:'Abstimmung mit Behörde', cells:{[ps]:'C', [ar]:'R', [be]:'A'} },
+        { id:'t3-3', name:'Standsicherheitsnachweis', cells:{[ar]:'I', [fp]:'A'} },
+      ]},
+      { id:'t4', name:'Ausschreibung & Vergabe', group:'genehmigung', cells:{}, expanded:false, subtasks:[
+        { id:'t4-1', name:'Leistungsverzeichnis erstellen', cells:{[ps]:'C', [ar]:'A', [fp]:'R'} },
+        { id:'t4-2', name:'Angebote prüfen', cells:{[ps]:'A', [ar]:'C'} },
+        { id:'t4-3', name:'Vergabeempfehlung', cells:{[ps]:'R', [bh]:'A', [ar]:'C'} },
+      ]},
+      { id:'t5', name:'Bauüberwachung', group:'ausfuehrung', cells:{[ps]:'A', [ar]:'S', [fp]:'C', [gu]:'R'}, subtasks:[], expanded:false },
+      { id:'t6', name:'Abnahme & Übergabe', group:'ausfuehrung', cells:{[ps]:'R', [bh]:'A', [ar]:'C', [gu]:'R'}, subtasks:[], expanded:false },
+    ];
     return p;
   }
+
+  const MFCW_EXAMPLE_ID = 'mfcw-example';
+  const MFCW_EXAMPLE_DATA = {"kind": "project", "id": "imported-mfcw", "tabLabel": "MFCW Aufgaben-Verantwortungsmatrix (Beispiel)", "name": "MFCW Aufgaben-Verantwortungsmatrix – importiertes Beispiel", "externalRoles": [{"id": "ext5", "name": "GF MFC", "abbr": "GF"}, {"id": "ext6", "name": "Projektentwicklung + Vertrieb", "abbr": "PV"}, {"id": "ext7", "name": "Finanzierung/ Controlling", "abbr": "FC"}, {"id": "ext8", "name": "Projekt-management", "abbr": "PM"}, {"id": "ext9", "name": "Leiter Technik", "abbr": "LT"}, {"id": "ext10", "name": "SAM + SAM-Plantech", "abbr": "SP"}], "tasks": [{"id": "t1022", "name": "Strategiefestlegung", "group": "g1001", "cells": {}, "subtasks": [{"id": "s1021", "name": "(allgemein)", "cells": {"ext6": "A"}}, {"id": "s1002", "name": "Standort- / Machbarkeitsanalysen", "cells": {}}, {"id": "s1003", "name": "Erstellung Projektkalkulationen", "cells": {"ext8": "S"}}, {"id": "s1004", "name": "Erstellen Genehmigungsvorlage für GF", "cells": {"ext8": "S"}}, {"id": "s1005", "name": "Angebotserstellung für Grundstück / Immobilie", "cells": {}}, {"id": "s1006", "name": "Finanzierungsanfragen / -verträge", "cells": {}}, {"id": "s1007", "name": "Kooperations-/ Vertraulichkeitsvereinbarungen / Joint Venture", "cells": {"ext8": "S"}}, {"id": "s1008", "name": "Betreuung und Auswertung Planungswettbewerb", "cells": {"ext8": "S"}}, {"id": "s1009", "name": "Kaufvertragsverhandlung", "cells": {"ext8": "S"}}, {"id": "s1010", "name": "Kauf / Beurkundung", "cells": {}}, {"id": "s1011", "name": "Kaufvertragsnachträge", "cells": {"ext8": "S"}}, {"id": "s1012", "name": "Kaufvertragserfüllung und -durchführung", "cells": {}}, {"id": "s1013", "name": "Abstimmung mit Rechtsberatung \"öffentliches Recht\"", "cells": {}}, {"id": "s1014", "name": "Grundstückszusammenlegung, Realteilung, Grundbuch", "cells": {"ext8": "S"}}, {"id": "s1015", "name": "Ausgleichsberechnung", "cells": {}}, {"id": "s1016", "name": "SOBON Berechnung", "cells": {}}, {"id": "s1017", "name": "laufende Kommunikation mit Verkäufer", "cells": {}}, {"id": "s1018", "name": "Zuschüsse und Darlehen (z.B. KFW)", "cells": {"ext8": "S", "ext10": "S"}}, {"id": "s1019", "name": "Festlegung Zertifizierungen (z.B. DGNB, LEED, ….)", "cells": {"ext8": "S"}}, {"id": "s1020", "name": "Durchführung Zertifizierungen (z.B. DGNB, LEED, ….)", "cells": {"ext8": "A", "ext10": "S"}}], "expanded": false}, {"id": "t1033", "name": "Vermietungsvorbereitung", "group": "g1023", "cells": {}, "subtasks": [{"id": "s1032", "name": "(allgemein)", "cells": {"ext6": "A"}}, {"id": "s1024", "name": "Vermietungsstrategie", "cells": {"ext8": "S"}}, {"id": "s1025", "name": "Vorbereitung der Vertragsmuster", "cells": {"ext8": "S"}}, {"id": "s1026", "name": "Erstellen von Mieterbaubeschreibungen", "cells": {"ext8": "S", "ext10": "S"}}, {"id": "s1027", "name": "Mietflächenberechnungen", "cells": {"ext8": "S", "ext10": "S"}}, {"id": "s1028", "name": "Mieterlöskalkulationen", "cells": {}}, {"id": "s1029", "name": "Nutzungs- / Vermarktungskonzepte (Exposé, Mietflächenaufstellung etc.)", "cells": {}}, {"id": "s1030", "name": "Abstimmung mit Maklern / Beratern", "cells": {}}, {"id": "s1031", "name": "Marketing Öffentlichkeitsarbeit", "cells": {}}], "expanded": false}, {"id": "t1063", "name": "Vermietung", "group": "g1023", "cells": {}, "subtasks": [{"id": "s1034", "name": "Erstgespräch Interessent / Vor Ort Termin", "cells": {}}, {"id": "s1035", "name": "Abstimmung Raum- u. Nutzungsanforderung", "cells": {"ext8": "S"}}, {"id": "s1036", "name": "Prüfung auf Machbarkeit wirtschaftl. Auswirkungen", "cells": {"ext10": "S"}}, {"id": "s1037", "name": "Prüfung auf Machbarkeit und techn. Auswirkungen", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1038", "name": "Auswirkungen auf Gesamtprojekt - Kostenschätzung / Renditeberechnung", "cells": {}}, {"id": "s1039", "name": "Planungsgespräche mit Mietinteressenten", "cells": {"ext8": "S"}}, {"id": "s1040", "name": "Beauftragung Planungsleistungen", "cells": {"ext8": "S"}}, {"id": "s1041", "name": "Koordination planerischer und baulicher Änderungswünsche", "cells": {"ext8": "S", "ext10": "A"}}, {"id": "s1042", "name": "Einholen von Angeboten für Mieterausbau / Sonderwünsche", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1043", "name": "Erstellen / Überarbeiten Mieterbaubeschreibung", "cells": {"ext8": "S", "ext10": "S"}}, {"id": "s1044", "name": "Erstellen / Koordinieren Mietflächenberechnung", "cells": {"ext10": "S"}}, {"id": "s1045", "name": "Einarbeiten Mieteranforderung in Kalkulation", "cells": {}}, {"id": "s1046", "name": "Erstellen Mietvertrag und Mietvertragsangebote", "cells": {"ext8": "S"}}, {"id": "s1047", "name": "Mietvertragsverhandlung", "cells": {"ext8": "S"}}, {"id": "s1048", "name": "Vertragsunterzeichnung", "cells": {}}, {"id": "s1049", "name": "Nachträge zum Mietvertrag", "cells": {}}, {"id": "s1050", "name": "Rechnungserstellung, Rechnungsprüfung", "cells": {}}, {"id": "s1051", "name": "vertragsrelevanter Schriftverkehr", "cells": {}}, {"id": "s1052", "name": "Überwachen Regelungen des Mietvertrages", "cells": {}}, {"id": "s1053", "name": "Prüfen der baulichen Ausführung auf Einhaltung der vertraglichen Vereinbarungen", "cells": {"ext8": "A"}}, {"id": "s1054", "name": "Schriftverkehr Mieter all.", "cells": {}}, {"id": "s1055", "name": "Bemusterung", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1056", "name": "Abrechnung Mieterausbau/Sonderwünsche", "cells": {}}, {"id": "s1057", "name": "Zusammenführung Mieterdokumentation", "cells": {"ext8": "S"}}, {"id": "s1058", "name": "Baudurchführung", "cells": {"ext8": "A"}}, {"id": "s1059", "name": "Übergabebegehungen", "cells": {"ext8": "A"}}, {"id": "s1060", "name": "Übergabe an Mieter", "cells": {}}, {"id": "s1061", "name": "Mangelbeseitigung", "cells": {"ext8": "A"}}, {"id": "s1062", "name": "Verwaltung Mieterbürgschaften", "cells": {}}], "expanded": false}, {"id": "t1068", "name": "Strategiefestlegung Verträge", "group": "g1064", "cells": {}, "subtasks": [{"id": "s1067", "name": "(allgemein)", "cells": {"ext6": "A", "ext8": "R"}}, {"id": "s1065", "name": "Beauftragung der fachlich Beteiligten (technisch)", "cells": {}}, {"id": "s1066", "name": "Beauftragung der fachlich Beteiligten (kaufmännisch)", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1069", "name": "Führung Vertragsliste", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1070", "name": "Fristenliste kaufm.", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1071", "name": "Fristenliste techn.", "group": "g1064", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1076", "name": "Planerverträge etc. (je nach Vertragspartner MFCW bzw. SAM-Plantech)", "group": "g1064", "cells": {}, "subtasks": [{"id": "s1072", "name": "Vorbereitung der Vertragsmuster", "cells": {"ext8": "A", "ext9": "R", "ext10": "R"}}, {"id": "s1073", "name": "Vertragsverhandlung", "cells": {"ext8": "A", "ext9": "R", "ext10": "S"}}, {"id": "s1074", "name": "Vertragsunterzeichnung", "cells": {"ext5": "A", "ext8": "R", "ext9": "R", "ext10": "S"}}, {"id": "s1075", "name": "Nachträge", "cells": {"ext5": "A", "ext8": "R", "ext9": "R", "ext10": "S"}}], "expanded": false}, {"id": "t1080", "name": "Bauverträge, GU/GMP-GU-Vertrag", "group": "g1064", "cells": {}, "subtasks": [{"id": "s1077", "name": "Vertragserstellung", "cells": {"ext6": "S", "ext7": "S", "ext8": "A"}}, {"id": "s1078", "name": "Zusammenstellung aller Anlagen", "cells": {"ext8": "A"}}, {"id": "s1079", "name": "Vertragsunterzeichnung", "cells": {"ext5": "A", "ext8": "R"}}], "expanded": false}, {"id": "t1081", "name": "Projektsteuerungsvertrag", "group": "g1064", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1082", "name": "Mietermanagementvertrag", "group": "g1064", "cells": {"ext6": "A", "ext8": "S"}, "subtasks": [], "expanded": false}, {"id": "t1083", "name": "QS - Verträge", "group": "g1064", "cells": {"ext10": "A"}, "subtasks": [], "expanded": false}, {"id": "t1084", "name": "Rechtberatung Kaufm./Vermietung", "group": "g1064", "cells": {"ext5": "A", "ext6": "R"}, "subtasks": [], "expanded": false}, {"id": "t1085", "name": "Rechtsberatung Technik", "group": "g1064", "cells": {"ext5": "A", "ext8": "R"}, "subtasks": [], "expanded": false}, {"id": "t1086", "name": "HR - Beratung/Beschaffung", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1087", "name": "Versorgungsverträge", "group": "g1064", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1088", "name": "Grundstückszusammenlegung, Realteilung, Grundbuch", "group": "g1064", "cells": {"ext8": "S"}, "subtasks": [], "expanded": false}, {"id": "t1089", "name": "Gesellschafterbeschlüsse", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1090", "name": "Erschließungsvertrag", "group": "g1064", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1091", "name": "Sozialer Bindungsvertrag", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1092", "name": "Bestellung von Dienstbarkeiten", "group": "g1064", "cells": {"ext8": "S"}, "subtasks": [], "expanded": false}, {"id": "t1093", "name": "Versicherungen (Abwicklung von Schäden)", "group": "g1064", "cells": {"ext8": "A", "ext9": "R"}, "subtasks": [], "expanded": false}, {"id": "t1094", "name": "Berater", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1095", "name": "Centermanagement", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1096", "name": "Facility Management", "group": "g1064", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1097", "name": "Parkraummanagement", "group": "g1064", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1101", "name": "Planungs-JF AG", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1099", "name": "Durchführung von Planungsterminen", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1100", "name": "Protokollerstellung", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1109", "name": "Plan der Planung", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1102", "name": "Prüfung Planungsterminplan", "cells": {"ext8": "A", "ext10": "C"}}, {"id": "s1103", "name": "Nachhalten Planungsterminplan", "cells": {"ext8": "A", "ext10": "R"}}, {"id": "s1104", "name": "Planungsfortschreibung", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1105", "name": "Planungsoptimierung", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1106", "name": "Variantenuntersuchung zu Planungsthemen", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1107", "name": "Aufstellen Entscheidungsvorlagen Planung mit Kostenauswirkung", "cells": {"ext8": "A", "ext10": "R"}}, {"id": "s1108", "name": "Freigabe Bauherr / RAG", "cells": {"ext6": "S", "ext8": "A"}}], "expanded": false}, {"id": "t1114", "name": "Materialfestlegung", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1110", "name": "Aufstellen Bemusterungskatalog Ausbau, Fassade, TGA, AA", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1111", "name": "Fortschreibung Bemusterungkatalog", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1112", "name": "Aufstellen Entscheidungsvorlagen Materilafestlegung mit Kostenauswirkung", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1113", "name": "Freigabe Materialfestlegung", "cells": {"ext8": "A", "ext10": "S"}}], "expanded": false}, {"id": "t1120", "name": "Planungsfreigabeprozess", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1115", "name": "Planprüfung Architektur", "cells": {"ext8": "S", "ext10": "A"}}, {"id": "s1116", "name": "Planprüfung Fassade", "cells": {"ext8": "S", "ext10": "A"}}, {"id": "s1117", "name": "Planprüfung TGA", "cells": {"ext8": "S", "ext10": "A"}}, {"id": "s1118", "name": "Planprüfung Außenanlagen", "cells": {"ext8": "S", "ext10": "A"}}, {"id": "s1119", "name": "Freigabe Bauherr / RAG", "cells": {"ext8": "S"}}], "expanded": false}, {"id": "t1125", "name": "Türliste/ZuKo", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1121", "name": "Erstellung eines Anforderungskataloges", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1122", "name": "Prüfung Türliste", "cells": {"ext10": "A"}}, {"id": "s1123", "name": "Aufstellen Entscheidungsvorlagen mit Kostenauswirkung", "cells": {"ext10": "A"}}, {"id": "s1124", "name": "Freigabe RAG", "cells": {"ext8": "A", "ext10": "S"}}], "expanded": false}, {"id": "t1130", "name": "Farbkonzept", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1126", "name": "Erstellung eines Farb- und Materialkonzeptes", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1127", "name": "Fortführung", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1128", "name": "Aufstellen Entscheidungsvorlagen mit Kostenauswirkung", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1129", "name": "Freigabe Bauherr / RAG", "cells": {"ext8": "A", "ext10": "S"}}], "expanded": false}, {"id": "t1134", "name": "Qualitätssicherung", "group": "g1098", "cells": {}, "subtasks": [{"id": "s1131", "name": "Qualitätssicherung Bau und Außenanlagen", "cells": {}}, {"id": "s1132", "name": "Qualitätssicherung TGA", "cells": {}}, {"id": "s1133", "name": "Qualitätssicherung Fassade", "cells": {}}], "expanded": false}, {"id": "t1142", "name": "Termine", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1136", "name": "Erstellung Bauablaufplan", "cells": {"ext8": "A"}}, {"id": "s1137", "name": "Soll/Ist Vergleiche", "cells": {"ext8": "A"}}, {"id": "s1138", "name": "Abweichungsanalyse", "cells": {"ext8": "A"}}, {"id": "s1139", "name": "Maßnahmenkatalog", "cells": {"ext8": "A"}}, {"id": "s1140", "name": "Aufstellen Entscheidungsvorlagen mit Kostenauswirkung", "cells": {"ext8": "A"}}, {"id": "s1141", "name": "Freigabe Bauherr / RAG", "cells": {"ext5": "A", "ext8": "R"}}], "expanded": false}, {"id": "t1151", "name": "Kosten", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1143", "name": "Erstellung Kostenstruktur", "cells": {"ext8": "A"}}, {"id": "s1144", "name": "Soll/Ist Vergleiche", "cells": {"ext8": "A"}}, {"id": "s1145", "name": "Hochrechnung Bauende", "cells": {"ext8": "A"}}, {"id": "s1146", "name": "Führen TI-Matrix", "cells": {"ext8": "A"}}, {"id": "s1147", "name": "Aufzeigen Optimierungspotentiale", "cells": {"ext8": "A"}}, {"id": "s1148", "name": "Projektänderungsverfolgung", "cells": {"ext8": "A"}}, {"id": "s1149", "name": "Aufstellen Entscheidungsvorlagen mit Kostenauswirkung", "cells": {"ext8": "A"}}, {"id": "s1150", "name": "Freigabe Entscheidungsvorlagen", "cells": {"ext5": "A", "ext8": "R"}}], "expanded": false}, {"id": "t1159", "name": "Qualität", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1152", "name": "Festlegung des Standards", "cells": {"ext8": "A"}}, {"id": "s1153", "name": "Überprüfung Einhaltung Vertragssoll", "cells": {"ext8": "A"}}, {"id": "s1154", "name": "Qualitätssicherung Bau und Außenanlagen", "cells": {}}, {"id": "s1155", "name": "Qualitätssicherung TGA", "cells": {}}, {"id": "s1156", "name": "Qualitätssicherung Fassade", "cells": {}}, {"id": "s1157", "name": "Aufzeigen Optimierungspotentiale", "cells": {"ext8": "A", "ext10": "S"}}, {"id": "s1158", "name": "Aufstellen Entscheidungsvorlagen mit Kostenauswirkung", "cells": {"ext8": "A", "ext10": "S"}}], "expanded": false}, {"id": "t1168", "name": "NU-Vergaben", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1160", "name": "Abstimmung Ausschreibungsinhalte", "cells": {"ext8": "A"}}, {"id": "s1161", "name": "Prüfung Ausschreibung je Gewerk", "cells": {"ext8": "A"}}, {"id": "s1162", "name": "Abstimmung Bieterliste", "cells": {"ext8": "A"}}, {"id": "s1163", "name": "Einholung Freigabe Bieterliste", "cells": {"ext8": "A"}}, {"id": "s1164", "name": "Prüfung Preisspiegel (Plausibilität)", "cells": {"ext8": "A"}}, {"id": "s1165", "name": "Erstellung Vergabeempfehlung", "cells": {"ext8": "A"}}, {"id": "s1166", "name": "Freigabe NU-Vergabe", "cells": {"ext5": "A", "ext8": "R"}}, {"id": "s1167", "name": "TI-Matrix", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1171", "name": "Schriftverkehr", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1169", "name": "Vertragsrelevanter Schriftverkehr GU/GMP-GU", "cells": {"ext5": "A", "ext8": "R"}}, {"id": "s1170", "name": "Allgemeiner Schriftverkehr GU/GMP-GU", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1176", "name": "Bemusterung GU/GMP-GU", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1172", "name": "Festlegung des Umfanges (incl. Alternativen)", "cells": {"ext8": "A"}}, {"id": "s1173", "name": "Vorbereitung Bemusterung", "cells": {"ext6": "S", "ext8": "A"}}, {"id": "s1174", "name": "Einhaltung Bemusterungstermine", "cells": {"ext8": "A"}}, {"id": "s1175", "name": "Freigabe Bemusterung GU/GMP-GU", "cells": {"ext5": "A", "ext8": "R"}}], "expanded": false}, {"id": "t1182", "name": "Abnahmen AN", "group": "g1135", "cells": {}, "subtasks": [{"id": "s1177", "name": "Vorbegehungen/Zustandsfeststellungen", "cells": {"ext8": "A"}}, {"id": "s1178", "name": "Mangelerfassung/ -Aufstellung je Gewerk", "cells": {"ext8": "A"}}, {"id": "s1179", "name": "Abnahmebegehungen", "cells": {"ext8": "A"}}, {"id": "s1180", "name": "Abnahmeerklärung", "cells": {"ext5": "A", "ext8": "R"}}, {"id": "s1181", "name": "Dokumentation je Gewerk (Bau, TGA, Fas)", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1184", "name": "Vermarktungsstrategie", "group": "g1183", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1185", "name": "Investorensuche", "group": "g1183", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1186", "name": "Verkaufsverhandlungen", "group": "g1183", "cells": {"ext8": "S"}, "subtasks": [], "expanded": false}, {"id": "t1187", "name": "Verkaufs- Vertrag", "group": "g1183", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1189", "name": "Gesamt - Projektkalkulation", "group": "g1188", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1194", "name": "Kostenverfolgung Alasco (Kontenverwaltung / Zahlungsverkehr / , Mittelabflussplanung)", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1190", "name": "KG 1000", "cells": {}}, {"id": "s1191", "name": "KG 2000 - 7000", "cells": {"ext8": "A"}}, {"id": "s1192", "name": "KG 8000", "cells": {}}, {"id": "s1193", "name": "KG 9000", "cells": {}}], "expanded": false}, {"id": "t1198", "name": "Rechnungsprüfungen/ -lauf", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1195", "name": "Kaufmännisch: Alles (ohne Bau+ Planung)", "cells": {}}, {"id": "s1196", "name": "Technisch: Bau + Planung", "cells": {"ext8": "A"}}, {"id": "s1197", "name": "Einhaltung Zahlungsziele", "cells": {}}], "expanded": false}, {"id": "t1201", "name": "Rechnungsstellung", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1199", "name": "kaufm.", "cells": {}}, {"id": "s1200", "name": "techn.", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1202", "name": "Bürgschaften", "group": "g1188", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1205", "name": "Liquiplanung", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1203", "name": "Erstellung Finanzmittelbedarf", "cells": {}}, {"id": "s1204", "name": "Sicherstellung der Verfügbarkeit der Gelder", "cells": {}}], "expanded": false}, {"id": "t1208", "name": "Banken_Reporting", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1206", "name": "Begehung Bankencontroller", "cells": {}}, {"id": "s1207", "name": "Reporting", "cells": {"ext8": "S"}}], "expanded": false}, {"id": "t1209", "name": "Buchhaltung", "group": "g1188", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1210", "name": "Bilanzen", "group": "g1188", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1211", "name": "Steuerliche Themen", "group": "g1188", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1212", "name": "Gesellschaftsmanagement der Projektgesellschaft", "group": "g1188", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1220", "name": "Buchhaltung", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1213", "name": "Rechnungsprüfung (Eingangsrechnungen)", "cells": {"ext6": "A", "ext7": "A", "ext8": "A", "ext9": "A", "ext10": "A"}}, {"id": "s1214", "name": "Zahlungsverkehr", "cells": {"ext7": "A"}}, {"id": "s1215", "name": "Freistellungsbescheinigungen", "cells": {"ext8": "A"}}, {"id": "s1216", "name": "Rechnungsstellung (Ausgangsrechnungen)", "cells": {"ext7": "A"}}, {"id": "s1217", "name": "Buchhaltung inkl. Umsatzsteuervoranmeldungen", "cells": {"ext7": "A"}}, {"id": "s1218", "name": "Erstellung der Jahresabschlüsse und Steuererklärungen", "cells": {"ext5": "A", "ext7": "R"}}, {"id": "s1219", "name": "Begleitung Steuerprüfungen", "cells": {"ext5": "A", "ext7": "R"}}], "expanded": false}, {"id": "t1227", "name": "Finanzierung", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1221", "name": "Sicherstellung der Finanzierung", "cells": {"ext5": "A", "ext7": "R"}}, {"id": "s1222", "name": "Mittelabflussplanung", "cells": {"ext8": "A"}}, {"id": "s1223", "name": "Liquiditätsmanagement", "cells": {"ext7": "A"}}, {"id": "s1224", "name": "Bürgschaftsmanagement des Sponsors (MGV, AA, etc.)", "cells": {"ext5": "A", "ext7": "R"}}, {"id": "s1225", "name": "Objektbegehungen durch Bankcontroller", "cells": {"ext8": "A"}}, {"id": "s1226", "name": "Reporting", "cells": {"ext8": "A"}}], "expanded": false}, {"id": "t1236", "name": "Kostencontrolling/-verfolgung", "group": "g1188", "cells": {}, "subtasks": [{"id": "s1228", "name": "Erstellung Finanzmittelbedarf (KG 100 bis KG 700)", "cells": {"ext5": "A", "ext8": "R"}}, {"id": "s1229", "name": "Erstellung Finanzmittelbedarf (KG 800, 900 und Mezz)", "cells": {"ext5": "A", "ext8": "R"}}, {"id": "s1230", "name": "Auftragsanlagen und -pflege in Alasco je verantwortlicher KG (KG 100 bis KG 900)", "cells": {"ext6": "A", "ext7": "R", "ext8": "R", "ext9": "R"}}, {"id": "s1231", "name": "Einschätzung Kostenrisiken und -rückstelllungen in Alasco je verantwortlicher KG (KG100 bis KG 900)", "cells": {"ext6": "A", "ext7": "R", "ext8": "R", "ext9": "R"}}, {"id": "s1232", "name": "Nachtragsmanagement und Eingabe in Alascoje verantwortlicher KG (KG100 bis KG 900)", "cells": {"ext6": "A", "ext7": "R", "ext8": "R", "ext9": "R"}}, {"id": "s1233", "name": "Bürgschaften (Gewährleistungs- und Vertragserfüllungsbürgschaften der Auftragnehmer)", "cells": {"ext8": "A"}}, {"id": "s1234", "name": "Budgeteinhaltung und -realisierung je verantwortlicher KG (KG 100 bis KG 900)", "cells": {"ext5": "A", "ext6": "R", "ext7": "R", "ext8": "R", "ext9": "R"}}, {"id": "s1235", "name": "Übergeordnete Budgeteinhaltung und -realisierung Gesamtprojekt", "cells": {"ext5": "A", "ext8": "R"}}], "expanded": false}, {"id": "t1238", "name": "Ansprechpartner Baurecht", "group": "g1237", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1239", "name": "Ansprechpartner Planung", "group": "g1237", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1240", "name": "Ansprechpartner Baudurchführung", "group": "g1237", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1241", "name": "Baurecht, Baugenehmigung, Tekturen", "group": "g1237", "cells": {"ext8": "A"}, "subtasks": [], "expanded": false}, {"id": "t1243", "name": "Verträge / Vereinbarungen", "group": "g1242", "cells": {"ext8": "S"}, "subtasks": [], "expanded": false}, {"id": "t1244", "name": "Ansprechpartner kaufm. + Vertragliches", "group": "g1242", "cells": {}, "subtasks": [], "expanded": false}, {"id": "t1245", "name": "Ansprechpartner Baudurchführung", "group": "g1242", "cells": {"ext8": "S"}, "subtasks": [], "expanded": false}], "groups": [{"id": "g1001", "name": "Projektakquisition / Projektentwicklung", "expanded": true}, {"id": "g1023", "name": "Vermietung", "expanded": true}, {"id": "g1064", "name": "Vertragswesen + Steuerung Externer", "expanded": true}, {"id": "g1098", "name": "Planung", "expanded": true}, {"id": "g1135", "name": "Bauausführung", "expanded": true}, {"id": "g1183", "name": "Investoren, Käufer", "expanded": true}, {"id": "g1188", "name": "Kosten, Finanzierung, Projektgesellschaft", "expanded": true}, {"id": "g1237", "name": "Behörden", "expanded": true}, {"id": "g1242", "name": "Nachbarn", "expanded": true}], "hideDepartments": true, "departments": []};
 
   function makeAbbr(name, existing){
     let base = (name || '').replace(/[^\p{L}0-9]/gu, '').toUpperCase().slice(0, 2);
@@ -413,6 +547,7 @@
   let pendingRemoveGroupId = null;
   let libEditingId = null;      // 'firm' | project id being renamed inline in the library
   let libPendingDeleteId = null;
+  let examplePendingDelete = false; // two-step confirm state for the bundled example pill
 
   // ---------------- Boot ----------------
   async function boot(){
@@ -537,12 +672,53 @@
       chip.onclick = () => { r.type === 'firm' ? openFirmEditor() : openProjectEditor(r.id); };
       recentList.appendChild(chip);
     });
+
+    renderExamplePill();
+  }
+
+  function renderExamplePill(){
+    const row = document.getElementById('examplePillRow');
+    row.innerHTML = '';
+    const exists = projectsIndex.some(p => p.id === MFCW_EXAMPLE_ID);
+    const pill = document.createElement('div');
+    if (!exists){
+      pill.className = 'example-pill';
+      pill.innerHTML = '+ Beispiel-Datei laden (MFCW Verantwortungsmatrix)';
+      pill.onclick = async () => {
+        const p = JSON.parse(JSON.stringify(MFCW_EXAMPLE_DATA));
+        p.id = MFCW_EXAMPLE_ID;
+        delete p.kind;
+        p.departments = undefined;
+        const project = { id: p.id, tabLabel: p.tabLabel, name: p.name, externalRoles: p.externalRoles, tasks: p.tasks, groups: p.groups };
+        projectsIndex.push({ id: project.id, tabLabel: project.tabLabel, name: project.name, updatedAt: Date.now() });
+        await sSet('project_' + project.id, project);
+        await sSet('projects_index', projectsIndex);
+        showMsg('Beispieldatei geladen — zu finden unter "Projekte".', 'ok');
+        renderLibrary();
+      };
+    } else if (examplePendingDelete){
+      pill.className = 'example-pill loaded';
+      pill.innerHTML = '<span>Beispieldatei wirklich löschen?</span> <span class="pill-x" data-ex-confirm>✓</span> <span class="pill-x" data-ex-cancel>✕</span>';
+      pill.querySelector('[data-ex-confirm]').onclick = async (e) => {
+        e.stopPropagation();
+        await deleteProject(MFCW_EXAMPLE_ID);
+        examplePendingDelete = false;
+        renderLibrary();
+      };
+      pill.querySelector('[data-ex-cancel]').onclick = (e) => { e.stopPropagation(); examplePendingDelete = false; renderLibrary(); };
+    } else {
+      pill.className = 'example-pill loaded';
+      pill.innerHTML = '<span class="pill-open">Beispiel: MFCW Verantwortungsmatrix — öffnen</span> <span class="pill-x" data-ex-delete title="Beispiel entfernen">×</span>';
+      pill.querySelector('.pill-open').onclick = () => openProjectEditor(MFCW_EXAMPLE_ID);
+      pill.querySelector('[data-ex-delete]').onclick = (e) => { e.stopPropagation(); examplePendingDelete = true; renderLibrary(); };
+    }
+    row.appendChild(pill);
   }
 
   document.getElementById('openFirmBtn').onclick = () => openFirmEditor();
 
   document.getElementById('newProjectBtn').onclick = async () => {
-    const p = newProjectFromFirm('Neues Projekt', 'Neues Projekt');
+    const p = newBlankProject('Neues Projekt', 'Neues Projekt');
     projectsIndex.push({ id: p.id, tabLabel: p.tabLabel, name: p.name, updatedAt: Date.now() });
     await sSet('project_' + p.id, p);
     await sSet('projects_index', projectsIndex);
@@ -568,13 +744,8 @@
       if (data.kind !== 'project'){ showMsg('Diese Datei enthält keine Projektmatrix.', 'err'); e.target.value = ''; return; }
       const p = {
         id: uid('proj'), tabLabel: data.tabLabel || 'Importiertes Projekt', name: data.name || data.tabLabel || 'Importiertes Projekt',
-        externalRoles: data.externalRoles || [], tasks: data.tasks || [], groups: data.groups || [{ id:'ungrouped', name:'Ohne Bereich', expanded:true }],
-        hideDepartments: !!data.hideDepartments
+        externalRoles: data.externalRoles || [], tasks: data.tasks || [], groups: data.groups || [{ id:'ungrouped', name:'Ohne Bereich', expanded:true }]
       };
-      if (Array.isArray(data.departments)){
-        data.departments.forEach(d => { if (!departments.find(x => x.id === d.id)) departments.push(d); });
-        await sSet('departments', departments);
-      }
       projectsIndex.push({ id: p.id, tabLabel: p.tabLabel, name: p.name, updatedAt: Date.now() });
       await sSet('project_' + p.id, p);
       await sSet('projects_index', projectsIndex);
@@ -590,17 +761,8 @@
   function isProjectMode(){ return editorType === 'project'; }
   function currentSet(){ return isProjectMode() ? openProject : firm; }
   function columns(){
-    const deptCols = departments.map(d => ({...d, type:'dept'}));
-    if (!isProjectMode()) return deptCols;
-    return deptCols.concat(openProject.externalRoles.map(r => ({...r, type:'extern'})));
-  }
-  function firmFlatMap(){
-    const map = {};
-    firm.tasks.forEach(t => {
-      map[t.id] = t.cells;
-      (t.subtasks||[]).forEach(s => { map[s.id] = s.cells; });
-    });
-    return map;
+    if (!isProjectMode()) return departments.map(d => ({...d, type:'dept'}));
+    return openProject.externalRoles.map(r => ({...r, type:'dept'}));
   }
   function aggregateCell(subtasks, colId){
     const vals = subtasks.map(s => s.cells[colId] || '').filter(v => v !== '');
@@ -686,58 +848,44 @@
   const verticalMsg = document.getElementById('verticalMsg');
   const entityName = document.getElementById('entityName');
   const nameLabel = document.getElementById('nameLabel');
-  const diffLegend = document.getElementById('diffLegend');
-  const externLegend = document.getElementById('externLegend');
-  const applyTemplateBtn = document.getElementById('applyTemplateBtn');
   const addColBtn = document.getElementById('addColBtn');
   const addGroupBtn = document.getElementById('addGroupBtn');
-  const toggleDeptBtn = document.getElementById('toggleDeptBtn');
   const colLegend = document.getElementById('colLegend');
   const scopeNote = document.getElementById('scopeNote');
 
-  entityName.onchange = () => { currentSet().name = entityName.value; currentSet().tabLabel = entityName.value; document.getElementById('headerSubtitle').textContent = entityName.value; scheduleSave(); };
+  entityName.onchange = () => { currentSet().name = entityName.value; currentSet().tabLabel = entityName.value; document.getElementById('headerSubtitle').textContent = entityName.value; entityName.title = entityName.value; scheduleSave(); };
 
   // ---------------- Main render ----------------
   function render(){
     const set = currentSet();
-    const allCols = columns();
+    const cols = columns();
     ensureGroups(set);
     const tasks = set.tasks;
     const onProject = isProjectMode();
-    const firmMap = onProject ? firmFlatMap() : null;
-    const deptsHidden = onProject && !!set.hideDepartments;
-    const cols = deptsHidden ? allCols.filter(c => c.type !== 'dept') : allCols;
 
     entityName.value = set.name;
+    entityName.title = set.name;
     nameLabel.textContent = onProject ? 'Projekt' : 'Vorlagenname';
-    diffLegend.style.display = onProject ? 'flex' : 'none';
-    externLegend.style.display = onProject ? 'flex' : 'none';
-    applyTemplateBtn.style.display = onProject ? 'inline-block' : 'none';
-    addColBtn.textContent = onProject ? '+ Externer Beteiligter' : '+ Abteilung';
-    toggleDeptBtn.style.display = onProject ? 'inline-block' : 'none';
-    toggleDeptBtn.textContent = deptsHidden ? 'Abteilungen einblenden' : 'Abteilungen ausblenden';
+    addColBtn.textContent = onProject ? '+ Rolle' : '+ Abteilung';
     scopeNote.textContent = onProject
-      ? (deptsHidden
-          ? 'Abteilungsspalten sind ausgeblendet — es werden nur die externen Beteiligten dieses Projekts angezeigt.'
-          : 'Diese Ansicht zeigt alle Abteilungen aus der Firmenmatrix plus die externen Beteiligten dieses Projekts.')
+      ? 'Diese Ansicht regelt die Zuständigkeiten innerhalb dieses Projekts.'
       : 'Diese Ansicht regelt ausschließlich die interne Zuständigkeit zwischen den Abteilungen.';
 
     colLegend.innerHTML = '';
-    allCols.forEach(col => {
+    cols.forEach(col => {
       const item = document.createElement('div');
-      item.className = 'col-legend-item ' + (col.type === 'extern' ? 'extern' : 'dept');
+      item.className = 'col-legend-item dept';
       item.innerHTML = `<span class="abbr-badge">${escapeAttr(col.abbr || '??')}</span>
-                         <input type="text" class="legend-name" value="${escapeAttr(col.name)}" data-col-id="${col.id}" data-col-type="${col.type}" ${col.type==='dept' && onProject ? 'disabled' : ''}>`;
+                         <input type="text" class="legend-name" value="${escapeAttr(col.name)}" data-col-id="${col.id}">`;
       colLegend.appendChild(item);
     });
 
-    headerRow.innerHTML = '<th class="task-col-header">Oberbegriff / Leistung</th>';
+    headerRow.innerHTML = '<th class="task-col-header">Leistung</th>';
     cols.forEach((col) => {
       const th = document.createElement('th');
-      th.className = col.type === 'extern' ? 'extern' : 'dept';
-      const canRemove = col.type === 'extern' || !onProject;
-      th.innerHTML = `<input type="text" class="col-abbr" maxlength="3" value="${escapeAttr(col.abbr || '')}" title="${escapeAttr(col.name)}" data-col-abbr="${col.id}" data-col-abbr-type="${col.type}" ${col.type==='dept' && onProject ? 'disabled' : ''}>
-                      ${canRemove ? `<button class="remove-col" title="Entfernen" data-remove-col="${col.id}">×</button>` : ''}`;
+      th.className = 'dept';
+      th.innerHTML = `<input type="text" class="col-abbr" maxlength="3" value="${escapeAttr(col.abbr || '')}" title="${escapeAttr(col.name)}" data-col-abbr="${col.id}">
+                      <button class="remove-col" title="Entfernen" data-remove-col="${col.id}">×</button>`;
       headerRow.appendChild(th);
     });
 
@@ -758,7 +906,7 @@
         <div class="group-inner">
           <button class="group-toggle" data-group-toggle="${grp.id}">${grp.expanded ? '▾' : '▸'}</button>
           <input type="text" class="group-name" value="${escapeAttr(grp.name)}" data-group-name="${grp.id}">
-          <span class="group-actions"><button data-group-add-task="${grp.id}">+ Oberbegriff</button></span>
+          <span class="group-actions"><button data-group-add-task="${grp.id}" title="Neue Leistung in diesem Bereich hinzufügen">+</button></span>
           ${removeControl}
         </div>`;
       groupTr.appendChild(groupTd);
@@ -774,12 +922,10 @@
 
         const nameTd = document.createElement('td');
         nameTd.className = 'task-name-cell';
-        const isNew = onProject && !(task.id in firmMap) && !hasSub;
         nameTd.innerHTML = `
           <div class="name-row">
             <button class="expand-btn ${hasSub ? '' : 'leaf'}" data-toggle="${ti}">${hasSub ? (task.expanded ? '▾' : '▸') : ''}</button>
             <input type="text" value="${escapeAttr(task.name)}" data-task-idx="${ti}">
-            ${isNew ? '<span class="badge-new">NEU</span>' : ''}
             <span class="row-icons">
               <button class="icon-btn add" title="Unterleistung hinzufügen" data-add-sub="${ti}">＋</button>
               <button class="icon-btn" title="Zeile entfernen" data-remove-task="${ti}">×</button>
@@ -800,10 +946,6 @@
             const val = task.cells[col.id] || '';
             btn.className = 'cell-btn' + (val ? ' ' + val : '');
             btn.textContent = val;
-            if (onProject && col.type === 'dept' && firmMap[task.id] && (firmMap[task.id][col.id] || '') !== val){
-              btn.classList.add('diff');
-              btn.title = `Firmenmatrix: ${firmMap[task.id][col.id] || '(leer)'}`;
-            }
             btn.onclick = () => {
               const cur = task.cells[col.id] || '';
               task.cells[col.id] = CYCLE[(CYCLE.indexOf(cur) + 1) % CYCLE.length];
@@ -821,12 +963,10 @@
             subTr.className = 'sub-row';
             const subNameTd = document.createElement('td');
             subNameTd.className = 'task-name-cell';
-            const subIsNew = onProject && !(sub.id in firmMap);
             subNameTd.innerHTML = `
               <div class="name-row">
                 <button class="expand-btn leaf"></button>
                 <input type="text" value="${escapeAttr(sub.name)}" data-sub-idx="${ti}:${si}">
-                ${subIsNew ? '<span class="badge-new">NEU</span>' : ''}
                 <span class="row-icons"><button class="icon-btn" title="Unterleistung entfernen" data-remove-sub="${ti}:${si}">×</button></span>
               </div>`;
             subTr.appendChild(subNameTd);
@@ -837,10 +977,6 @@
               const btn = document.createElement('button');
               btn.className = 'cell-btn' + (val ? ' ' + val : '');
               btn.textContent = val;
-              if (onProject && col.type === 'dept' && firmMap[sub.id] && (firmMap[sub.id][col.id] || '') !== val){
-                btn.classList.add('diff');
-                btn.title = `Firmenmatrix: ${firmMap[sub.id][col.id] || '(leer)'}`;
-              }
               btn.onclick = () => {
                 const cur = sub.cells[col.id] || '';
                 sub.cells[col.id] = CYCLE[(CYCLE.indexOf(cur) + 1) % CYCLE.length];
@@ -856,8 +992,7 @@
     });
 
     attachRowEvents(set, onProject);
-    validate(set, allCols);
-    if (view === 'editor') scheduleSave();
+    validate(set, cols);
   }
 
   function attachRowEvents(set, onProject){
@@ -868,7 +1003,7 @@
       inp.onchange = () => { const g = set.groups.find(x => x.id === inp.dataset.groupName); if (g){ g.name = inp.value; scheduleSave(); } };
     });
     document.querySelectorAll('[data-group-add-task]').forEach(b => {
-      b.onclick = () => { set.tasks.push({ id: uid('n'), name: 'Neuer Oberbegriff', group: b.dataset.groupAddTask, cells: {}, subtasks: [], expanded:false }); render(); };
+      b.onclick = () => { set.tasks.push({ id: uid('n'), name: 'Neue Leistung', group: b.dataset.groupAddTask, cells: {}, subtasks: [], expanded:false }); render(); };
     });
     document.querySelectorAll('[data-group-remove]').forEach(b => { b.onclick = () => { pendingRemoveGroupId = b.dataset.groupRemove; render(); }; });
     document.querySelectorAll('[data-group-remove-cancel]').forEach(b => { b.onclick = () => { pendingRemoveGroupId = null; render(); }; });
@@ -983,7 +1118,7 @@
     const set = currentSet();
     ensureGroups(set);
     const lastGroup = set.groups[set.groups.length - 1].id;
-    set.tasks.push({ id: uid('n'), name: 'Neuer Oberbegriff', group: lastGroup, cells: {}, subtasks: [], expanded:false });
+    set.tasks.push({ id: uid('n'), name: 'Neue Leistung', group: lastGroup, cells: {}, subtasks: [], expanded:false });
     render();
   };
 
@@ -994,13 +1129,11 @@
     render();
   };
 
-  toggleDeptBtn.onclick = () => { if (openProject){ openProject.hideDepartments = !openProject.hideDepartments; render(); } };
-
   addColBtn.onclick = () => {
     if (isProjectMode()){
       const roles = openProject.externalRoles;
-      const abbr = makeAbbr('Neuer Beteiligter', roles.map(r => r.abbr));
-      roles.push({ id: uid('e'), name: 'Neuer Beteiligter', abbr });
+      const abbr = makeAbbr('Neue Rolle', roles.map(r => r.abbr));
+      roles.push({ id: uid('e'), name: 'Neue Rolle', abbr });
     } else {
       const abbr = makeAbbr('Neue Abteilung', departments.map(d => d.abbr));
       departments.push({ id: uid('d'), name: 'Neue Abteilung', abbr });
@@ -1023,24 +1156,13 @@
     };
   }
 
-  armConfirmButton(applyTemplateBtn, 'Abteilungs-Zuständigkeiten aktualisieren', 'Wirklich abgleichen? Nochmal klicken', () => {
-    const firmMap = firmFlatMap();
-    openProject.tasks.forEach(t => {
-      if (firmMap[t.id]) departments.forEach(d => { if (firmMap[t.id][d.id] !== undefined) t.cells[d.id] = firmMap[t.id][d.id]; });
-      (t.subtasks||[]).forEach(s => {
-        if (firmMap[s.id]) departments.forEach(d => { if (firmMap[s.id][d.id] !== undefined) s.cells[d.id] = firmMap[s.id][d.id]; });
-      });
-    });
-    render();
-  });
-
   armConfirmButton(document.getElementById('resetBtn'), 'Zurücksetzen', 'Wirklich zurücksetzen? Nochmal klicken', () => {
     if (!isProjectMode()){
       departments = seedDepartments();
       firm.tasks = seedFirmTasks();
       firm.groups = seedFirmGroups();
     } else {
-      const fresh = newProjectFromFirm(openProject.tabLabel, openProject.name);
+      const fresh = newBlankProject(openProject.tabLabel, openProject.name);
       fresh.id = openProject.id;
       openProject = fresh;
     }
@@ -1070,7 +1192,7 @@
     if (!isProjectMode()){
       payload = { kind:'firm', tabLabel:set.tabLabel, name:set.name, tasks:set.tasks, groups:set.groups, departments };
     } else {
-      payload = { kind:'project', id:set.id, tabLabel:set.tabLabel, name:set.name, tasks:set.tasks, groups:set.groups, externalRoles:set.externalRoles, hideDepartments:set.hideDepartments, departments };
+      payload = { kind:'project', id:set.id, tabLabel:set.tabLabel, name:set.name, tasks:set.tasks, groups:set.groups, externalRoles:set.externalRoles };
     }
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
     const url = URL.createObjectURL(blob);
@@ -1091,11 +1213,7 @@
         openProject.tasks = data.tasks || [];
         openProject.groups = data.groups || [{ id:'ungrouped', name:'Ohne Bereich', expanded:true }];
         openProject.externalRoles = data.externalRoles || [];
-        openProject.hideDepartments = !!data.hideDepartments;
         if (data.name) { openProject.name = data.name; }
-        if (Array.isArray(data.departments)){
-          data.departments.forEach(d => { if (!departments.find(x => x.id === d.id)) departments.push(d); });
-        }
         showMsg('Projektmatrix aus Datei geladen.', 'ok');
       } else {
         if (data.kind !== 'firm'){ showMsg('Diese Datei ist keine Firmenmatrix — sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
