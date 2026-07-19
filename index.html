@@ -8,7 +8,6 @@
   :root{
     --navy:#1B2A4A; --navy-light:#2E4270; --gold:#C9A227; --gold-light:#E4C567;
     --cream:#F7F3E9; --cream-dark:#EDE6D3; --ink:#26241F; --danger:#A6432B; --line:#D8CEB0;
-    --extern-bg:#7A5A12;
     font-family:'Calibri','Segoe UI',Arial,sans-serif;
   }
   *{box-sizing:border-box;}
@@ -45,6 +44,39 @@
   .rasci-term .letter.I{background:#EDE6D3;color:#6b6547;}
   .rasci-term .term-body h3{font-family:'Cambria','Georgia',serif;font-size:14.5px;color:var(--navy);margin:2px 0 4px;}
   .rasci-term .term-body p{font-size:13px;color:#4a4736;margin:0;line-height:1.55;}
+  .rasci-term .letter{position:relative;}
+  .rasci-term .info-mark{
+    position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:1.5px solid var(--navy);color:var(--navy);font-family:'Cambria','Georgia',serif;
+    font-size:10px;font-weight:700;font-style:italic;display:flex;align-items:center;justify-content:center;
+    padding:0;cursor:pointer;line-height:1;
+  }
+  .rasci-term .info-mark:hover{background:var(--navy);color:#fff;}
+  .rasci-examples{list-style:none;margin:10px 0 0;padding:0;}
+  .rasci-examples li{font-size:13px;color:#4a4736;background:var(--cream-dark);border-radius:5px;padding:10px 12px;margin-bottom:8px;line-height:1.6;}
+  .rasci-examples li:last-child{margin-bottom:0;}
+
+  .rasci-modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(38,36,31,.55);z-index:1000;
+    align-items:center;justify-content:center;padding:24px;
+  }
+  .rasci-modal-overlay.open{display:flex;}
+  .rasci-modal{
+    background:#fff;border-radius:10px;max-width:560px;width:100%;max-height:82vh;overflow-y:auto;
+    padding:26px 28px;box-shadow:0 12px 32px rgba(27,42,74,.25);position:relative;
+  }
+  .rasci-modal-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .rasci-modal-letter{
+    width:38px;height:38px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    font-family:'Cambria','Georgia',serif;font-weight:700;font-size:18px;color:#fff;flex-shrink:0;
+  }
+  .rasci-modal h2{font-family:'Cambria','Georgia',serif;font-size:18px;color:var(--navy);margin:0;}
+  .rasci-modal-close{
+    position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;
+    color:#8a8467;cursor:pointer;padding:2px 8px;
+  }
+  .rasci-modal-close:hover{color:var(--danger);}
+  .rasci-examples li .ex-label{font-weight:700;color:var(--navy);}
   .rasci-rule{font-size:12.5px;color:#5b5748;background:var(--cream-dark);border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:10px 14px;margin-top:16px;line-height:1.55;}
 
   .lib-section{margin-bottom:26px;}
@@ -99,8 +131,6 @@
   .legend-item{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 12px;font-size:12.5px;}
   .legend-badge{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;}
   .legend-item.note{background:none;border:none;color:#7a7461;font-style:italic;}
-  .diff-swatch{width:14px;height:14px;border-radius:3px;border:2px solid var(--danger);background:#fff;display:inline-block;}
-  .col-swatch{width:14px;height:14px;border-radius:3px;display:inline-block;}
 
   .toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
   button{font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--navy);background:#fff;color:var(--navy);padding:8px 16px;border-radius:5px;cursor:pointer;transition:.15s ease;}
@@ -118,7 +148,6 @@
   table{border-collapse:collapse;width:100%;min-width:720px;}
   thead th{color:#fff;font-family:'Cambria','Georgia',serif;font-weight:600;font-size:13px;padding:10px 8px;text-align:center;position:relative;white-space:nowrap;}
   thead th.dept{background:var(--navy);}
-  thead th.extern{background:var(--extern-bg);}
   thead th.task-col-header{text-align:left;min-width:260px;background:none;color:var(--navy);border-bottom:2px solid var(--navy);}
   thead th.dept input:disabled{pointer-events:none;}
 
@@ -126,7 +155,6 @@
   .col-legend-item{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:5px 9px;font-size:12px;}
   .col-legend-item .abbr-badge{font-weight:700;font-size:11px;min-width:26px;text-align:center;border-radius:4px;padding:2px 5px;color:#fff;flex-shrink:0;}
   .col-legend-item.dept .abbr-badge{background:var(--navy);}
-  .col-legend-item.extern .abbr-badge{background:var(--extern-bg);}
   .col-legend-item input.legend-name{border:none;background:transparent;font-size:12px;color:var(--ink);width:140px;padding:2px 0;}
   .col-legend-item input.legend-name:focus{outline:none;border-bottom:1px dashed var(--gold);}
   .col-legend-item input.legend-name:disabled{color:#8a8467;}
@@ -167,7 +195,6 @@
   td.task-name-cell input:focus{outline:none;}
   .expand-btn{background:none;border:none;color:var(--navy);font-size:12px;cursor:pointer;padding:2px 4px;width:18px;flex-shrink:0;}
   .expand-btn.leaf{visibility:hidden;}
-  .badge-new{font-size:9px;font-weight:700;background:var(--navy);color:#fff;border-radius:3px;padding:1px 5px;letter-spacing:.05em;flex-shrink:0;}
   .row-icons{display:flex;gap:4px;flex-shrink:0;}
   .icon-btn{background:none;border:none;color:#b0a988;font-size:14px;cursor:pointer;padding:0 3px;}
   .icon-btn:hover{color:var(--danger);}
@@ -182,15 +209,21 @@
   .cell-btn.I{background:#EDE6D3;color:#6b6547;}
   .cell-btn.M{background:repeating-linear-gradient(135deg,#EDE6D3,#EDE6D3 4px,#E0D6B8 4px,#E0D6B8 8px);color:#6b6547;font-size:9.5px;}
   .cell-btn.R:hover,.cell-btn.A:hover,.cell-btn.S:hover,.cell-btn.C:hover,.cell-btn.I:hover{filter:brightness(1.08);}
-  .cell-btn.diff{box-shadow:inset 0 0 0 2px var(--danger);}
   .cell-btn.locked{cursor:default;}
 
-  .footer-actions{display:flex;justify-content:space-between;align-items:flex-start;margin-top:18px;flex-wrap:wrap;gap:12px;}
-  .validation-block{display:flex;flex-direction:column;gap:4px;}
-  .validation-msg{font-size:12.5px;color:var(--danger);font-weight:600;}
-  .validation-ok{color:#3d6b2e;}
-  .vertical-msg{font-size:12px;color:#8a6d10;font-weight:600;}
-  .vertical-ok{color:#3d6b2e;font-weight:400;}
+  .footer-actions{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+  .validation-block{display:flex;flex-direction:column;gap:8px;}
+  .validation-details{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 12px;}
+  .validation-details summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--danger);list-style:none;}
+  .validation-details summary::-webkit-details-marker{display:none;}
+  .validation-details summary::before{content:'▸ ';}
+  .validation-details[open] summary::before{content:'▾ ';}
+  .validation-details.ok summary{color:#3d6b2e;font-weight:400;}
+  .validation-details.warn summary{color:#8a6d10;}
+  .validation-details ul{list-style:none;margin:8px 0 0;padding:0 0 0 4px;max-height:220px;overflow-y:auto;}
+  .validation-details li{font-size:12px;color:#4a4736;padding:4px 0;border-top:1px solid var(--line);}
+  .validation-details li:first-child{border-top:none;}
+  .validation-details.hidden{display:none;}
   .save-status{font-size:11px;color:#8a8467;font-style:italic;}
 
   @media print{
@@ -243,7 +276,7 @@
     <div>
       <div class="brand-eyebrow">BuiltSmart AI</div>
       <h1>SMART RASCI Matrix</h1>
-      <div class="subtitle" id="headerSubtitle">Firmenmatrix regelt interne Abteilungszuständigkeiten. Jede Projektmatrix erweitert dies um die jeweiligen externen Beteiligten.</div>
+      <div class="subtitle" id="headerSubtitle">Verwalte die Firmenmatrix und beliebig viele eigenständige Projektmatrizen, jede mit klaren RASCI-Zuständigkeiten.</div>
     </div>
     <div class="project-field" id="entityNameField" style="display:none;">
       <label id="nameLabel" for="entityName">Projekt</label>
@@ -259,50 +292,50 @@
     <div class="lib-section">
       <h2>Was bedeutet RASCI?</h2>
       <div class="rasci-explainer">
-        <p class="intro">RASCI ist eine Methode zur eindeutigen Klärung von Verantwortlichkeiten in Projekten und Organisationen. Für jede Aufgabe oder Leistung wird festgelegt, welche Rolle welche Art von Zuständigkeit trägt — dargestellt durch fünf Buchstaben, die jeweils eine klar definierte Art der Beteiligung beschreiben. Ziel ist es, Missverständnisse, doppelte Zuständigkeiten und unklare Entscheidungswege von vornherein auszuschließen.</p>
+        <p class="intro">RASCI ist eine Methode zur eindeutigen Klärung von Verantwortlichkeiten in Projekten und Organisationen. Für jede Aufgabe oder Leistung wird festgelegt, welche Rolle welche Art von Zuständigkeit trägt: dargestellt durch fünf Buchstaben, die jeweils eine klar definierte Art der Beteiligung beschreiben. Ziel ist es, Missverständnisse, doppelte Zuständigkeiten und unklare Entscheidungswege von vornherein auszuschließen.</p>
 
         <div class="rasci-term">
-          <div class="letter R">R</div>
+          <div class="letter R">R<button type="button" class="info-mark" data-rasci-info="R" title="Beispiele zu R ansehen">i</button></div>
           <div class="term-body">
-            <h3>Responsible — verantwortlich für die Durchführung</h3>
+            <h3>Responsible: verantwortlich für die Durchführung</h3>
             <p>Die Rolle, die die Aufgabe tatsächlich operativ ausführt oder die Arbeit erledigt. Es kann mehrere "R" pro Aufgabe geben, wenn mehrere Personen oder Abteilungen gemeinsam an der Umsetzung arbeiten. Diese Rolle liefert das Ergebnis, trägt aber nicht zwingend die Rechenschaftspflicht dafür gegenüber Dritten.</p>
           </div>
         </div>
 
         <div class="rasci-term">
-          <div class="letter A">A</div>
+          <div class="letter A">A<button type="button" class="info-mark" data-rasci-info="A" title="Beispiele zu A ansehen">i</button></div>
           <div class="term-body">
-            <h3>Accountable — rechenschaftspflichtig / genehmigend</h3>
-            <p>Die Rolle, die die Gesamtverantwortung für das Ergebnis trägt und das letzte Wort hat. Sie muss gegenüber Vorgesetzten, Kunden oder anderen Stellen Rechenschaft ablegen, wenn etwas schiefläuft — und sie entscheidet, wann eine Aufgabe als erledigt gilt. Ganz entscheidend: Pro Aufgabe darf es <strong>genau eine</strong> Accountable-Rolle geben. Mehrere "A" führen zu Verwässerung der Verantwortung, kein "A" bedeutet, dass niemand wirklich geradesteht, wenn es Probleme gibt.</p>
+            <h3>Accountable: rechenschaftspflichtig / genehmigend</h3>
+            <p>Die Rolle, die die Gesamtverantwortung für das Ergebnis trägt und das letzte Wort hat. Sie muss gegenüber Vorgesetzten, Kunden oder anderen Stellen Rechenschaft ablegen, wenn etwas schiefläuft, und sie entscheidet, wann eine Aufgabe als erledigt gilt. Ganz entscheidend: Pro Aufgabe darf es <strong>genau eine</strong> Accountable-Rolle geben. Mehrere "A" führen zu Verwässerung der Verantwortung, kein "A" bedeutet, dass niemand wirklich geradesteht, wenn es Probleme gibt.</p>
           </div>
         </div>
 
         <div class="rasci-term">
-          <div class="letter S">S</div>
+          <div class="letter S">S<button type="button" class="info-mark" data-rasci-info="S" title="Beispiele zu S ansehen">i</button></div>
           <div class="term-body">
-            <h3>Support — unterstützend</h3>
+            <h3>Support: unterstützend</h3>
             <p>Die Rolle, die bei der Umsetzung mitarbeitet oder Ressourcen, Zuarbeit oder praktische Hilfe beisteuert, ohne selbst die operative Hauptverantwortung zu tragen. Support-Rollen sind wichtig für die Durchführung, stehen aber nicht im Zentrum der Aufgabe.</p>
           </div>
         </div>
 
         <div class="rasci-term">
-          <div class="letter C">C</div>
+          <div class="letter C">C<button type="button" class="info-mark" data-rasci-info="C" title="Beispiele zu C ansehen">i</button></div>
           <div class="term-body">
-            <h3>Consulted — konsultiert</h3>
+            <h3>Consulted: konsultiert</h3>
             <p>Die Rolle, die vor einer Entscheidung oder während der Bearbeitung um fachlichen Rat gefragt wird. Es handelt sich um eine zweiseitige Kommunikation: Es wird ein aktiver Dialog geführt, Rückmeldungen werden eingeholt und fließen in die Entscheidung ein, bevor diese final getroffen wird.</p>
           </div>
         </div>
 
         <div class="rasci-term">
-          <div class="letter I">I</div>
+          <div class="letter I">I<button type="button" class="info-mark" data-rasci-info="I" title="Beispiele zu I ansehen">i</button></div>
           <div class="term-body">
-            <h3>Informed — informiert</h3>
-            <p>Die Rolle, die über den Fortschritt oder das Ergebnis in Kenntnis gesetzt wird, aber nicht aktiv in die Entscheidung oder Ausführung eingebunden ist. Es handelt sich um eine einseitige Kommunikation nach getroffener Entscheidung oder Abschluss der Aufgabe — informieren, nicht mitentscheiden lassen.</p>
+            <h3>Informed: informiert</h3>
+            <p>Die Rolle, die über den Fortschritt oder das Ergebnis in Kenntnis gesetzt wird, aber nicht aktiv in die Entscheidung oder Ausführung eingebunden ist. Es handelt sich um eine einseitige Kommunikation nach getroffener Entscheidung oder Abschluss der Aufgabe: informieren, nicht als aktive Mitentscheidung.</p>
           </div>
         </div>
 
         <div class="rasci-rule">
-          <strong>Kernregel:</strong> Jede Leistung braucht genau eine verantwortliche Stelle (A). R, S, C und I können je Aufgabe mehrfach oder gar nicht vorkommen — A jedoch nie mehr als einmal und nie gar nicht. Genau diese Regel prüft die App bei jeder Änderung automatisch.
+          <strong>Kernregel:</strong> Jede Leistung braucht genau eine verantwortliche Stelle (A). R, S, C und I können je Aufgabe mehrfach oder gar nicht vorkommen, A jedoch nie mehr als einmal und nie gar nicht. Genau diese Regel prüft die App bei jeder Änderung automatisch.
         </div>
       </div>
     </div>
@@ -336,6 +369,17 @@
       <div class="recent-list" id="recentList"></div>
     </div>
 
+  </div>
+
+  <div class="rasci-modal-overlay" id="rasciModalOverlay">
+    <div class="rasci-modal" role="dialog" aria-modal="true">
+      <button type="button" class="rasci-modal-close" id="rasciModalClose" aria-label="Schließen">×</button>
+      <div class="rasci-modal-head">
+        <div class="rasci-modal-letter" id="rasciModalLetter"></div>
+        <h2 id="rasciModalTitle"></h2>
+      </div>
+      <ul class="rasci-examples" id="rasciModalExamples"></ul>
+    </div>
   </div>
 
   <!-- ============ EDITOR VIEW ============ -->
@@ -377,11 +421,17 @@
     </div>
 
     <div class="footer-actions">
-      <div class="validation-block">
-        <div id="validationMsg" class="validation-msg"></div>
-        <div id="verticalMsg" class="vertical-msg"></div>
-      </div>
       <div style="font-size:11.5px;color:#8a8467;">Zelle klicken: leer → R → A → S → C → I &nbsp;·&nbsp; Pfeil klappt Unterleistungen auf</div>
+      <div class="validation-block">
+        <details class="validation-details" id="validationDetails">
+          <summary id="validationSummary"></summary>
+          <ul id="validationList"></ul>
+        </details>
+        <details class="validation-details" id="verticalDetails">
+          <summary id="verticalSummary"></summary>
+          <ul id="verticalList"></ul>
+        </details>
+      </div>
     </div>
 
   </div>
@@ -393,7 +443,7 @@
     <div class="footer-icon">SR</div>
     <div>
       <div class="footer-appname">SMART RASCI Matrix</div>
-      <div class="footer-slogan">Klare Verantwortlichkeiten für Bau- und Immobilienprojekte — intern über Abteilungen hinweg und projektweit inklusive externer Beteiligter.</div>
+      <div class="footer-slogan">Klare Verantwortlichkeiten für Bau- und Immobilienprojekte: intern über Abteilungen hinweg und projektweit inklusive externer Beteiligter.</div>
     </div>
   </div>
   <div class="footer-right">
@@ -407,13 +457,12 @@
 <script>
 (function(){
   const CYCLE = ['', 'R', 'A', 'S', 'C', 'I'];
-  let uidCounter = 300;
+  let uidCounter = Date.now() % 100000;
   const uid = p => p + (uidCounter++);
-  function deepClone(x){ return JSON.parse(JSON.stringify(x)); }
   function escapeAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
   // ---------------- Storage helpers ----------------
-  // Uses localStorage because this file is deployed standalone (e.g. GitHub Pages) —
+  // Uses localStorage because this file is deployed standalone (e.g. GitHub Pages).
   // window.storage is a Claude-artifact-only API and would not exist there.
   const STORAGE_PREFIX = 'smart-rasci:';
   function sGet(key){
@@ -550,6 +599,69 @@
   let examplePendingDelete = false; // two-step confirm state for the bundled example pill
 
   // ---------------- Boot ----------------
+  // ---------------- RASCI example modal ----------------
+  const RASCI_LETTER_META = {
+    R: { label: 'Responsible', color: '#E4C567', textColor: '#4a3a05' },
+    A: { label: 'Accountable', color: 'var(--navy)', textColor: '#fff' },
+    S: { label: 'Support', color: '#8AA0C4', textColor: '#0d1c33' },
+    C: { label: 'Consulted', color: '#C7D8B8', textColor: '#33461f' },
+    I: { label: 'Informed', color: '#EDE6D3', textColor: '#6b6547' },
+  };
+
+  const RASCI_EXAMPLES = {
+    R: [
+      { title: 'Bauablaufplan erstellen', text: 'Der Bauleiter ist operativ dafür zuständig, den Bauablaufplan zu erstellen. Er sammelt die Vorgaben aus Planung und Ausschreibung, legt Bauphasen und Meilensteine fest und stimmt den Zeitplan mit den beteiligten Gewerken ab. Er liefert das fertige Dokument, entscheidet aber nicht, ob es final freigegeben wird: das ist Aufgabe des Accountable.' },
+      { title: 'Ausführungspläne zeichnen', text: 'Der Architekt erstellt die detaillierten Ausführungspläne auf Basis der genehmigten Planung. Er arbeitet technische Details aus, koordiniert sie mit den Fachplanern und liefert die baureifen Unterlagen. Er führt die Arbeit operativ aus, die Freigabe gegenüber dem Bauherrn liegt bei einer anderen Rolle.' }
+    ],
+    A: [
+      { title: 'Bauablaufplan genehmigen', text: 'Der Projektsteuerer prüft den vom Bauleiter erstellten Bauablaufplan auf Realismus, Kostenwirkung und Vertragskonformität. Er gibt den Plan frei oder verlangt Nachbesserung und steht gegenüber dem Bauherrn dafür gerade, wenn der Zeitplan später nicht eingehalten wird. Er hat den Plan nicht selbst geschrieben, trägt aber die Konsequenzen, falls er falsch war.' },
+      { title: 'Grundstückskaufvertrag unterschreiben', text: 'Die Geschäftsführung unterzeichnet den Kaufvertrag für ein Grundstück, nachdem Projektentwicklung und Rechtsberatung die Details vorbereitet haben. Sie trifft die endgültige Entscheidung und haftet gegenüber Gesellschaftern und Banken dafür. Andere Rollen haben zugearbeitet, verantwortet hat am Ende nur die Geschäftsführung.' }
+    ],
+    S: [
+      { title: 'Technische Daten liefern', text: 'Der Fachplaner TGA stellt Kennwerte zu Heizung, Lüftung und Sanitär bereit, die in die Kostenkalkulation einfließen. Er erstellt die Kalkulation nicht selbst und trägt keine Verantwortung für das Gesamtergebnis, sondern liefert lediglich einen fachlichen Baustein dazu.' },
+      { title: 'Angebote einholen', text: 'Ein Mitarbeiter des Bauleiters sammelt Angebote verschiedener Nachunternehmer für ein Gewerk und bereitet sie tabellarisch auf. Die Bewertung und Vergabeentscheidung trifft der Bauleiter, der die Ausschreibung insgesamt verantwortet.' }
+    ],
+    C: [
+      { title: 'Deckenkonstruktion abstimmen', text: 'Bevor die Entscheidung über die Deckenkonstruktion fällt, wird der Statiker um seine fachliche Einschätzung gebeten. Seine Rückmeldung fließt aktiv in die Entscheidung ein, getroffen wird sie aber von der Projektleitung, nicht vom Statiker selbst.' },
+      { title: 'Steuerliche Auswirkungen prüfen', text: 'Vor Unterzeichnung des Grundstückskaufvertrags wird der Steuerberater zu den steuerlichen Folgen befragt. Seine Einschätzung beeinflusst die Vertragsgestaltung, die endgültige Entscheidung trifft aber die Geschäftsführung.' }
+    ],
+    I: [
+      { title: 'Vertrieb informieren', text: 'Sobald die Baugenehmigung erteilt ist, wird der Vertrieb darüber in Kenntnis gesetzt, damit er die Vermarktung starten kann. Der Vertrieb war an der Genehmigungsentscheidung nicht beteiligt, muss aber über den Fortschritt Bescheid wissen.' },
+      { title: 'Nachbarn benachrichtigen', text: 'Vor Baubeginn werden die Anwohner über den geplanten Start und zu erwartende Beeinträchtigungen informiert. Sie haben keinen Einfluss auf die Bauentscheidung, sollen aber nicht überrascht werden.' }
+    ]
+  };
+
+  function openRasciModal(letter){
+    const meta = RASCI_LETTER_META[letter];
+    const examples = RASCI_EXAMPLES[letter] || [];
+    const letterEl = document.getElementById('rasciModalLetter');
+    letterEl.textContent = letter;
+    letterEl.style.background = meta.color;
+    letterEl.style.color = meta.textColor;
+    document.getElementById('rasciModalTitle').textContent = meta.label;
+    const list = document.getElementById('rasciModalExamples');
+    list.innerHTML = '';
+    examples.forEach((ex, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="ex-label">Beispiel ${i + 1}: ${escapeAttr(ex.title)}</span><br>${escapeAttr(ex.text)}`;
+      list.appendChild(li);
+    });
+    document.getElementById('rasciModalOverlay').classList.add('open');
+  }
+  function closeRasciModal(){
+    document.getElementById('rasciModalOverlay').classList.remove('open');
+  }
+  document.querySelectorAll('[data-rasci-info]').forEach(btn => {
+    btn.onclick = () => openRasciModal(btn.dataset.rasciInfo);
+  });
+  document.getElementById('rasciModalClose').onclick = closeRasciModal;
+  document.getElementById('rasciModalOverlay').onclick = (e) => {
+    if (e.target.id === 'rasciModalOverlay') closeRasciModal();
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeRasciModal();
+  });
+
   async function boot(){
     departments = await sGet('departments');
     firm = await sGet('firm');
@@ -582,7 +694,7 @@
     document.getElementById('editorView').style.display = 'none';
     document.getElementById('libraryView').style.display = 'block';
     document.getElementById('entityNameField').style.display = 'none';
-    document.getElementById('headerSubtitle').textContent = 'Firmenmatrix regelt interne Abteilungszuständigkeiten. Jede Projektmatrix erweitert dies um die jeweiligen externen Beteiligten.';
+    document.getElementById('headerSubtitle').textContent = 'Verwalte die Firmenmatrix und beliebig viele eigenständige Projektmatrizen, jede mit klaren RASCI-Zuständigkeiten.';
     renderLibrary();
   }
 
@@ -687,13 +799,11 @@
       pill.onclick = async () => {
         const p = JSON.parse(JSON.stringify(MFCW_EXAMPLE_DATA));
         p.id = MFCW_EXAMPLE_ID;
-        delete p.kind;
-        p.departments = undefined;
         const project = { id: p.id, tabLabel: p.tabLabel, name: p.name, externalRoles: p.externalRoles, tasks: p.tasks, groups: p.groups };
         projectsIndex.push({ id: project.id, tabLabel: project.tabLabel, name: project.name, updatedAt: Date.now() });
         await sSet('project_' + project.id, project);
         await sSet('projects_index', projectsIndex);
-        showMsg('Beispieldatei geladen — zu finden unter "Projekte".', 'ok');
+        showMsg('Beispieldatei geladen, zu finden unter "Projekte".', 'ok');
         renderLibrary();
       };
     } else if (examplePendingDelete){
@@ -708,7 +818,7 @@
       pill.querySelector('[data-ex-cancel]').onclick = (e) => { e.stopPropagation(); examplePendingDelete = false; renderLibrary(); };
     } else {
       pill.className = 'example-pill loaded';
-      pill.innerHTML = '<span class="pill-open">Beispiel: MFCW Verantwortungsmatrix — öffnen</span> <span class="pill-x" data-ex-delete title="Beispiel entfernen">×</span>';
+      pill.innerHTML = '<span class="pill-open">Beispiel: MFCW Verantwortungsmatrix: öffnen</span> <span class="pill-x" data-ex-delete title="Beispiel entfernen">×</span>';
       pill.querySelector('.pill-open').onclick = () => openProjectEditor(MFCW_EXAMPLE_ID);
       pill.querySelector('[data-ex-delete]').onclick = (e) => { e.stopPropagation(); examplePendingDelete = true; renderLibrary(); };
     }
@@ -752,7 +862,7 @@
       showMsg('Projekt "' + p.tabLabel + '" importiert.', 'ok');
       renderLibrary();
     } catch(err){
-      showMsg('Datei konnte nicht gelesen werden — ist es eine gültige JSON-Exportdatei?', 'err');
+      showMsg('Datei konnte nicht gelesen werden. Ist es eine gültige JSON-Exportdatei?', 'err');
     }
     e.target.value = '';
   });
@@ -784,7 +894,7 @@
     const leaves = [];
     tasks.forEach(t => {
       if (t.subtasks && t.subtasks.length > 0){
-        t.subtasks.forEach(s => leaves.push({ label: `${t.name} — ${s.name}`, cells: s.cells }));
+        t.subtasks.forEach(s => leaves.push({ label: `${t.name}: ${s.name}`, cells: s.cells }));
       } else {
         leaves.push({ label: t.name, cells: t.cells });
       }
@@ -817,7 +927,7 @@
     render();
   }
 
-  document.getElementById('backToLibraryBtn').onclick = () => { doSave(true); showLibrary(); };
+  document.getElementById('backToLibraryBtn').onclick = async () => { await doSave(); showLibrary(); };
 
   // ---------------- Debounced autosave ----------------
   let saveTimer = null;
@@ -825,7 +935,7 @@
   function scheduleSave(){
     saveStatus.textContent = 'Änderungen werden gespeichert …';
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => doSave(false), 700);
+    saveTimer = setTimeout(() => doSave(), 700);
   }
   async function doSave(){
     if (editorType === 'firm'){
@@ -834,9 +944,10 @@
       await sSet('departments', departments);
     } else if (editorType === 'project' && openProject){
       openProject.updatedAt = Date.now();
-      await sSet('project_' + openProject.id, openProject);
       const idx = projectsIndex.find(x => x.id === openProject.id);
-      if (idx){ idx.tabLabel = openProject.tabLabel; idx.name = openProject.name; idx.updatedAt = openProject.updatedAt; await sSet('projects_index', projectsIndex); }
+      if (idx){ idx.tabLabel = openProject.tabLabel; idx.name = openProject.name; idx.updatedAt = openProject.updatedAt; }
+      await sSet('project_' + openProject.id, openProject);
+      if (idx) await sSet('projects_index', projectsIndex);
     }
     saveStatus.textContent = 'Gespeichert.';
   }
@@ -844,8 +955,12 @@
   // ---------------- DOM refs (editor) ----------------
   const headerRow = document.getElementById('headerRow');
   const body = document.getElementById('matrixBody');
-  const validationMsg = document.getElementById('validationMsg');
-  const verticalMsg = document.getElementById('verticalMsg');
+  const validationDetails = document.getElementById('validationDetails');
+  const validationSummary = document.getElementById('validationSummary');
+  const validationList = document.getElementById('validationList');
+  const verticalDetails = document.getElementById('verticalDetails');
+  const verticalSummary = document.getElementById('verticalSummary');
+  const verticalList = document.getElementById('verticalList');
   const entityName = document.getElementById('entityName');
   const nameLabel = document.getElementById('nameLabel');
   const addColBtn = document.getElementById('addColBtn');
@@ -940,7 +1055,7 @@
             const agg = aggregateCell(task.subtasks, col.id);
             btn.className = 'cell-btn locked' + (agg ? ' ' + agg : '');
             btn.textContent = agg === 'M' ? 'MIX' : agg;
-            btn.title = 'Aggregiert aus Unterleistungen — Pfeil zum Aufklappen';
+            btn.title = 'Aggregiert aus Unterleistungen: Pfeil zum Aufklappen';
             btn.onclick = () => { task.expanded = !task.expanded; render(); };
           } else {
             const val = task.cells[col.id] || '';
@@ -993,6 +1108,7 @@
 
     attachRowEvents(set, onProject);
     validate(set, cols);
+    if (view === 'editor') scheduleSave();
   }
 
   function attachRowEvents(set, onProject){
@@ -1000,7 +1116,7 @@
       b.onclick = () => { const g = set.groups.find(x => x.id === b.dataset.groupToggle); if (g){ g.expanded = !g.expanded; render(); } };
     });
     document.querySelectorAll('[data-group-name]').forEach(inp => {
-      inp.onchange = () => { const g = set.groups.find(x => x.id === inp.dataset.groupName); if (g){ g.name = inp.value; scheduleSave(); } };
+      inp.onchange = () => { const g = set.groups.find(x => x.id === inp.dataset.groupName); if (g){ g.name = inp.value; render(); scheduleSave(); } };
     });
     document.querySelectorAll('[data-group-add-task]').forEach(b => {
       b.onclick = () => { set.tasks.push({ id: uid('n'), name: 'Neue Leistung', group: b.dataset.groupAddTask, cells: {}, subtasks: [], expanded:false }); render(); };
@@ -1037,10 +1153,10 @@
       };
     });
     document.querySelectorAll('[data-task-idx]').forEach(inp => {
-      inp.onchange = () => { set.tasks[+inp.dataset.taskIdx].name = inp.value; scheduleSave(); };
+      inp.onchange = () => { set.tasks[+inp.dataset.taskIdx].name = inp.value; render(); scheduleSave(); };
     });
     document.querySelectorAll('[data-sub-idx]').forEach(inp => {
-      inp.onchange = () => { const [ti, si] = inp.dataset.subIdx.split(':').map(Number); set.tasks[ti].subtasks[si].name = inp.value; scheduleSave(); };
+      inp.onchange = () => { const [ti, si] = inp.dataset.subIdx.split(':').map(Number); set.tasks[ti].subtasks[si].name = inp.value; render(); scheduleSave(); };
     });
     document.querySelectorAll('[data-toggle]').forEach(b => {
       b.onclick = () => { const ti = +b.dataset.toggle; set.tasks[ti].expanded = !set.tasks[ti].expanded; render(); };
@@ -1073,15 +1189,22 @@
     let problems = [];
     leafRows(set.tasks).forEach(row => {
       const aCount = cols.filter(c => row.cells[c.id] === 'A').length;
-      if (aCount === 0) problems.push(`"${row.label}": kein Accountable`);
-      if (aCount > 1) problems.push(`"${row.label}": mehrere Accountable (${aCount})`);
+      if (aCount === 0) problems.push(`${row.label}: kein Accountable`);
+      if (aCount > 1) problems.push(`${row.label}: mehrere Accountable (${aCount})`);
     });
+    validationList.innerHTML = '';
     if (problems.length === 0){
-      validationMsg.textContent = 'Matrix vollständig — jede Leistung hat genau eine verantwortliche Stelle (A).';
-      validationMsg.classList.add('validation-ok');
+      validationDetails.className = 'validation-details ok';
+      validationDetails.open = false;
+      validationSummary.textContent = 'Matrix vollständig: jede Leistung hat genau eine verantwortliche Stelle (A).';
     } else {
-      validationMsg.classList.remove('validation-ok');
-      validationMsg.textContent = '⚠ ' + problems.join('  ·  ');
+      validationDetails.className = 'validation-details';
+      validationSummary.textContent = `⚠ ${problems.length} Auffälligkeit(en) bei der Zuordnung ansehen`;
+      problems.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p;
+        validationList.appendChild(li);
+      });
     }
     renderVerticalAnalysis(set, cols);
   }
@@ -1089,7 +1212,9 @@
   function renderVerticalAnalysis(set, cols){
     const rows = leafRows(set.tasks);
     const n = rows.length;
-    if (n === 0){ verticalMsg.textContent = ''; return; }
+    verticalList.innerHTML = '';
+    if (n === 0){ verticalDetails.className = 'validation-details hidden'; return; }
+
     const findings = [];
     cols.forEach(col => {
       let rCount = 0, aCount = 0, filled = 0;
@@ -1100,16 +1225,23 @@
         if (v === 'A') aCount++;
       });
       if (filled === 0){ findings.push(`${col.name}: ohne jede Beteiligung`); return; }
-      if (rCount === 0) findings.push(`${col.name}: kein R — keine operative Aufgabe`);
-      if (n >= 3 && rCount > n * 0.6) findings.push(`${col.name}: sehr viele R (${rCount}/${n}) — mögliche Überlastung`);
-      if (n >= 3 && aCount > n * 0.4) findings.push(`${col.name}: viele A (${aCount}/${n}) — möglicher Engpass/Mikromanagement`);
+      if (rCount === 0) findings.push(`${col.name}: kein R, keine operative Aufgabe`);
+      if (n >= 3 && rCount > n * 0.6) findings.push(`${col.name}: sehr viele R (${rCount}/${n}), mögliche Überlastung`);
+      if (n >= 3 && aCount > n * 0.4) findings.push(`${col.name}: viele A (${aCount}/${n}), möglicher Engpass/Mikromanagement`);
     });
+
     if (findings.length === 0){
-      verticalMsg.textContent = 'Spaltenprüfung unauffällig — keine Rolle über- oder unterlastet.';
-      verticalMsg.classList.add('vertical-ok');
+      verticalDetails.className = 'validation-details ok';
+      verticalDetails.open = false;
+      verticalSummary.textContent = 'Spaltenprüfung unauffällig: keine Rolle über- oder unterlastet.';
     } else {
-      verticalMsg.classList.remove('vertical-ok');
-      verticalMsg.textContent = '↕ ' + findings.join('  ·  ');
+      verticalDetails.className = 'validation-details warn';
+      verticalSummary.textContent = `↕ ${findings.length} Spalten-Auffälligkeit(en) ansehen`;
+      findings.forEach(f => {
+        const li = document.createElement('li');
+        li.textContent = f;
+        verticalList.appendChild(li);
+      });
     }
   }
 
@@ -1209,14 +1341,14 @@
       const text = await file.text();
       const data = JSON.parse(text);
       if (isProjectMode()){
-        if (data.kind !== 'project'){ showMsg('Diese Datei ist keine Projektmatrix — sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
+        if (data.kind !== 'project'){ showMsg('Diese Datei ist keine Projektmatrix, sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
         openProject.tasks = data.tasks || [];
         openProject.groups = data.groups || [{ id:'ungrouped', name:'Ohne Bereich', expanded:true }];
         openProject.externalRoles = data.externalRoles || [];
         if (data.name) { openProject.name = data.name; }
         showMsg('Projektmatrix aus Datei geladen.', 'ok');
       } else {
-        if (data.kind !== 'firm'){ showMsg('Diese Datei ist keine Firmenmatrix — sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
+        if (data.kind !== 'firm'){ showMsg('Diese Datei ist keine Firmenmatrix, sie passt nicht zur aktuell geöffneten Ansicht.', 'err'); e.target.value=''; return; }
         firm.tasks = data.tasks || [];
         firm.groups = data.groups || seedFirmGroups();
         if (data.name) firm.name = data.name;
@@ -1225,7 +1357,7 @@
       }
       render();
     } catch(err){
-      showMsg('Datei konnte nicht gelesen werden — ist es eine gültige JSON-Exportdatei?', 'err');
+      showMsg('Datei konnte nicht gelesen werden. Ist es eine gültige JSON-Exportdatei?', 'err');
     }
     e.target.value = '';
   });
